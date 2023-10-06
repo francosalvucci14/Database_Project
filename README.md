@@ -8,7 +8,7 @@ Questo repository contiene il progetto di basi di dati per un'azienda di logisti
 
 - `/database`: Contiene tutti gli script SQL per la creazione del database, le tabelle, le viste e i trigger necessari per il funzionamento del sistema.
 - `/documentazione`: Contiene documentazione dettagliata, schemi del database e istruzioni per l'installazione e l'uso del sistema.
-- `/esempi`: Qui troverai esempi di query SQL comuni e di utilità per il database. Troverai inoltre dei file chiamati 'query builder', che ci sono serviti per generare in modo automatico una quantità molto grande di query (per lo più insert, parlaimo di circa 6000 query)
+- `/esempi`: Qui troverai esempi di query SQL comuni e di utilità per il database. Troverai inoltre dei file chiamati `query builder`, che ci sono serviti per generare in modo automatico una quantità molto grande di query (per lo più insert, parlaimo di circa 6000 query)
 
 ## Tecnologie Utilizzate
 
