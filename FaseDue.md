@@ -1,3 +1,0 @@
-# TaxiMo
-
-Permettere ai cittadini di Roma di organizzare degli spostamenti tramite Taxi a seconda della fascia oraria, del tipo di veicolo scelto e del costo della tratta scelta. Fornire report alla società per ottimizzare i servizi, analizzare le tratte più scelte e suggerire la tratta che unisca un prezzo vantaggioso a una tempistica ragionevole. Permettere agli autisti di verificare la posizione dell'utente che ha richiesto la corsa tramite tramite geolocalizzazione, accettarla o rifiutarla in base alla distanza tra autista e utente.
