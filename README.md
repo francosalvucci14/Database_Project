@@ -22,6 +22,6 @@ Per ulteriori dettagli sull'utilizzo del sistema e sulla struttura del database,
 
 ## Autori
 
-- [Leonardo Ascenzi](github.com/Levvonci)
-- [Franco Salvucci](github.com/francosalvucci14)
-- [Nicolò Spadoni](github.com/SwagSpaad)
+- [Leonardo Ascenzi](https://github.com/Levvonci)
+- [Franco Salvucci](https://github.com/francosalvucci14)
+- [Nicolò Spadoni](https://github.com/SwagSpaad)
