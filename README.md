@@ -13,9 +13,8 @@ Questo repository contiene il progetto di basi di dati per un'azienda di logisti
 ## Tecnologie Utilizzate
 
 - **Database Management System (DBMS)**: MySQL, PostgreSQL, o il DBMS di tua scelta.
-- **Linguaggi di Programmazione**: Java, Python, JavaScript o il linguaggio di programmazione adatto al tuo sistema.
-- **Framework Web (se applicabile)**: Spring, Django, Express.js, o il framework adatto al tuo progetto.
-- **Altre tecnologie**: HTML, CSS, JavaScript, ecc.
+- **Linguaggio** : SQL
+- **Altro** : MongoDB
 
 ## Documentazione
 
