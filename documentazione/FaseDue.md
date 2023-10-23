@@ -1,4 +1,4 @@
-# TaxiTua
+# Nome progetto: TaxiTua
 
 ## Componenti del gruppo
 | Nome     | Cognome  | Matricola | Mail                                  |
@@ -16,7 +16,7 @@ l'orario di inizio e fine corsa.
 ## Obiettivi
 L'obiettivo principale di questo sistema è permettere agli utenti di organizzare gli spostamenti tramite Taxi a seconda della fascia oraria, del tipo di veicolo scelto e del costo della tratta scelta.
 L'amministratore potrà individuare le tratte più gettonate e decidere di effettuare sconti e potenziare il servizio per la zona interessata.
-Gli autisti potranno scegliere se accettare o rifiutare la corsa, nel caso in cui ci fossero emergenze, potranno mettersi in contatto con l'utente tramite una chat dedicata con messaggi preimpostati
+Gli autisti potranno scegliere se accettare o rifiutare la corsa e, nel caso in cui ci fossero emergenze, potranno mettersi in contatto con l'utente tramite una chat dedicata con messaggi preimpostati
 
 ## Analisi dei requisiti
 Esistono 3 tipologie di veicoli:
@@ -38,7 +38,17 @@ Gli utenti hanno diversi ruoli:
 - Autista: 2
 - Utente base: 3
 
-Gli admin possono modificare i prezzi base delle tratte.
+Ogni autista può guidare un silo veicolo, per tutta la durata del turno lavorativo
 
+Gli admin possono:
+- Modificare i prezzi delle tratte base
+- Visionare le tratte con maggior numero di prenotazioni
+- Leggere i feedback lasciati al servizio, filtrandoli tramite nome autista
 
-
+Per gli utenti sono state pensate le seguenti operazioni:
+- Prenotare $n$ corse, ma con il vincolo di una corsa per volta
+- Lasciare un feedback all'autista
+- Aggiungere alla lista dei preferiti $n$ autisti e $k$ corse
+- Accedere alla cronologia delle prenotazioni effettuate dal singolo utente
+- Verificare se è possibile usufruire dello spazio adibito al bagaglio a mano/valigia o trasporto animale
+- Verificare se un altro utente ha prenotato la stessa corsa e dividere il prezzo di quest'ultima
