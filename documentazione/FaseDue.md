@@ -29,6 +29,10 @@ Il numero dei veicoli circolanti, in ogni zona di Roma, è determinato dall'ammi
 - Plus: 3
 - Premium: 2
 
+In un determinato giorno e orario, ogni veicolo può essere guidato da un singolo autista 
+Più autisti non possono guidare lo stesso veicolo se il giorno e l'ora in cui si inizia ad utilizzare coincidono
+Un veicolo non può essere guidato da più autisti nello stesso giorno nello stesso orario
+
 Ogni veicolo può percorrere una qualunque tratta, anche se fuori dalla sua zona di partenza, ma nel caso in cui tutti i veicoli di quella determinata categoria sono indisponibili in quella zona, l'utente può pagare un sovrapprezzo per richiedere un veicolo di una zona differente.
 
 In ogni zona sono presenti dei nodi che rappresentano l'inizio o la fine di una corsa. Gli utenti possono quindi organizzare gli spostamenti scegliendo il punto di inizio e di fine. Ogni tratta avrà un costo calcolato in base alla distanza in kilometri tra i due nodi. 
