@@ -64,8 +64,8 @@ def insertVeicoli():
     '''
     Genera random i veicoli
     '''
-    model = ["BMW","Audi","Mercedes"]
-    model_m = ["RS7","Benz","R8"]
+    model = ["BMW","Audi","Mercedes","Fiat","Toyota"]
+    model_m = ["RS7","Benz","R8","i8","Punto","Panda","Yaris"]
     cap = [3,6,9]
     # per impostare l'autista lanciare la query:
     # UPDATE Veicoli
