@@ -29,9 +29,7 @@ Il numero dei veicoli circolanti, in ogni zona di Roma, è determinato dall'ammi
 - Plus: 3
 - Premium: 2
 
-In un determinato giorno e orario, ogni veicolo può essere guidato da un singolo autista 
-Più autisti non possono guidare lo stesso veicolo se il giorno e l'ora in cui si inizia ad utilizzare coincidono
-Un veicolo non può essere guidato da più autisti nello stesso giorno nello stesso orario
+Un veicolo non può essere guidato da più autisti nello stesso orario
 
 Ogni veicolo può percorrere una qualunque tratta, anche se fuori dalla sua zona di partenza, ma nel caso in cui tutti i veicoli di quella determinata categoria sono indisponibili in quella zona, l'utente può pagare un sovrapprezzo per richiedere un veicolo di una zona differente.
 
@@ -56,3 +54,16 @@ Per gli utenti sono state pensate le seguenti operazioni:
 - Accedere alla cronologia delle prenotazioni effettuate dal singolo utente
 - Verificare se è possibile usufruire dello spazio adibito al bagaglio a mano/valigia o trasporto animale
 - Verificare se un altro utente ha prenotato la stessa corsa e dividere il prezzo di quest'ultima
+
+## Glossario
+
+| Entità   | Descrizione                                                                                         | Sinonimi            | Collegamenti                         |
+| -------- | --------------------------------------------------------------------------------------------------- | ------------------- | ------------------------------------ |
+| Utenti   | Utente che interagisce con il sistema, si dividono in Amministratori, Autisti e Utenti Base         | User                | Veicoli, Turni, Ricambi e Feedback   |
+| Veicoli  | Veicolo adibito a Taxi per effettuare le corse                                                      | Mezzo di trasporto  | Ricambi, Zona, Prenotazione e Utenti |
+| Turni    | Lista dei turni del singolo Autista                                                                 | Periodo di servizio | Utenti                               |
+| Feedback | Recensione che gli Utenti lasciano all'Autista per giudicare la qualità del servizio                | Recensione          | Utenti                               |
+| Ricambi  | Pezzo di ricambio compatibile con un dato veicolo                                                   | Pezzi di ricambio   | Utenti, Veicolo e Officina           |
+| Officina | Luogo in cui è possibile effettuare manutenzione ai veicoli di servizio                             | Autoricambi         | Ricambio e Zona                      |
+| Tratta   | Percorso standard contenente il punto di partenza e di arrivo che può essere prenotato dagli utenti | Corsa, Percorso     | Utenti e Veicoli                     |
+| Zona     | Area adibita al servizio degli autisti                                                              | Settore             | Officina e Veicoli                   |
