@@ -8,14 +8,13 @@
 | Nicolò   | Spadoni  | 0311175   | nicolo.spadoni@students.uniroma2.eu   |         |          |           |                                       |
 
 ## Motivazioni
-Il database che stiamo realizzando è incentrato all'implementazione di un software dedicato all'organizzazione di tratte e viaggi tramite taxi.
+Il database che stiamo realizzando è incentrato all'implementazione di un software dedicato all'organizzazione di viaggi tramite taxi.
 L'utente potrà interagire con il sistema per prenotare una corsa, aggiungere una tratta all'elenco dei preferiti, fornire un feedback sia positivo che negativo alla qualità del servizio. 
-Gli amministratori, accedendo ad un'area privata del sistema, potranno ricevere report degli utenti, ottimizzare il servizio (tempistiche, costi, ecc...) e impostare 
-l'orario di inizio e fine corsa.
+Gli amministratori, accedendo ad un'area privata del sistema, potranno ricevere report degli utenti, ottimizzare il servizio (tempistiche, costi, ecc...) e in caso di guasti alle autovetture, contattare le officine del territorio per ordinare eventuali pezzi di ricambio.
 
 ## Obiettivi
 L'obiettivo principale di questo sistema è permettere agli utenti di organizzare gli spostamenti tramite Taxi a seconda della fascia oraria, del tipo di veicolo scelto e del costo della tratta scelta.
-L'amministratore potrà individuare le tratte più gettonate e decidere di effettuare sconti e potenziare il servizio per la zona interessata.
+L'amministratore potrà individuare le tratte più gettonate e decidere di effettuare sconti e potenziare il servizio per la zona interessata. 
 Gli autisti potranno scegliere se accettare o rifiutare la corsa e, nel caso in cui ci fossero emergenze, potranno mettersi in contatto con l'utente tramite una chat dedicata con messaggi preimpostati
 
 ## Analisi dei requisiti
@@ -46,6 +45,7 @@ Gli admin possono:
 - Modificare i prezzi delle tratte base
 - Visionare le tratte con maggior numero di prenotazioni
 - Leggere i feedback lasciati al servizio, filtrandoli tramite nome autista
+- In caso di necessità, contattare le officine del territorio per ordinare dei pezzi di ricambio per le autovetture
 
 Per gli utenti sono state pensate le seguenti operazioni:
 - Prenotare $n$ corse, ma con il vincolo di una corsa per volta
@@ -57,13 +57,13 @@ Per gli utenti sono state pensate le seguenti operazioni:
 
 ## Glossario
 
-| Entità   | Descrizione                                                                                         | Sinonimi            | Collegamenti                         |
-| -------- | --------------------------------------------------------------------------------------------------- | ------------------- | ------------------------------------ |
-| Utenti   | Utente che interagisce con il sistema, si dividono in Amministratori, Autisti e Utenti Base         | User                | Veicoli, Turni, Ricambi e Feedback   |
-| Veicoli  | Veicolo adibito a Taxi per effettuare le corse                                                      | Mezzo di trasporto  | Ricambi, Zona, Prenotazione e Utenti |
-| Turni    | Lista dei turni del singolo Autista                                                                 | Periodo di servizio | Utenti                               |
-| Feedback | Recensione che gli Utenti lasciano all'Autista per giudicare la qualità del servizio                | Recensione          | Utenti                               |
-| Ricambi  | Pezzo di ricambio compatibile con un dato veicolo                                                   | Pezzi di ricambio   | Utenti, Veicolo e Officina           |
-| Officina | Luogo in cui è possibile effettuare manutenzione ai veicoli di servizio                             | Autoricambi         | Ricambio e Zona                      |
-| Tratta   | Percorso standard contenente il punto di partenza e di arrivo che può essere prenotato dagli utenti | Corsa, Percorso     | Utenti e Veicoli                     |
-| Zona     | Area adibita al servizio degli autisti                                                              | Settore             | Officina e Veicoli                   |
+| Entità   | Descrizione                                                                                         | Sinonimi                        | Collegamenti                         |
+| -------- | --------------------------------------------------------------------------------------------------- | ------------------------------- | ------------------------------------ |
+| Utenti   | Utente che interagisce con il sistema, si dividono in Amministratori, Autisti e Utenti Base         | User                            | Veicoli, Turni, Ricambi e Feedback   |
+| Veicoli  | Veicolo adibito a Taxi per effettuare le corse                                                      | Mezzo di trasporto, Autovettura | Ricambi, Zona, Prenotazione e Utenti |
+| Turni    | Lista dei turni del singolo Autista                                                                 | Periodo di servizio             | Utenti                               |
+| Feedback | Recensione che gli Utenti lasciano all'Autista per giudicare la qualità del servizio                | Recensione                      | Utenti                               |
+| Ricambi  | Pezzo di ricambio compatibile con un dato veicolo                                                   | Pezzi di ricambio               | Utenti, Veicolo e Officina           |
+| Officina | Luogo in cui è possibile effettuare manutenzione ai veicoli di servizio                             | Autoricambi                     | Ricambio e Zona                      |
+| Tratta   | Percorso standard contenente il punto di partenza e di arrivo che può essere prenotato dagli utenti | Corsa, Percorso                 | Utenti e Veicoli                     |
+| Zona     | Area adibita al servizio degli autisti                                                              | Settore                         | Officina e Veicoli                   |
