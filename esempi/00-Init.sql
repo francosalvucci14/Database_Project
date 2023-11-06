@@ -8,11 +8,10 @@ CREATE TABLE Personale(
     PRIMARY KEY(Matricola)
 );
 CREATE TABLE Turni(
-    IDT int not null auto_increment,
     Orario_inizio date not null,
     Orario_fine date not null,
     Matricola_Autista int not null,
-    PRIMARY KEY(IDT),
+    PRIMARY KEY(Orario_inizio,Orario_fine),
     FOREIGN KEY (Matricola_Autista) REFERENCES Personale(Matricola)
 );
 CREATE TABLE Veicoli(
@@ -33,12 +32,11 @@ CREATE TABLE Zone(
 );
 
 CREATE TABLE Tratta(
-    ID_Tratta int not null auto_increment,
     Partenza varchar(255) not null,
     Arrivo varchar(255) not null,
     Costo int not null,
     Tempistica int not null,
-    PRIMARY KEY(ID_Tratta)
+    PRIMARY KEY(Partenza,Arrivo)
 );
 CREATE TABLE Ricambi(
     Serial_Number int not null auto_increment,
@@ -92,10 +90,11 @@ CREATE TABLE Prenotare(
     IDU int not null,
     Matricola_Autista int not null,
     Targa varchar(255) not null,
-    ID_Tratta int not null,
+    Partenza varchar(255) not null,
+    Arrivo varchar(255) not null,
     PRIMARY KEY(ID_Prenotazione),
     FOREIGN KEY (Targa) REFERENCES Veicoli(Targa),
     FOREIGN KEY (Matricola_Autista) REFERENCES Personale(Matricola),
     FOREIGN KEY (IDU) REFERENCES Utenti(ID_Utente),
-    FOREIGN KEY (ID_Tratta) REFERENCES Tratta(ID_Tratta)
+    FOREIGN KEY (Partenza,Arrivo) REFERENCES Tratta(Partenza,Arrivo)
 );
