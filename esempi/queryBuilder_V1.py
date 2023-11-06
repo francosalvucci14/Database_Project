@@ -56,7 +56,7 @@ def insertUtenti():
         email = f"{name}.{surname}@{domain}"
         query = "INSERT INTO Utenti (Nome,Cognome,Email,Psw,Ruolo) VALUES ('"+str(name)+"','"+str(surname)+"','"+str(email)+"','"+str(get_random_string(15))+"','"+str(random.randint(2,3))+"');"
         print(query)
-
+    
 print("-------------------------------------- Inizio insert utenti")    
 insertUtenti()
 print("-------------------------------------- Fine insert Utenti")
@@ -77,7 +77,7 @@ def insertVeicoli():
 	#   LIMIT 1
 	# )
 	# WHERE ID_Autista IS NOT NULL;
-
+    # oppure fare select anniadata dentro l'insert
     for i in range(3000):
         query = "INSERT INTO Veicoli (Targa,Modello,Marca,Capienza,ID_Autista) values ('"+str(genCarLicens())+"','"+str(random.choice(model))+"','"+str(random.choice(model_m))+"','"+str(random.choice(cap))+"',NULL);"
         #genCarLicens()
