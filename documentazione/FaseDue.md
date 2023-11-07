@@ -39,7 +39,7 @@ Gli utenti hanno diversi ruoli:
 - Autista: 2
 - Utente base: 3
 
-Ogni autista può guidare un silo veicolo, per tutta la durata del turno lavorativo
+Ogni autista può guidare un singolo veicolo, per tutta la durata del turno lavorativo
 
 Gli admin possono:
 - Modificare i prezzi delle tratte base
