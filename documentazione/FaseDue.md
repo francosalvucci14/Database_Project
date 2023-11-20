@@ -66,7 +66,6 @@ Per gli utenti sono state pensate le seguenti operazioni:
 | Ricambi           | Pezzo di ricambio compatibile con un dato veicolo                                                   | Pezzi di ricambio               | Veicolo, Officina e Centro assistenza |
 | Officina          | Luogo in cui è possibile effettuare manutenzione ai veicoli di servizio                             | Autoricambi                     | Ricambio e Zona                       |
 | Tratta            | Percorso standard contenente il punto di partenza e di arrivo che può essere prenotato dagli utenti | Corsa, Percorso                 | Utenti e Veicoli                      |
-| Zona              | Area adibita al servizio degli autisti                                                              | Settore                         | Officina e Veicoli                    |
 | Autisti           | Personale adibito all'utilizzo dei taxi                                                             | Driver                          | Veicolo e Turni                       |
 | Centro Assistenza | Gestisce le richieste di assistenza da parte degli autisti e utenti                                 | Centralino, Servizio Clienti    | Autisti, Utenti e Meccanico           |
 | Manutentore       | Personale aziendale che si occupa di manutenzione delle autovetture                                 | Tecnico, Meccanico              | Officina, Centro assistenza           |
