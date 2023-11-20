@@ -57,13 +57,16 @@ Per gli utenti sono state pensate le seguenti operazioni:
 
 ## Glossario
 
-| Entità   | Descrizione                                                                                         | Sinonimi                        | Collegamenti                         |
-| -------- | --------------------------------------------------------------------------------------------------- | ------------------------------- | ------------------------------------ |
-| Utenti   | Utente che interagisce con il sistema, si dividono in Amministratori, Autisti e Utenti Base         | User                            | Veicoli, Turni, Ricambi e Feedback   |
-| Veicoli  | Veicolo adibito a Taxi per effettuare le corse                                                      | Mezzo di trasporto, Autovettura | Ricambi, Zona, Prenotazione e Utenti |
-| Turni    | Lista dei turni del singolo Autista                                                                 | Periodo di servizio             | Utenti                               |
-| Feedback | Recensione che gli Utenti lasciano all'Autista per giudicare la qualità del servizio                | Recensione                      | Utenti                               |
-| Ricambi  | Pezzo di ricambio compatibile con un dato veicolo                                                   | Pezzi di ricambio               | Utenti, Veicolo e Officina           |
-| Officina | Luogo in cui è possibile effettuare manutenzione ai veicoli di servizio                             | Autoricambi                     | Ricambio e Zona                      |
-| Tratta   | Percorso standard contenente il punto di partenza e di arrivo che può essere prenotato dagli utenti | Corsa, Percorso                 | Utenti e Veicoli                     |
-| Zona     | Area adibita al servizio degli autisti                                                              | Settore                         | Officina e Veicoli                   |
+| Entità            | Descrizione                                                                                         | Sinonimi                        | Collegamenti                          |
+| ----------------- | --------------------------------------------------------------------------------------------------- | ------------------------------- | ------------------------------------- |
+| Utenti            | Utente che interagisce con il sistema, prenotando le corse                                          | User                            | Prenotazione e Feedback               |
+| Veicoli           | Veicolo adibito a Taxi per effettuare le corse                                                      | Mezzo di trasporto, Autovettura | Ricambi, Zona, Prenotazione e Autisti |
+| Turni             | Lista dei turni del singolo Autista                                                                 | Periodo di servizio             | Autisti                               |
+| Feedback          | Recensione che gli Utenti lasciano all'Autista per giudicare la qualità del servizio                | Recensione                      | Utenti                                |
+| Ricambi           | Pezzo di ricambio compatibile con un dato veicolo                                                   | Pezzi di ricambio               | Veicolo, Officina e Centro assistenza |
+| Officina          | Luogo in cui è possibile effettuare manutenzione ai veicoli di servizio                             | Autoricambi                     | Ricambio e Zona                       |
+| Tratta            | Percorso standard contenente il punto di partenza e di arrivo che può essere prenotato dagli utenti | Corsa, Percorso                 | Utenti e Veicoli                      |
+| Zona              | Area adibita al servizio degli autisti                                                              | Settore                         | Officina e Veicoli                    |
+| Autisti           | Personale adibito all'utilizzo dei taxi                                                             | Driver                          | Veicolo e Turni                       |
+| Centro Assistenza | Gestisce le richieste di assistenza da parte degli autisti e utenti                                 | Centralino, Servizio Clienti    | Autisti, Utenti e Meccanico           |
+| Manutentore       | Personale aziendale che si occupa di manutenzione delle autovetture                                 | Tecnico, Meccanico              | Officina, Centro assistenza           |
