@@ -69,3 +69,5 @@ Per gli utenti sono state pensate le seguenti operazioni:
 | Autisti           | Personale adibito all'utilizzo dei taxi                                                             | Driver                          | Veicolo e Turni                       |
 | Centro Assistenza | Gestisce le richieste di assistenza da parte degli autisti e utenti                                 | Centralino, Servizio Clienti    | Autisti, Utenti e Meccanico           |
 | Manutentore       | Personale aziendale che si occupa di manutenzione delle autovetture                                 | Tecnico, Meccanico              | Officina, Centro assistenza           |
+
+# Schema E-R

@@ -1,6 +1,0 @@
-| Entità  |
-| ------- |
-| Taxi    |
-| Autisti |
-| Utenti  |
-|         |
