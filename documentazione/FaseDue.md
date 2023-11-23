@@ -28,38 +28,44 @@ Gli amministratori, accedendo ad un'area privata del sistema, potranno ricevere 
 
 
 ## Analisi dei requisiti
-
-I ruoli aziendali sono i seguenti: 
+I **ruoli aziendali** sono i seguenti: 
 - Addetti Marketing
 - Autisti
 - Manutentori
 
-Gli addetti al marketing possono inserire, previa autorizzazzione da parte degli amministratori della società, delle promo che prevedono sconti sulle corse per gli utenti del sistema
+Gli **addetti al marketing** possono inserire, previa autorizzazzione da parte degli amministratori della società, delle **promo** che prevedono sconti sulle corse per gli utenti del sistema.
 
-Gli autisti potranno scegliere se accettare o rifiutare la corsa, specificando in questo caso la motivazione del rifiuto.
-Inoltre potranno lasciare un feedback all'utente riguardo il comportamento prima della corsa e durante la corsa.
-Ogni autista ha la propria macchina privata, e può contattare i manutentori aziendali in caso di guasto del veicolo.
+Gli **autisti** potranno scegliere se accettare o rifiutare la corsa, specificando in questo caso la motivazione del rifiuto.
+Inoltre potranno lasciare un **feedback** all'utente riguardo il comportamento prima e durante la corsa.
+Ogni **autista** ha la propria macchina privata, e può contattare i manutentori aziendali in caso di guasto del veicolo.
+Ad ogni **autista** è assegnato un turno di lavoro di massimo 8 ore giornaliere.
 
-I manutentori possono ricevere richieste di assistenza da parte degli autisti e contattare le officine convenzionate per effettuare il lavoro di assistenza.
-Le officine non fanno parte della società.
+I **manutentori** possono ricevere richieste di assistenza da parte degli autisti e contattare le officine convenzionate per effettuare il lavoro di assistenza.
+Le **officine** non fanno parte della società.
 
-# Da completare
+Le tipologie di **veicolo** disponibili sono le seguenti: 
+- Base: 4 posti disponibili
+- Plus: 7 posti disponibili, adibito a trasporto di carrozzine per disabili
+- Premium: 12 posti disponibili, adibito a trasporto di carrozzine per disabili
+Ogni **veicolo**, identificato in modo univoco dalla targa, per poter circolare, deve essere assicurato.
 
-Esistono 3 tipologie di veicoli:
-- Base: 3 posti disponibili
-- Plus: 6 posti disponibili
-- Premium: 9 posti disponibili
+Quando si prenota una **corsa** (**tratta**) si possono scegliere due punti:
+- Punto di Partenza, identificato come Punto di raccolta
+- Punto di Arrivo, identificato come Punto di rilascio 
+Ogni **prenotazione** può essere accettata o rifiutata in base a determinati eventi dall'**autista**.
+Ad ogni tratta completata è associato un feedback che può essere lasciato sia dall'**utente** che dall'**autista**.
 
-Il numero dei veicoli circolanti, in ogni zona di Roma, è determinato dall'amministratore di sistema, ma è comunque garantito un numero minimo di veicoli per ogni categoria:
-- Base: 5
-- Plus: 3
-- Premium: 2
+Ogni **utente** ha diritto a ricevere **offerte** da poter usare al momento della prenotazione.
+Può effettuare illimitate richieste di **prenotazione**, in base alle necessità personali (numero di passeggeri, persone con disabilità, punto di ritiro, punto di rilascio).
+A corsa completata l'utente può lasciare un **feedback** con un numero di stelle (da 1 a 5) e un commento.
+Ogni utente deve aggiungere una o più **carte** con cui eseguire il pagamento.
 
-Un veicolo non può essere guidato da più autisti nello stesso orario
 
-Ogni veicolo può percorrere una qualunque tratta, anche se fuori dalla sua zona di partenza, ma nel caso in cui tutti i veicoli di quella determinata categoria sono indisponibili in quella zona, l'utente può pagare un sovrapprezzo per richiedere un veicolo di una zona differente.
 
-In ogni zona sono presenti dei nodi che rappresentano l'inizio o la fine di una corsa. Gli utenti possono quindi organizzare gli spostamenti scegliendo il punto di inizio e di fine. Ogni tratta avrà un costo calcolato in base alla distanza in kilometri tra i due nodi. 
+
+
+
+-In ogni zona sono presenti dei nodi che rappresentano l'inizio o la fine di una corsa. Gli utenti possono quindi organizzare gli spostamenti scegliendo il punto di inizio e di fine. Ogni tratta avrà un costo calcolato in base alla distanza in kilometri tra i due nodi.-
 
 Gli utenti hanno diversi ruoli:
 - Admin: 1
