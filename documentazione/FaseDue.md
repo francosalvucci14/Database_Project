@@ -28,6 +28,7 @@ Gli amministratori, accedendo ad un'area privata del sistema, potranno ricevere 
 
 
 ## Analisi dei requisiti
+
 I **ruoli aziendali** sono i seguenti: 
 - Addetti Marketing
 - Autisti
@@ -56,57 +57,38 @@ Ogni **prenotazione** può essere accettata o rifiutata in base a determinati ev
 Ad ogni tratta completata è associato un feedback che può essere lasciato sia dall'**utente** che dall'**autista**.
 
 Ogni **utente** ha diritto a ricevere **offerte** da poter usare al momento della prenotazione.
-Può effettuare illimitate richieste di **prenotazione**, in base alle necessità personali (numero di passeggeri, persone con disabilità, punto di ritiro, punto di rilascio).
-A corsa completata l'utente può lasciare un **feedback** con un numero di stelle (da 1 a 5) e un commento.
-Ogni utente deve aggiungere una o più **carte** con cui eseguire il pagamento.
+Può effettuare illimitate richieste di **prenotazione**, in base alle necessità personali (numero di passeggeri, persone con disabilità, punto di ritiro, punto di rilascio), con il vincolo di una corsa per volta.
+A corsa completata l'**utente** può lasciare un **feedback** con un numero di stelle (da 1 a 5) e un commento.
+Ogni **utente** deve aggiungere almeno una **carta** con cui effettuare il pagamento relativo alla tratta effettuata.
+Ogni **utente** può aggiungere alla lista dei preferiti ua qualunque delle tratte effettuate da lui, scegliendo se aggiungere solo la tratta o anche l'autista.
+Ogni **utente** può accedere alla cronologia delle prenotazioni effettuate.
 
-
-
-
-
-
--In ogni zona sono presenti dei nodi che rappresentano l'inizio o la fine di una corsa. Gli utenti possono quindi organizzare gli spostamenti scegliendo il punto di inizio e di fine. Ogni tratta avrà un costo calcolato in base alla distanza in kilometri tra i due nodi.-
-
-Gli utenti hanno diversi ruoli:
-- Admin: 1
-- Autista: 2
-- Utente base: 3
-
-Ogni autista può guidare un singolo veicolo, per tutta la durata del turno lavorativo
-
-Gli admin possono:
-- Modificare i prezzi delle tratte base
-- Visionare le tratte con maggior numero di prenotazioni
-- Leggere i feedback lasciati al servizio, filtrandoli tramite nome autista
-- In caso di necessità, contattare le officine del territorio per ordinare dei pezzi di ricambio per le autovetture
-
-Per gli utenti sono state pensate le seguenti operazioni:
-- Prenotare $n$ corse, ma con il vincolo di una corsa per volta
-- Lasciare un feedback all'autista
-- Aggiungere alla lista dei preferiti $n$ autisti e $k$ corse
-- Accedere alla cronologia delle prenotazioni effettuate dal singolo utente
-- Verificare se è possibile usufruire dello spazio adibito al bagaglio a mano/valigia o trasporto animale
-- Verificare se un altro utente ha prenotato la stessa corsa e dividere il prezzo di quest'ultima
 
 ## Glossario
 
-| Entità                 | Descrizione                                                       | Sinonimi            | Collegamenti                                                      |
-| ---------------------- | ----------------------------------------------------------------- | ------------------- | ----------------------------------------------------------------- |
-| DBA                    | DataBaseAdministrator                                             | Admin               | Personale, Addetti Marketing                                      |
-| Personale              | Membri totali della società                                       | Organigramma        | DBA, Addetti Marketing, Manutentori, Autisti                      |
-| Info Patente           | Descrive tutte le info riguardanti la patente degli autisti       | Licenza di Guida    | Autisti                                                           |
-| Offerte                | Serie di offerte che vengono proposte al singolo utente           | Promozioni          | Utenti, Addetti Marketing                                         |
-| Manutentori            | Addetti alla manutenzione delle auto degli autisti                | Meccanici, Operai   | Personale, Autisti                                                |
-| Autisti                | Personale che svolge il ruolo di autista delle auto nella società | Driver              | Info Patente, Manutentori, Veicoli, Turni, Richiesta Prenotazione |
-| Veicoli                | Auto utilizzate per il servizio di taxi                           | Automobili          | Autisti                                                           |
-| Turni                  | Turni lavorativi che riguardano gli autisti                       | Orario Lavorativo   | Autisti                                                           |
-| Richiesta Prenotazione | Richieste di prenotazioni effettuate da parte dall'utente         | Prenotazioni        | Autisti, Utenti, Tratte Complete, Tratte Rifiutate                |
-| Utenti                 | Utenti utilizzatori del servizio taxi                             | Persone             | Carta, Richiesta Prenotazione, Offerte                            |
-| Feedback               | Recensioni lasciate dall'utente e dagli autisti                   | Recensioni          | Tratte Completate                                                 |
-| Tratte Completate      | Corse effettuate portate a termine con successo                   | Corse               | Richiesta Prenotazione, Feedback, Transazione                     |
-| Tratte Rifiutate       | Corse rifiutate da parte dell'autista per determinati motivi      | Corse Annullate     | Richiesta Prenotazione                                            |
-| Carta                  | Carta di credito personale dell'utente                            | Metodo di pagamento | Utenti, Transazione                                               |
-| Transazione            | Transazione univoca del pagamento relativo alla singola corsa     | Pagamento           | Carta, Tratte Completate                                          |
-| Addetti Marketing      | Personale addetto al reparto marketing della società              | Advertiser          | Offerte, Personale                                                |
+| Entità                 | Descrizione                                                       | Sinonimi                  | Collegamenti                                                                      |
+| ---------------------- | ----------------------------------------------------------------- | ------------------------- | --------------------------------------------------------------------------------- |
+| Personale              | Membri totali della società                                       | Organigramma              | Addetti Marketing, Manutentori, Autisti                                           |
+| Patente                | Descrive tutte le info riguardanti la patente degli autisti       | Licenza di Guida          | Autisti                                                                           |
+| Offerte                | Serie di offerte che vengono proposte al singolo utente           | Promozioni                | Utenti, Addetti Marketing                                                         |
+| Manutentori            | Addetti alla manutenzione delle auto degli autisti                | Meccanici, Operai         | Personale, Autisti                                                                |
+| Autisti                | Personale che svolge il ruolo di autista delle auto nella società | Driver                    | Patente, Manutentori, Veicoli, Turni, Richiesta Prenotazione, Personale, Feedback |
+| Veicoli                | Auto utilizzate per il servizio di taxi                           | Automobili                | Autisti, Assicurazione                                                            |
+| Turni                  | Turni lavorativi che riguardano gli autisti                       | Orario Lavorativo         | Autisti                                                                           |
+| Richiesta Prenotazione | Richieste di prenotazioni effettuate da parte dall'utente         | Prenotazioni              | Autisti, Utenti, Tratte Complete, Tratte Rifiutate                                |
+| Utenti                 | Utenti utilizzatori del servizio taxi                             | Persone                   | Carta, Richiesta Prenotazione, Offerte, Feedback, Tratte completate               |
+| Feedback               | Recensioni lasciate dall'utente e dagli autisti                   | Recensioni                | Tratte Completate, Utenti, Autisti                                                |
+| Tratte Completate      | Corse effettuate portate a termine con successo                   | Corse                     | Richiesta Prenotazione, Feedback, Carta, Utenti                                   |
+| Tratte Rifiutate       | Corse rifiutate da parte dell'autista per determinati motivi      | Corse Annullate           | Richiesta Prenotazione                                                            |
+| Carta                  | Carta di credito personale dell'utente                            | Metodo di pagamento       | Utenti, Tratte completate                                                         |
+| Assicurazione          | Dati dell'assicurazione associata al singolo veicolo              | RCA, Polizza assicurativa | Veicoli                                                                           |
+| Addetti Marketing      | Personale addetto al reparto marketing della società              | Advertiser                | Offerte, Personale                                                                |
+| Lista Preferiti        | Lista delle tratte impostate dall'utente come preferite           | Preferenze                | Utenti, Tratte completate                                                                                  |
 
 # Schema E-R
+
+## Schema E-R Fisico
+
+Le entità padre si distinguono dalle entità figlio perchè sono rappresentate con il doppio cerchio
+
+![[Schema-Fisico.jpg|center]]
