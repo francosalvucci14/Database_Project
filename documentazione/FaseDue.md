@@ -14,18 +14,9 @@ Il database che stiamo realizzando è incentrato all'implementazione di un softw
 
 ## Obiettivi
 
-L'obiettivo principale di questo sistema è permettere agli utenti di organizzare gli spostamenti tramite Taxi a seconda della fascia oraria, del tipo di veicolo scelto e del costo della tratta scelta.
+L'obiettivo principale di questo sistema è permettere agli utenti di organizzare gli spostamenti tramite taxi a seconda delle proprie esigenze, del tipo di veicolo scelto e del costo della tratta scelta.
 
 Da un punto di vista societario, gli obiettivi sono quelli di valutare la qualità del lavoro degli autisti tramite i feedback forniti dai clienti e migliorare dove possibile il servizio.
-
-
-
-I DBA potranno effettuare modifiche al sistema.
-Gli autisti potranno scegliere se accettare o rifiutare la corsa, specificando in questo caso la motivazione del rifiuto.
-
-L'utente potrà interagire con il sistema per prenotare una corsa, aggiungere una tratta all'elenco dei preferiti, fornire un feedback sia positivo che negativo alla qualità del servizio.
-Gli amministratori, accedendo ad un'area privata del sistema, potranno ricevere report degli utenti, ottimizzare il servizio (tempistiche, costi, ecc...) e in caso di guasti alle autovetture, contattare le officine del territorio per ordinare eventuali pezzi di ricambio.
-
 
 ## Analisi dei requisiti
 
@@ -34,7 +25,7 @@ I **ruoli aziendali** sono i seguenti:
 - Autisti
 - Manutentori
 
-Gli **addetti al marketing** possono inserire, previa autorizzazzione da parte degli amministratori della società, delle **promo** che prevedono sconti sulle corse per gli utenti del sistema.
+Gli **addetti al marketing** possono inserire, previa autorizzazione da parte degli amministratori della società, delle **promo** che prevedono sconti sulle corse per gli utenti del sistema.
 
 Gli **autisti** potranno scegliere se accettare o rifiutare la corsa, specificando in questo caso la motivazione del rifiuto.
 Inoltre potranno lasciare un **feedback** all'utente riguardo il comportamento prima e durante la corsa.
@@ -53,16 +44,15 @@ Ogni **veicolo**, identificato in modo univoco dalla targa, per poter circolare,
 Quando si prenota una **corsa** (**tratta**) si possono scegliere due punti:
 - Punto di Partenza, identificato come Punto di raccolta
 - Punto di Arrivo, identificato come Punto di rilascio 
-Ogni **prenotazione** può essere accettata o rifiutata in base a determinati eventi dall'**autista**.
+Ogni **prenotazione** può essere accettata o rifiutata in base a determinate esigenze dell'**utente** (Es: prenotazione effettuata per errore) e dell'**autista** (Es: indisponibilità al servizio).
 Ad ogni tratta completata è associato un feedback che può essere lasciato sia dall'**utente** che dall'**autista**.
 
 Ogni **utente** ha diritto a ricevere **offerte** da poter usare al momento della prenotazione.
 Può effettuare illimitate richieste di **prenotazione**, in base alle necessità personali (numero di passeggeri, persone con disabilità, punto di ritiro, punto di rilascio), con il vincolo di una corsa per volta.
 A corsa completata l'**utente** può lasciare un **feedback** con un numero di stelle (da 1 a 5) e un commento.
-Ogni **utente** deve aggiungere almeno una **carta** con cui effettuare il pagamento relativo alla tratta effettuata.
+Ogni **utente** deve aggiungere una **carta** con cui effettuare il pagamento relativo alla tratta effettuata, in un secondo momento potrà aggiungere altri metodi di pagamento secondo le proprie esigenze.
 Ogni **utente** può aggiungere alla lista dei preferiti ua qualunque delle tratte effettuate da lui, scegliendo se aggiungere solo la tratta o anche l'autista.
 Ogni **utente** può accedere alla cronologia delle prenotazioni effettuate.
-
 
 ## Glossario
 
@@ -89,6 +79,5 @@ Ogni **utente** può accedere alla cronologia delle prenotazioni effettuate.
 
 ## Schema E-R Fisico
 
-Le entità padre si distinguono dalle entità figlio perchè sono rappresentate con il doppio cerchio
-
-![[Schema-Fisico.jpg|center]]
+Le entità padre si distinguono dalle entità figlio perchè sono rappresentate con il doppio cerchio.
+Lo schema risulta già normalizzato in 3NF, e di conseguenza già in 2NF e 1NF.
