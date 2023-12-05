@@ -1,4 +1,4 @@
-# TaxiMo
+# TaxiTua
 
 # Progetto di Basi di Dati per Azienda di Logistica Taxi a Roma
 
@@ -8,7 +8,7 @@ Questo repository contiene il progetto di basi di dati per un'azienda di logisti
 
 - `/database`: Contiene tutti gli script SQL per la creazione del database, le tabelle, le viste e i trigger necessari per il funzionamento del sistema.
 - `/documentazione`: Contiene documentazione dettagliata, schemi del database e istruzioni per l'installazione e l'uso del sistema.
-- `/esempi`: Qui troverai esempi di query SQL comuni e di utilità per il database. Troverai inoltre dei file chiamati `query builder`, che ci sono serviti per generare in modo automatico una quantità molto grande di query (per lo più insert, parlaimo di circa 6000 query)
+- `/esempi`: Qui troverai esempi di query SQL comuni e di utilità per il database. Troverai inoltre dei file chiamati `query builder`, che ci sono serviti per generare in modo automatico una quantità molto grande di query (per lo più insert, parliamo di circa 6000 inserimenti)
 
 ## Tecnologie Utilizzate
 
@@ -22,6 +22,6 @@ Per ulteriori dettagli sull'utilizzo del sistema e sulla struttura del database,
 
 ## Autori
 
-- [Leonardo Ascenzi](github.com/Levvonci)
-- [Franco Salvucci](github.com/francosalvucci14)
-- [Nicolò Spadoni](github.com/SwagSpaad)
+- [Leonardo Ascenzi](https://github.com/Levvonci)
+- [Franco Salvucci](https://github.com/francosalvucci14)
+- [Nicolò Spadoni](https://github.com/SwagSpaad)
