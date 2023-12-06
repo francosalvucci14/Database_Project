@@ -126,16 +126,15 @@ Ogni **utente** può accedere alla cronologia delle prenotazioni effettuate.
 
 ## Schemi
 
-### Schemi di relazione
-
-Le chiave primarie sono identificate in **grassetto**, mentre le chiavi secondarie (o esterne) sono identificate tramite la <u>sottolineatura</u>
-
-Forse da aggiungere
-### Schema Logico Normalizzato
+### Schema Logico
 
 Mettere schema ER logico derivato dallo schema Fisico normalizzato
 
-### Diagramma Entity-Relationship (Schema Fisico)
+#### Normalizzazione
+
+Aggiungere i 3 livelli di normalizzazione   
+
+### Schema Fisico
 
 Le entità padre si distinguono dalle entità figlio perchè sono rappresentate con il doppio cerchio.
 
