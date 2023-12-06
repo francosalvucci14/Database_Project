@@ -69,44 +69,44 @@ Ogni **utente** può accedere alla cronologia delle prenotazioni effettuate.
 ### Glossario delle entità
 
 
-| Entità | Descrizione | Attributi | Relazioni Coinvolte |
-| ---------------------- | ----------------------------------------------------------------- | ------------------------- | --------------------------------------------------------------------------------- |
-| Personale | Membri totali della società | **ID**, Nome, Cognome, DDN, Numero di Telefono, Email |  |
-| Patente | Descrive tutte le info riguardanti la patente degli autisti | **Numero Patente**, DDS, Categoria | AutistaPossiedePatente |
-| Offerte | Serie di offerte che vengono proposte al singolo utente | **ID**, Promo Code, Info Offerta, | UtenteHaOfferta, AggiungereOfferta |
-| Manutentori | Addetti alla manutenzione delle auto degli autisti | **ID**, Qualifica | ContattaPerGuasto |
-| Autisti | Personale che svolge il ruolo di autista delle auto nella società | **ID** | ContattaPerGuasto, AutistaPossiedePatente, AutistaPossiedeTurni, AutistaGuidaVeicolo, AssegnatoA |
-| Veicoli | Auto utilizzate per il servizio di taxi | **Targa**, Marca, Modello, Posti disponibili | VeicoloPossiedeAssicurazione,  |
-| Turni | Turni lavorativi che riguardano gli autisti | **ID**, Orario inizio, Orario fine | Autisti |
-| Richiesta Prenotazione | Richieste di prenotazioni effettuate da parte dall'utente | **ID**, Punto di raccolta, Punto di rilascio, Orario richiesta, Numero Passeggeri | Autisti, Utenti, Tratte Complete, Tratte Rifiutate |
-| Utenti | Utenti utilizzatori del servizio taxi | **ID**, Nome, Cognome, Email, Password, Abbonamento | Carta, Richiesta Prenotazione, Offerte, Feedback, Tratte completate |
-| Feedback | Recensioni lasciate dall'utente e dagli autisti | **ID**, Stelle, Commento, Data | Tratte Completate, Utenti, Autisti |
-| Tratte Completate | Corse effettuate portate a termine con successo | **ID**, Costo | Richiesta Prenotazione, Feedback, Carta, Utenti |
-| Tratte Rifiutate | Corse rifiutate da parte dell'autista per determinati motivi | **ID**, Motivazione | Richiesta Prenotazione |
-| Carta | Carta di credito personale dell'utente | **Numero Carta**, Data di Scadenza, CVV | Utenti, Tratte completate |
-| Assicurazione | Dati dell'assicurazione associata al singolo veicolo | **ID**, Data di scandenza, Tipo | Veicoli |
-| Addetti Marketing | Personale addetto al reparto marketing della società | **ID** | Offerte, Personale |
+| Entità                 | Descrizione                                                       | Attributi                                                                         | Relazioni Coinvolte                                                                              |
+| ---------------------- | ----------------------------------------------------------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| Personale              | Membri totali della società                                       | **ID**, Nome, Cognome, DDN, Numero di Telefono, Email                             |                                                                                                  |
+| Patente                | Descrive tutte le info riguardanti la patente degli autisti       | **Numero Patente**, DDS, Categoria                                                | AutistaPossiedePatente                                                                           |
+| Offerte                | Serie di offerte che vengono proposte al singolo utente           | **ID**, Promo Code, Info Offerta,                                                 | UtenteHaOfferta, AggiungereOfferta                                                               |
+| Manutentori            | Addetti alla manutenzione delle auto degli autisti                | **ID**, Qualifica                                                                 | ContattaPerGuasto                                                                                |
+| Autisti                | Personale che svolge il ruolo di autista delle auto nella società | **ID**                                                                            | ContattaPerGuasto, AutistaPossiedePatente, AutistaPossiedeTurni, AutistaGuidaVeicolo, AssegnatoA |
+| Veicoli                | Auto utilizzate per il servizio di taxi                           | **Targa**, Marca, Modello, Posti disponibili                                      | VeicoloPossiedeAssicurazione, AutistaGuidaVeicolo                                                |
+| Turni                  | Turni lavorativi che riguardano gli autisti                       | **ID**, Orario inizio, Orario fine                                                | AutistaPossiedeTurno                                                                             |
+| Richiesta Prenotazione | Richieste di prenotazioni effettuate da parte dall'utente         | **ID**, Punto di raccolta, Punto di rilascio, Orario richiesta, Numero Passeggeri | AssegnatoA, EffettuaPrenotazione                                                                 |
+| Utenti                 | Utenti utilizzatori del servizio taxi                             | **ID**, Nome, Cognome, Email, Password, Abbonamento                               | UtentePossiedeCarta, EffettuaPrenotazione, UtenteHaOfferta                                       |
+| Feedback               | Recensioni lasciate dall'utente e dagli autisti                   | **ID**, Stelle, Commento, Data                                                    | TrattaPossiedeFeedback                                                                           |
+| Tratte Completate      | Corse effettuate portate a termine con successo                   | **ID**, Costo                                                                     | CartaPagaTratta                                                                                  |
+| Tratte Rifiutate       | Corse rifiutate da parte dell'autista per determinati motivi      | **ID**, Motivazione                                                               |                                                                                                  |
+| Carta                  | Carta di credito personale dell'utente                            | **Numero Carta**, Data di Scadenza, CVV                                           | UtentePossiedeCarta, CartaPagaTratta                                                             |
+| Assicurazione          | Dati dell'assicurazione associata al singolo veicolo              | **ID**, Data di scandenza, Tipo                                                   | VeicoloPossiedeAssicurazione                                                                     |
+| Addetti Marketing      | Personale addetto al reparto marketing della società              | **ID**                                                                            | AggiungeOfferta                                                                                  | 
 
 ### Glossario dei termini
 
-| Entità | Descrizione | Sinonimi | 
-| ---------------------- | ----------------------------------------------------------------- | ------------------------- | 
-| Personale | Membri totali della società | Organigramma |  
-| Patente | Descrive tutte le info riguardanti la patente degli autisti | Licenza di Guida |  |
-| Offerte | Serie di offerte che vengono proposte al singolo utente | Promozioni |  |
-| Manutentori | Addetti alla manutenzione delle auto degli autisti | Meccanici, Operai |  |
-| Autisti | Personale che svolge il ruolo di autista delle auto nella società | Driver |   |
-| Veicoli | Auto utilizzate per il servizio di taxi | Automobili |  |
-| Turni | Turni lavorativi che riguardano gli autisti | Orario Lavorativo |  |
-| Richiesta Prenotazione | Richieste di prenotazioni effettuate da parte dall'utente | Prenotazioni |  |
-| Utenti | Utenti utilizzatori del servizio taxi | Persone |  |
-| Feedback | Recensioni lasciate dall'utente e dagli autisti | Recensioni |  |
-| Tratte Completate | Corse effettuate portate a termine con successo | Corse |  |
-| Tratte Rifiutate | Corse rifiutate da parte dell'autista per determinati motivi | Corse Annullate |  |
-| Carta | Carta di credito personale dell'utente | Metodo di pagamento |  |
-| Assicurazione | Dati dell'assicurazione associata al singolo veicolo | RCA, Polizza assicurativa |  |
-| Addetti Marketing | Personale addetto al reparto marketing della società | Advertiser |  |
-| Lista Preferiti | Lista delle tratte impostate dall'utente come preferite | Preferenze |  |
+| Entità                 | Descrizione                                                       | Sinonimi                  |
+| ---------------------- | ----------------------------------------------------------------- | ------------------------- |
+| Personale              | Membri totali della società                                       | Organigramma              | 
+| Patente                | Descrive tutte le info riguardanti la patente degli autisti       | Licenza di Guida          |
+| Offerte                | Serie di offerte che vengono proposte al singolo utente           | Promozioni                |
+| Manutentori            | Addetti alla manutenzione delle auto degli autisti                | Meccanici, Operai         |
+| Autisti                | Personale che svolge il ruolo di autista delle auto nella società | Driver                    |
+| Veicoli                | Auto utilizzate per il servizio di taxi                           | Automobili                |
+| Turni                  | Turni lavorativi che riguardano gli autisti                       | Orario Lavorativo         |
+| Richiesta Prenotazione | Richieste di prenotazioni effettuate da parte dall'utente         | Prenotazioni              |
+| Utenti                 | Utenti utilizzatori del servizio taxi                             | Persone                   |
+| Feedback               | Recensioni lasciate dall'utente e dagli autisti                   | Recensioni                |
+| Tratte Completate      | Corse effettuate portate a termine con successo                   | Corse                     |
+| Tratte Rifiutate       | Corse rifiutate da parte dell'autista per determinati motivi      | Corse Annullate           |
+| Carta                  | Carta di credito personale dell'utente                            | Metodo di pagamento       |
+| Assicurazione          | Dati dell'assicurazione associata al singolo veicolo              | RCA, Polizza assicurativa |
+| Addetti Marketing      | Personale addetto al reparto marketing della società              | Advertiser                |
+| Lista Preferiti        | Lista delle tratte impostate dall'utente come preferite           | Preferenze                |
 
 ### Glossario delle relazioni
 
@@ -121,8 +121,8 @@ Ogni **utente** può accedere alla cronologia delle prenotazioni effettuate.
 | UtenteHaOfferta              | Ogni utente può avere una o più offerte attive, ogni offerta può essere associata ad uno o più utenti                                                         | Utenti (0,N), Offerte (0,N)                 |
 | UtentePossiedeCarta          | Ogni utente possiede una o più carte, una carta è posseduta da un singolo utente                                                                              | Utenti (1,N), Carta (1,1)                   |
 | EffettuaPrenotazione         | Ogni utente può effettuare una o più richieste di prenotazione, la singola richiesta è effettuata dal singolo utente                                          | Utenti (1,N), Richiesta Prenotazioni (1,1)  |
-| CartaPagaTratta              | Ogni utente tramite la propria carta paga una o più corse effettuate, la singola corsa è pagata da una e una sola carta                                                         | Carta (1,N), Tratte Completate (1,1)        |
-| TrattaAvereFeedback          | Ogni tratta completata possiede un feedback, che può essere lasciato sia dall'autista che dall'utente               | Tratte Completate (0,1), Feedback (0,1)     |                                                                                                                                                                                                            |
+| CartaPagaTratta              | Ogni utente tramite la propria carta paga una o più corse effettuate, la singola corsa è pagata da una e una sola carta                                       | Carta (1,N), Tratte Completate (1,1)        |
+| TrattaAvereFeedback          | Ogni tratta completata possiede un feedback, che può essere lasciato sia dall'autista che dall'utente                                                         | Tratte Completate (0,1), Feedback (0,1)     |
 
 ## Schemi
 
