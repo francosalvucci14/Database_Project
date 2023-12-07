@@ -123,6 +123,7 @@ Ogni **utente** può accedere alla cronologia delle prenotazioni effettuate.
 | EffettuaPrenotazione         | Ogni utente può effettuare una o più richieste di prenotazione, la singola richiesta è effettuata dal singolo utente                                          | Utenti (1,N), Richiesta Prenotazioni (1,1)  |
 | CartaPagaTratta              | Ogni utente tramite la propria carta paga una o più corse effettuate, la singola corsa è pagata da una e una sola carta                                       | Carta (1,N), Tratte Completate (1,1)        |
 | TrattaAvereFeedback          | Ogni tratta completata possiede un feedback, che può essere lasciato sia dall'autista che dall'utente                                                         | Tratte Completate (0,1), Feedback (0,1)     |
+| AutistaAvereTurni            | Ogni autista ha un proprio turno lavorativo, ad ogni turno lavorativo vengono assegnati uno o più autisti                                                     | Autisti (1,1), Turni (1,N)                                            |
 
 ## Schemi
 
