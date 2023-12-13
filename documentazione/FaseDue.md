@@ -128,7 +128,7 @@ Ogni **utente** può accedere alla cronologia delle prenotazioni effettuate.
 
 ### Schemi di relazione
 
-Le chiave primarie sono identificate in **grassetto**, mentre le chiavi secondarie (o esterne) sono identificate tramite la _sottolineatura_
+Le chiave primarie sono identificate in **grassetto**, mentre le chiavi secondarie (o esterne) sono scritte in stile _Italic_
 
 - Personale (**ID_Personale**, Nome, Cognome, NumeroTelefono, Email)
 - Autisti (**ID_Autista**, Stipendio, _NumeroPatente_, _Targa_, _ID_Turno)
