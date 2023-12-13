@@ -1,15 +1,13 @@
 
 # Indice degli argomenti
 
-- Nome progetto
-- Fase concettuale
+- Componenti
+- Motivazioni
+- Obiettivi
+- Raccolta dei dati
 - Schemi
 
-# Intro al progetto
-
-## Nome progetto
-
-La nostra socità si chiama **VRoomA**
+# Progetto VRoomA
 ## Componenti del gruppo  
 
 | Nome | Cognome | Matricola | Mail |
@@ -69,78 +67,123 @@ Ogni **utente** può accedere alla cronologia delle prenotazioni effettuate.
 ### Glossario delle entità
 
 
-| Entità                 | Descrizione                                                       | Attributi                                                                         | Relazioni Coinvolte                                                                              |
-| ---------------------- | ----------------------------------------------------------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| Personale              | Membri totali della società                                       | **ID**, Nome, Cognome, DDN, Numero di Telefono, Email                             |                                                                                                  |
-| Patente                | Descrive tutte le info riguardanti la patente degli autisti       | **Numero Patente**, DDS, Categoria                                                | AutistaPossiedePatente                                                                           |
-| Offerte                | Serie di offerte che vengono proposte al singolo utente           | **ID**, Promo Code, Info Offerta,                                                 | UtenteHaOfferta, AggiungereOfferta                                                               |
-| Manutentori            | Addetti alla manutenzione delle auto degli autisti                | **ID**, Qualifica                                                                 | ContattaPerGuasto                                                                                |
-| Autisti                | Personale che svolge il ruolo di autista delle auto nella società | **ID**                                                                            | ContattaPerGuasto, AutistaPossiedePatente, AutistaPossiedeTurni, AutistaGuidaVeicolo, AssegnatoA |
-| Veicoli                | Auto utilizzate per il servizio di taxi                           | **Targa**, Marca, Modello, Posti disponibili                                      | VeicoloPossiedeAssicurazione, AutistaGuidaVeicolo                                                |
-| Turni                  | Turni lavorativi che riguardano gli autisti                       | **ID**, Orario inizio, Orario fine                                                | AutistaPossiedeTurno                                                                             |
-| Richiesta Prenotazione | Richieste di prenotazioni effettuate da parte dall'utente         | **ID**, Punto di raccolta, Punto di rilascio, Orario richiesta, Numero Passeggeri | AssegnatoA, EffettuaPrenotazione                                                                 |
-| Utenti                 | Utenti utilizzatori del servizio taxi                             | **ID**, Nome, Cognome, Email, Password, Abbonamento                               | UtentePossiedeCarta, EffettuaPrenotazione, UtenteHaOfferta                                       |
-| Feedback               | Recensioni lasciate dall'utente e dagli autisti                   | **ID**, Stelle, Commento, Data                                                    | TrattaPossiedeFeedback                                                                           |
-| Tratte Completate      | Corse effettuate portate a termine con successo                   | **ID**, Costo                                                                     | CartaPagaTratta                                                                                  |
-| Tratte Rifiutate       | Corse rifiutate da parte dell'autista per determinati motivi      | **ID**, Motivazione                                                               |                                                                                                  |
-| Carta                  | Carta di credito personale dell'utente                            | **Numero Carta**, Data di Scadenza, CVV                                           | UtentePossiedeCarta, CartaPagaTratta                                                             |
-| Assicurazione          | Dati dell'assicurazione associata al singolo veicolo              | **ID**, Data di scandenza, Tipo                                                   | VeicoloPossiedeAssicurazione                                                                     |
-| Addetti Marketing      | Personale addetto al reparto marketing della società              | **ID**                                                                            | AggiungeOfferta                                                                                  | 
+| Entità | Descrizione | Attributi | Relazioni Coinvolte |
+| ---------------------- | ----------------------------------------------------------------- | ------------------------- | --------------------------------------------------------------------------------- |
+| Personale | Membri totali della società | **ID**, Nome, Cognome, DDN, Numero di Telefono, Email | Addetti Marketing, Manutentori, Autisti |
+| Patente | Descrive tutte le info riguardanti la patente degli autisti | **Numero Patente**, DDS, Categoria | Autisti |
+| Offerte | Serie di offerte che vengono proposte al singolo utente | **ID**, Promo Code, Info Offerta, | Utenti, Addetti Marketing |
+| Manutentori | Addetti alla manutenzione delle auto degli autisti | **ID**, Qualifica | Personale, Autisti |
+| Autisti | Personale che svolge il ruolo di autista delle auto nella società | **ID**, Stipendio | Patente, Manutentori, Veicoli, Turni, Richiesta Prenotazione, Personale, Feedback |
+| Veicoli | Auto utilizzate per il servizio di taxi | **Targa**, Marca, Modello, Posti disponibili | Autisti, Assicurazione |
+| Turni | Turni lavorativi che riguardano gli autisti | **ID**, Orario inizio, Orario fine | Autisti |
+| Richiesta Prenotazione | Richieste di prenotazioni effettuate da parte dall'utente | **ID**, Punto di raccolta, Punto di rilascio, Orario richiesta, Numero Passeggeri | Autisti, Utenti, Tratte Complete, Tratte Rifiutate |
+| Utenti | Utenti utilizzatori del servizio taxi | **ID**, Nome, Cognome, Email, Password, Abbonamento | Carta, Richiesta Prenotazione, Offerte, Feedback, Tratte completate |
+| Feedback | Recensioni lasciate dall'utente e dagli autisti | **ID**, Stelle, Commento, Data | Tratte Completate, Utenti, Autisti |
+| Tratte Completate | Corse effettuate portate a termine con successo | **ID**, Costo | Richiesta Prenotazione, Feedback, Carta, Utenti |
+| Tratte Rifiutate | Corse rifiutate da parte dell'autista per determinati motivi | **ID**, Motivazione | Richiesta Prenotazione |
+| Carta | Carta di credito personale dell'utente | **Numero Carta**, Data di Scadenza, CVV | Utenti, Tratte completate |
+| Assicurazione | Dati dell'assicurazione associata al singolo veicolo | **ID**, Data di scandenza, Tipo | Veicoli |
+| Addetti Marketing | Personale addetto al reparto marketing della società | **ID**, Ruolo | Offerte, Personale |
 
 ### Glossario dei termini
 
-| Entità                 | Descrizione                                                       | Sinonimi                  |
-| ---------------------- | ----------------------------------------------------------------- | ------------------------- |
-| Personale              | Membri totali della società                                       | Organigramma              | 
-| Patente                | Descrive tutte le info riguardanti la patente degli autisti       | Licenza di Guida          |
-| Offerte                | Serie di offerte che vengono proposte al singolo utente           | Promozioni                |
-| Manutentori            | Addetti alla manutenzione delle auto degli autisti                | Meccanici, Operai         |
-| Autisti                | Personale che svolge il ruolo di autista delle auto nella società | Driver                    |
-| Veicoli                | Auto utilizzate per il servizio di taxi                           | Automobili                |
-| Turni                  | Turni lavorativi che riguardano gli autisti                       | Orario Lavorativo         |
-| Richiesta Prenotazione | Richieste di prenotazioni effettuate da parte dall'utente         | Prenotazioni              |
-| Utenti                 | Utenti utilizzatori del servizio taxi                             | Persone                   |
-| Feedback               | Recensioni lasciate dall'utente e dagli autisti                   | Recensioni                |
-| Tratte Completate      | Corse effettuate portate a termine con successo                   | Corse                     |
-| Tratte Rifiutate       | Corse rifiutate da parte dell'autista per determinati motivi      | Corse Annullate           |
-| Carta                  | Carta di credito personale dell'utente                            | Metodo di pagamento       |
-| Assicurazione          | Dati dell'assicurazione associata al singolo veicolo              | RCA, Polizza assicurativa |
-| Addetti Marketing      | Personale addetto al reparto marketing della società              | Advertiser                |
-| Lista Preferiti        | Lista delle tratte impostate dall'utente come preferite           | Preferenze                |
+| Entità | Descrizione | Sinonimi | 
+| ---------------------- | ----------------------------------------------------------------- | ------------------------- | 
+| Personale | Membri totali della società | Organigramma |  
+| Patente | Descrive tutte le info riguardanti la patente degli autisti | Licenza di Guida |  |
+| Offerte | Serie di offerte che vengono proposte al singolo utente | Promozioni |  |
+| Manutentori | Addetti alla manutenzione delle auto degli autisti | Meccanici, Operai |  |
+| Autisti | Personale che svolge il ruolo di autista delle auto nella società | Driver |   |
+| Veicoli | Auto utilizzate per il servizio di taxi | Automobili |  |
+| Turni | Turni lavorativi che riguardano gli autisti | Orario Lavorativo |  |
+| Richiesta Prenotazione | Richieste di prenotazioni effettuate da parte dall'utente | Prenotazioni |  |
+| Utenti | Utenti utilizzatori del servizio taxi | Persone |  |
+| Feedback | Recensioni lasciate dall'utente e dagli autisti | Recensioni |  |
+| Tratte Completate | Corse effettuate portate a termine con successo | Corse |  |
+| Tratte Rifiutate | Corse rifiutate da parte dell'autista per determinati motivi | Corse Annullate |  |
+| Carta | Carta di credito personale dell'utente | Metodo di pagamento |  |
+| Assicurazione | Dati dell'assicurazione associata al singolo veicolo | RCA, Polizza assicurativa |  |
+| Addetti Marketing | Personale addetto al reparto marketing della società | Advertiser |  |
 
 ### Glossario delle relazioni
 
-| Relazione                    | Descrizione                                                                                                                                                   | Entità                                      |
-| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
-| VeicoloPossiedeAssicurazione | Ogni veicolo possiede una assicurazione, ed ogni assicurazione è associata ad un singolo veicolo                                                              | Veicoli (1,1), Assicurazione (1,1)          |
-| AutistaGuidaVeicolo          | Ogni autista guida la propria macchina privata, ed ogni macchina privata è guidata dal singolo proprietario                                                   | Autisti (1,1), Veicoli (1,1)                |
-| AutistaPossiedePatente       | Ogni autista possiede una patente di guida, una patente di guida è associata ad un singolo autista                                                            | Autisti (1,1), Patente (1,1)                |
-| ContattaPerGuasto            | Ogni autista può contattare un manutentore aziendale per comunicare un guasto al proprio veicolo, il singolo manutentore può essere contattato da più autisti | Autisti (0,N), Manutentori (0,N)            |
-| AssegnatoA                   | Un autista è assegnato a una o più richieste di prenotazione, alla singola richiesta di prenotazione è assegnato un singolo autista                           | Autisti (1,N), Richiesta Prenotazione (1,1) |
-| AggiungeOfferta              | Un addetto marketing può aggiungere una o più offerte, la singola offerta è aggiunta dal singolo addetto marketing                                            | Addetti Marketing (1,N), Offerte (1,1)      |
-| UtenteHaOfferta              | Ogni utente può avere una o più offerte attive, ogni offerta può essere associata ad uno o più utenti                                                         | Utenti (0,N), Offerte (0,N)                 |
-| UtentePossiedeCarta          | Ogni utente possiede una o più carte, una carta è posseduta da un singolo utente                                                                              | Utenti (1,N), Carta (1,1)                   |
-| EffettuaPrenotazione         | Ogni utente può effettuare una o più richieste di prenotazione, la singola richiesta è effettuata dal singolo utente                                          | Utenti (1,N), Richiesta Prenotazioni (1,1)  |
-| CartaPagaTratta              | Ogni utente tramite la propria carta paga una o più corse effettuate, la singola corsa è pagata da una e una sola carta                                       | Carta (1,N), Tratte Completate (1,1)        |
-| TrattaAvereFeedback          | Ogni tratta completata possiede un feedback, che può essere lasciato sia dall'autista che dall'utente                                                         | Tratte Completate (0,1), Feedback (0,1)     |
-| AutistaAvereTurni            | Ogni autista ha un proprio turno lavorativo, ad ogni turno lavorativo vengono assegnati uno o più autisti                                                     | Autisti (1,1), Turni (1,N)                                            |
+| Relazione                    | Descrizione                                                                                                                                     | Entità                                      |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
+| VeicoloPossiedeAssicurazione | Relazione che dice che ogni veicolo ha una propria assicurazione                                                                                | Veicoli (1,1), Assicurazione (1,1)          |
+| AutistaGuidaVeicolo          | Relazione che dice che ogni autista guida la propria autovettura                                                                                | Autisti (1,1), Veicoli (1,1)                |
+| AutistaPossiedePatente       | Relazione che dice che ogni autista, per poter guidare, necessita di una patente                                                                | Autisti (1,1), Patente (1,1)                |
+| ContattaPerGuasto            | Relazione che dice che ogni autista può (non necessariamente) contattare un manutentore per un guasto al veicolo                                | Autisti (0,N), Manutentori (0,N)            |
+| AutistaLasciaFeedback        | Relazione che dice che ogni autista può lasciare uno o più feedback relativio a tutti gli aspetti della corsa effettuata                        | Autisti (1,N), Feedback (1,1)               |
+| AssegantoA                   | Relazione che dice che ogni autista viene assegnato ad una richiesta di prenotazione, in base a determinate circostanze                         | Autisti (1,1), Richiesta Prenotazione (1,1) |
+| AggiungeOfferta              | Relazione che dice che un addetto marketing può aggiungere una o più offerte per gli utenti                                                     | Addetti Marketing (1,N), Offerte (1,1)      |
+| UtenteHaOfferta              | Relazione che dice che ogni utente può avere (non necessariamente) una o più offerte attive                                                     | Utenti (1,1), Offerte (1,N)                 |
+| UtentePossiedeCarta          | Relazione che dice che ogni utente deve possedere almeno una carta con cui effettuare i pagamenti                                               | Utenti (1,N), Carta (1,1)                   |
+| EffettuaPrenotazione         | Relazione che dice che ogni utente effettua una o più prenotazioni                                                                              | Utenti (1,N), Richiesta Prenotazioni (1,1)  |
+| UtenteLasciaFeedback         | Relazione che dice che ogni utente può lasciare uno o più feedback relativi alle corse da lui effettuate                                        | Utenti (1,N), Feedback (1,1)                |
+| CartaPagaTratta              | Relazione che dice che ogni utente, tramite la propria carta, deve pagare le tratte da lui effettuate                                           | Carta (1,N), Tratte Completate (1,1)        |
+| TrattaAvereFeedback          | Relazione che dice che ogni tratta completata può avere (non necessariamente) un solo feedback, che viene lasciato dagli utenti e dagli autisti | Tratte Completate (0,1), Feedback (1,1)     |
+|  AutistaAvereTurni | Ogni autista ha un proprio turno lavorativo, ad ogni turno lavorativo vengono assegnati uno o più autisti | Autisti (1,1), Turni (1,N) |                                                                                                                                                                              |                                             |
 
 ## Schemi
 
+### Schemi di relazione
+
+Le chiave primarie sono identificate in **grassetto**, mentre le chiavi secondarie (o esterne) sono identificate tramite la _sottolineatura_
+
+- Personale (**ID_Personale**, Nome, Cognome, NumeroTelefono, Email)
+- Autisti (**ID_Autista**, Stipendio, _NumeroPatente_, _Targa_, _ID_Turno)
+- Manutentori (**ID_Manutentore**, Qualifica)
+- Addetti Marketing (**ID_Addetto**, Ruolo)
+- ContattaPerGuasto (_ID_Manutentore_, _ID_Autista_)
+- Patente (**NumeroPatente**, DDS, Categoria)
+- Turni (**ID_Turno**, OrarioInizio, OrarioFine)
+- Veicoli (**Targa**, Marca, Modello, PostiDisponibili, _ID_Assicurazione_)
+- Assicurazione (**ID_Assicurazione**, DataDiScadenza, Tipo)
+- Offerte (**ID_Offerta**, PromoCode, InfoOfferta, _ID_Addetto_)
+- Utenti (**ID_Utente**, Nome, Cognome, Email, Abbonamento, PSW, _ID_Offerta_)
+- Carta (**NumeroCarta**, DataScadenza, CVV, _ID_Utente_)
+- Richiesta Prenotazione (**ID_Richiesta**, OrarioRichiesta, NumeroPasseggeri, PuntoRaccolta, PuntoRilascio, _ID_Utente_, _ID_Autista_)
+- Tratte Complete (**ID_Tratta**, Costo, _NumeroCarta_)
+- Tratte Rifiutate (**ID_Tratta**, Motivazione)
+- Feedback (**ID_Feedback**, Stelle, Commento, Data, _ID_Tratta_)
 ### Schema Logico
 
-Mettere schema ER logico derivato dallo schema Fisico normalizzato
+![[Schema-Logico.jpg|center]]
 
 #### Normalizzazione
 
-Aggiungere i 3 livelli di normalizzazione   
+Di seguito si discutono le forme normali dello schema logico:
 
+- **1NF**: tutti gli schemi di relazione nello schema logico sopra riportato sono in **1NF**, poiché tutti gli attributi sono semplici, ovvero contengono soltanto valori atomici indivisibili.
+- **2NF**: tutti gli schemi di relazione dello schema logico sono anche già in **2NF**, poiché sono già in **1NF** e nessun attributo presenta alcuna dipendenza parziale. Tutti gli attributi dipendono funzionalmente solo dalla chiave primaria della stessa tabella.
+- **3NF**: tutti gli schemi di relazione sono anche in **3NF** perché già in **2NF**, ed inoltre, tutti gli attributi delle tabelle dipendono funzionalmente e direttamente dalla chiave primaria, senza transitività.
 ### Schema Fisico
 
-Le entità padre si distinguono dalle entità figlio perchè sono rappresentate con il doppio cerchio.
+Abbiamo distinto le frecce che vanno dalle entità figlie a quelle padre mettendole in blu. 
 
-Lo schema risulta già normalizzato in 3NF, e di conseguenza già in 2NF e 1NF.
+Nelle entità, le chiavi secondarie sono indentificate con il pallino grigio, mentre quelle primarie sono identificate con il pallino nero.
 
-![[Schema-Fisico-Restyle.jpg|center]]
+![[Schema-Fisico.jpg|center]]
+
+#### Generalizzazione
+
+Una generalizzazione rappresenta un legame logico tra un’entità genitore e una o più entità figlie, in questo caso le entità genitore sono “Personale” e "Richiesta Prenotazione", ognuna con le rispettive entità figlie, che sono:
+
+1) **Personale**
+	1) Autisti
+	2) Addetti Marketing
+	3) Manutentori
+2) **Richiesta prenotazione**
+	1) Tratte completate
+	2) Tratte rifiutate
 
 
+Abbiamo tre metodi per rappresentare una generalizzazione a livello fisico:
+
+- Accorpamento del padre nelle entità figlie
+- Accorpamento delle entità figlie nel padre
+- Sostituzione della generalizzazione con relazioni
+
+Tra questi metodi abbiamo scelto il terzo in quanto da noi considerato il più adeguato. Infatti, il primo metodo avrebbe portato ad una ridondanza di relazioni. 
+
+Il secondo metodo necessita dell’aggiunta di un attributo nelle entità "Personale" e "Richiesta Prenotazioni", con il compito di specificare il ruolo del lavoratore (Es. Autisti = 1, Manutentori = 2, etc..), e il tipo di prenotazione (Es. Completata = 1 e Rifiutata = 2), in più si sarebbe dovuto scegliere se perdere informazioni (attributi) dei figli o inserire le informazioni nel padre, quindi aggiungere attributi dei figli al padre. La seconda scelta avrebbe portato ad una quantità non indifferente di valori NULL. 
