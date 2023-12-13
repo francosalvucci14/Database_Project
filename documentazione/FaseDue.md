@@ -146,6 +146,7 @@ Le chiave primarie sono identificate in **grassetto**, mentre le chiavi secondar
 - Tratte Complete (**ID_Tratta**, Costo, _NumeroCarta_)
 - Tratte Rifiutate (**ID_Tratta**, Motivazione)
 - Feedback (**ID_Feedback**, Stelle, Commento, Data, _ID_Tratta_)
+
 ### Schema Logico
 
 ![[Schema-Logico.jpg|center]]
