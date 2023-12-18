@@ -192,9 +192,7 @@ Il secondo metodo necessita dell’aggiunta di un attributo nelle entità "Perso
 #### Creazione delle tabelle
 
 ```SQL
-
 CREATE TABLE Personale(
-
 	ID int not null ,
 	Nome varchar(50) not null,
 	Cognome varchar(50) not null,
@@ -202,6 +200,13 @@ CREATE TABLE Personale(
 	NumeroDiTelefono int not null,
 	Email varchar(255),
 	PRIMARY KEY (ID)
+);
+
+CREATE TABLE AddettiMarketing (
+	ID_Addetto int not null,
+	Ruolo varchar(50),
+	PRIMARY KEY (ID_Addetto),
+	FOREIGN KEY (ID_Addetto) REFERENCES Personale(ID)
 );
 
 CREATE TABLE Patente (
@@ -215,7 +220,9 @@ CREATE TABLE Offerte (
 	ID_Offerta int not null ,
 	PromoCode int not null,
 	InfoOfferta varchar(50) not null,
-	PRIMARY KEY (ID_Offerta)
+	ID_Addetto int not null,
+	PRIMARY KEY (ID_Offerta),
+	FOREIGN KEY (ID_Addetto) REFERENCES AddettiMarketing(ID_Addetto)
 );
 
 CREATE TABLE Manutentori (
@@ -287,14 +294,6 @@ CREATE TABLE RichiestePrenotazioni (
 	FOREIGN KEY (ID_Autista) REFERENCES Autisti(ID_Autista)
 );
 
-CREATE TABLE Feedback (
-	ID_Feedback int not null ,
-	Stelle int not null,
-	Commento varchar(255) not null,
-	Data date not null,
-	PRIMARY KEY (ID_Feedback)
-);
-
 CREATE TABLE Carta (
 	NumeroCarta varchar(50) not null,
 	DataScadenza date not null,
@@ -311,6 +310,16 @@ CREATE TABLE TratteCompletate (
 	PRIMARY KEY (ID_TrattaC),
 	FOREIGN KEY (ID_TrattaC) REFERENCES RichiestePrenotazioni (ID_Richiesta),
 	FOREIGN KEY (NumeroCarta) REFERENCES Carta (NumeroCarta)
+);
+
+CREATE TABLE Feedback (
+	ID_Feedback int not null ,
+	Stelle int not null,
+	Commento varchar(255) not null,
+	Data date not null,
+	ID_TrattaCompletata int not null,
+	PRIMARY KEY (ID_Feedback),
+	FOREIGN KEY (ID_TrattaCompletata) REFERENCES TratteCompletate (ID_TrattaC)
 );
 
 CREATE TABLE TratteRifiutate (
