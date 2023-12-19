@@ -5,7 +5,7 @@ CREATE TABLE Personale(
 	Nome varchar(50) not null,
 	Cognome varchar(50) not null,
 	DDN date not null,
-	NumeroDiTelefono int not null,
+	NumeroDiTelefono varchar(50) not null,
 	Email varchar(255),
 	PRIMARY KEY (ID)
 );
