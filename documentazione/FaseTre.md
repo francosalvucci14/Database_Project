@@ -210,7 +210,7 @@ CREATE TABLE AddettiMarketing (
 );
 
 CREATE TABLE Patente (
-	NumeroPatente int not null,
+	NumeroPatente varchar(255) not null,
 	DDS date not null,
 	Categoria varchar(50),
 	PRIMARY KEY (NumeroPatente)
@@ -258,7 +258,7 @@ CREATE TABLE Turni (
 
 CREATE TABLE Autisti (
 	ID_Autista int not null ,
-	NumeroPatente int not null,
+	NumeroPatente varchar(255) not null,
 	Turno int not null,
 	Targa varchar(50) not null,
 	Stipendio int not null,
