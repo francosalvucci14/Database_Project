@@ -314,8 +314,10 @@ CREATE TABLE TratteCompletate (
 
 CREATE TABLE Feedback (
 	ID_Feedback int not null ,
-	Stelle int not null,
-	Commento varchar(255) not null,
+	StelleUtente int not null,
+	CommentoUtente varchar(255) not null,
+	StelleAutista int not null,
+	CommentoAutista varchar(255) not null,
 	Data date not null,
 	ID_TrattaCompletata int not null,
 	PRIMARY KEY (ID_Feedback),
