@@ -325,7 +325,8 @@ unique_Carta = ["''"]
 values_carta = []
 
 for i in range(10000):
-    random_id = str(i)
+    #random_id = str(i)
+    random_id = str(random.randint(4,5))+"".join(str(random.randint(0,9)) for i in range(15))
     data_scadenza = genRandomCardDate()
     cvv = "".join(str(random.randint(0,9)) for i in range(3))
     utente = unique_Utenti[i]
@@ -354,7 +355,7 @@ for i in range(10000):
     random_id = str(i)
     passeggeri = str(random.randint(1,12))
     utente = random.choice(unique_Utenti)
-    id_carta_utente.append(utente)
+    id_carta_utente.append(utente)  
     autista = random.choice(unique_Autisti)
     data = genRandomRequestDate()
     orario = random.choice(ora)
