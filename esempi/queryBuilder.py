@@ -94,7 +94,7 @@ NUMBERS = "0123456789"
 ALL_SYMBOLS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 # random_name = ""
 f = open("1.txt", "w+")
-f.write("---------------Inizio Inserimento Personale---------------\n")
+print("--------------- Inizio Inserimento Personale\n")
 random_id = ""
 unique_Personale = ["''"]
 
@@ -114,7 +114,7 @@ f.write(
     "INSERT INTO Personale (ID,Nome,Cognome,DDN,NumeroDiTelefono,Email) VALUES" + ",\n".join(values) + ";"
 )    
 f.write("\n")
-f.write("---------------Fine Inserimento Personale---------------\n")
+print("--------------- Fine Inserimento Personale\n")
 f.close()
 
 print("1.txt Done")
@@ -123,7 +123,7 @@ print("Inizio Creazione 2.txt")
 
 f = open("2.txt","w+")
 
-f.write("---------------Inizio Inserimento Addetti Marketing---------------\n")
+print("--------------- Inizio Inserimento Addetti Marketing\n")
 # parte addetti marketing
 unique_AddMark = ["''"]
 
@@ -142,9 +142,9 @@ f.write(
 )
 f.write("\n")
 # fine parte addetti marketing
-f.write("---------------Fine Inserimento Addetti Marketing---------------\n")
+print("--------------- Fine Inserimento Addetti Marketing\n")
 f.write("\n")
-f.write("---------------Inizio Inserimento Patente---------------\n")
+print("--------------- Inizio Inserimento Patente\n")
 
 patenti = ["B","BE","B96"]
 unique_Patente = ["''"]
@@ -162,9 +162,9 @@ f.write(
     "INSERT INTO Patente (NumeroPatente,DDS,Categoria) VALUES "+",\n".join(values_patenti)+";"
 )
 f.write("\n")
-f.write("---------------Fine Inserimento Patente---------------\n")
+print("--------------- Fine Inserimento Patente\n")
 f.write("\n")
-f.write("---------------Inizio Inserimento Turni---------------\n")
+print("--------------- Inizio Inserimento Turni\n")
 
 unique_Turno = ["''"]
 ora_inizio = ['9','10','11','14','15','16']
@@ -183,9 +183,9 @@ f.write(
     "INSERT INTO Turni (ID_Turno,OrarioInizio,OrarioFine) VALUES "+",\n".join(values_turni)+";"
 )
 f.write("\n")
-f.write("---------------Fine Inserimento Turni---------------\n")
+print("--------------- Fine Inserimento Turni\n")
 f.write("\n")
-f.write("---------------Inizio Inserimento Assicurazione---------------\n")
+print("--------------- Inizio Inserimento Assicurazione\n")
 
 unique_Assicurazione = ["''"]
 values_assicurazione = []
@@ -201,9 +201,9 @@ f.write(
     "INSERT INTO Assicurazione (ID_Assicurazione,DataScadenza,Tipo) VALUES "+",\n".join(values_assicurazione)+";"
 )
 f.write("\n")
-f.write("---------------Fine Inserimento Assicurazione---------------\n")
+print("--------------- Fine Inserimento Assicurazione\n")
 f.write("\n")
-f.write("---------------Inizio Inserimento Veicoli---------------\n")
+print("--------------- Inizio Inserimento Veicoli\n")
 unique_Veicolo = ["''"]
 values_veicolo = []
 l_marca = ["Fiat","BMW","Audi","Range Rover","Seat"]
@@ -216,12 +216,12 @@ for i in range(2901):
     values_veicolo.append(query)
 
 f.write(
-    "INSERT INTO Veicolo (Targa,Marca,Modello,PostiDisponibili,Assicurazione) VALUES "+",\n".join(values_veicolo)+";"
+    "INSERT INTO Veicoli (Targa,Marca,Modello,PostiDisponibili,Assicurazione) VALUES "+",\n".join(values_veicolo)+";"
 )
 f.write("\n")
-f.write("---------------Fine Inserimento Veicoli---------------\n")
+print("--------------- Fine Inserimento Veicoli\n")
 f.write("\n")
-f.write("---------------Inizio Inserimento Autisti---------------\n")
+print("--------------- Inizio Inserimento Autisti\n")
 
 unique_Autisti = ["''"]
 values_autisti = []
@@ -238,9 +238,9 @@ f.write(
     "INSERT INTO Autisti (ID_Autista,NumeroPatente,Turno,Targa,Stipendio) VALUES "+",\n".join(values_autisti)+";"
 )
 f.write("\n")
-f.write("---------------Fine Inserimento Autisti---------------\n")
+print("--------------- Fine Inserimento Autisti\n")
 f.write("\n")
-f.write("---------------Inizio Inserimento Manutentori---------------\n")
+print("--------------- Inizio Inserimento Manutentori\n")
 
 unique_Manutentori = ["''"]
 values_manutentori = []
@@ -255,9 +255,9 @@ f.write(
     "INSERT INTO Manutentori (ID_Manutentore,Qualifica) VALUES "+",\n".join(values_manutentori)+";"
 )
 f.write("\n")
-f.write("---------------Fine Inserimento Manutentori---------------\n")
+print("--------------- Fine Inserimento Manutentori\n")
 f.write("\n")
-f.write("---------------Inizio Inserimento ContattaPerGuasto---------------\n")
+print("--------------- Inizio Inserimento ContattaPerGuasto\n")
 
 unique_Contatto = ["''"]
 values_contatto = []
@@ -273,7 +273,7 @@ f.write(
     "INSERT INTO ContattaPerGuasto (ID_Manutentore,ID_Autista,Motivo) VALUES "+",\n".join(values_contatto)+";"
 )
 f.write("\n")
-f.write("---------------Fine Inserimento ContattaPerGuasto---------------\n")
+print("--------------- Fine Inserimento ContattaPerGuasto\n")
 
 print("2.txt Done")
 f.close()
@@ -281,7 +281,7 @@ f.close()
 print("Inizio Creazione 3.txt")
 f = open("3.txt","w+")
 
-f.write("---------------Inizio Inserimento Offerte---------------\n")
+f.write("--------------- Inizio Inserimento Offerte\n")
 unique_Offerta = ["''"]
 offerta = ["Sconto 10%","Sconto 15%","Sconto 20%","Credito 5€","Credito 10€"]
 values_offerta = []
@@ -296,9 +296,9 @@ f.write(
     "INSERT INTO Offerta (ID_Offerta,PromoCode,InfoOfferta,ID_Addetto) VALUES "+",\n".join(values_offerta)+";"
 )
 f.write("\n")
-f.write("---------------Fine Inserimento Offerte---------------\n")
+print("--------------- Fine Inserimento Offerte\n")
 f.write("\n")
-f.write("---------------Inizio Inserimento Utenti---------------\n")
+print("--------------- Inizio Inserimento Utenti\n")
 
 unique_Utenti = ["''"]
 values_utenti = []
@@ -317,9 +317,9 @@ f.write(
     "INSERT INTO Utenti (ID_Utente,Nome,Cognome,Email,Password,ID_Offerta,Abbonamento) VALUES "+",\n".join(values_utenti)+";"
 )
 f.write("\n")
-f.write("---------------Fine Inserimento Utenti---------------\n")
+print("--------------- Fine Inserimento Utenti\n")
 f.write("\n")
-f.write("---------------Inizio Inserimento Carte---------------\n")
+print("--------------- Inizio Inserimento Carte\n")
 
 unique_Carta = ["''"]
 values_carta = []
@@ -335,36 +335,40 @@ for i in range(10000):
 f.write(
     "INSERT INTO Carta (NumeroCarta,DataScandenza,CVV,ID_Utente) VALUES "+",\n".join(values_carta)+";"
 )
-f.write("---------------Fine Inserimento Carte---------------\n")
+print("--------------- Fine Inserimento Carte\n")
 print("3.txt Done")
 f.close()
 print("Inizio creazione 4.txt")
 f = open("4.txt","w+")
 
-f.write("---------------Inizio Inserimento RichiestaPrenotazioni---------------\n")
+print("--------------- Inizio Inserimento RichiestaPrenotazioni\n")
 
 unique_RichPren = ["''"]
 values_ricpren = []
 raccolta = ["Anagnina","Termini","Centocelle","Eur","Tor Vergata","Colosseo"]
 rilascio = ["Finocchio","Garbatella","Ostia","San Lorenzo","Primavalle","San Basilio"]
-data = []
+date = []
+ora = ['9','10','11','14','15','16','20','21','22']
+id_carta_utente = []
 for i in range(10000):
     random_id = str(i)
     passeggeri = str(random.randint(1,12))
     utente = random.choice(unique_Utenti)
+    id_carta_utente.append(utente)
     autista = random.choice(unique_Autisti)
-    orario = genRandomRequestDate()
-    query = "('"+ random_id+ "','"+ str(random.choice(raccolta))+ "','"+ str(random.choice(rilascio))+ "','"+str(orario)+"','"+str(passeggeri)+"','"+str(utente)+"','"+str(autista)+"')"
+    data = genRandomRequestDate()
+    orario = random.choice(ora)
+    query = "('"+ random_id+ "','"+ str(random.choice(raccolta))+ "','"+ str(random.choice(rilascio))+ "','"+str(data)+"','"+str(orario)+"','"+str(passeggeri)+"','"+str(utente)+"','"+str(autista)+"')"
     unique_RichPren.append(random_id)
     values_ricpren.append(query)
-    data.append(orario)
+    date.append(data)
 f.write(
-    "INSERT INTO RichiestePrenotazioni (ID_Richiesta,PuntoDiRaccolta,PuntoDiRilascio,OrarioRichiesta,NumeroPaseggeri,ID_Utente,ID_Autista) VALUES "+",\n".join(values_ricpren)+";"
+    "INSERT INTO RichiestePrenotazioni (ID_Richiesta,PuntoDiRaccolta,PuntoDiRilascio,DataRichiesta,OrarioRichiesta,NumeroPasseggeri,ID_Utente,ID_Autista) VALUES "+",\n".join(values_ricpren)+";"
 )
 f.write("\n")
-f.write("---------------Fine Inserimento RichiestaPrenotazioni---------------\n")
+print("--------------- Fine Inserimento RichiestaPrenotazioni\n")
 f.write("\n")
-f.write("---------------Inizio Inserimento TratteCompletate---------------\n")
+print("--------------- Inizio Inserimento TratteCompletate\n")
 
 unique_TrattaC = ["''"]
 values_trattac = []
@@ -372,7 +376,8 @@ costo = ["25€","65€","115€","35€","50€"]
 for i in range(7000):
     random_id = unique_RichPren[i]
     costi = random.choice(costo)
-    numcarta = random.choice(unique_Carta)
+    #numcarta = random.choice(unique_Carta)
+    numcarta = id_carta_utente[i]
     query = "('"+ random_id+ "','"+ str(costi)+ "','"+ str(numcarta)+ "')"
     unique_TrattaC.append(random_id)
     values_trattac.append(query)
@@ -380,9 +385,9 @@ f.write(
     "INSERT INTO TratteCompletate (ID_TrattaC,Costo,NumeroCarta) VALUES "+",\n".join(values_trattac)+";"
 )
 f.write("\n")
-f.write("---------------Fine Inserimento TratteCompletate---------------\n")
+print("--------------- Fine Inserimento TratteCompletate\n")
 f.write("\n")
-f.write("---------------Inizio Inserimento Feedback---------------\n")
+print("--------------- Inizio Inserimento Feedback\n")
 
 unique_Feed = ["''"]
 values_feed = []
@@ -414,7 +419,7 @@ for i in range(7000):
     # Ottieni il valore corrispondente alla chiave casuale
     commento_aut = str(feedback_autisti[stelle_random_aut])
     random_trattac = random.choice(unique_TrattaC)
-    query = "('"+ random_id+ "','"+ str(stelle_random_ut)+ "','"+ str(commento_ut)+ "','"+str(stelle_random_aut)+"','"+str(commento_aut)+"','"+str(data[i])+"','"+str(random_trattac)+"')"
+    query = "('"+ random_id+ "','"+ str(stelle_random_ut)+ "','"+ str(commento_ut)+ "','"+str(stelle_random_aut)+"','"+str(commento_aut)+"','"+str(date[i])+"','"+str(random_trattac)+"')"
 
     unique_Feed.append(random_id)
     values_feed.append(query)
@@ -423,9 +428,9 @@ f.write(
     "INSERT INTO Feedback (ID_Feedback,StelleUtente,CommentoUtente,StelleAutista,CommentoAutista,Data,ID_TrattaCompletata) VALUES "+",\n".join(values_feed)+";"
 )
 f.write("\n")
-f.write("---------------Fine Inserimento Feedback---------------\n")
+print("--------------- Fine Inserimento Feedback\n")
 f.write("\n")
-f.write("---------------Inizio Inserimento TratteRifiutate---------------\n")
+print("--------------- Inizio Inserimento TratteRifiutate\n")
 
 unique_TrattaR = ["''"]
 values_trattar = []
@@ -440,6 +445,6 @@ f.write(
     "INSERT INTO TratteRifiutate (ID_TrattaR,Motivazione) VALUES "+",\n".join(values_trattar)+";"
 )
 f.write("\n")
-f.write("---------------Fine Inserimento TratteRifiutate---------------\n")
+print("--------------- Fine Inserimento TratteRifiutate\n")
 print("4.txt Done")
 f.close()

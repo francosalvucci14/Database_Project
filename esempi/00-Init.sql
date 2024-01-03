@@ -18,7 +18,7 @@ CREATE TABLE AddettiMarketing (
 );
 
 CREATE TABLE Patente (
-	NumeroPatente varchar(255) not null,
+	NumeroPatente varchar(50) not null,
 	DDS date not null,
 	Categoria varchar(50),
 	PRIMARY KEY (NumeroPatente)
@@ -61,7 +61,7 @@ CREATE TABLE Turni (
 );
 CREATE TABLE Autisti (
 	ID_Autista int not null ,
-	NumeroPatente varchar(255) not null,
+	NumeroPatente varchar(50) not null,
 	Turno int not null,
 	Targa varchar(50) not null,
 	Stipendio int not null,
@@ -144,3 +144,5 @@ CREATE TABLE ContattaPerGuasto (
 	FOREIGN KEY (ID_Manutentore) REFERENCES Manutentori (ID_Manutentore),
 	FOREIGN KEY (ID_Autista) REFERENCES Autisti (ID_Autista)
 );
+
+
