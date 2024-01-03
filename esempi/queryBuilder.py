@@ -44,10 +44,7 @@ def genRandomRequestDate():
     return random_date
 
 def generateEmail(name, surname):
-    # dummy = Faker("it_IT")
-
-    # name = dummy.first_name_male()
-    # surname = dummy.last_name()
+    
     domain = fake.domain_name()
 
     return f"{name}.{surname}@{domain}"
@@ -92,7 +89,6 @@ print("Inizio Creazione 1.txt")
 SYMBOLS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 NUMBERS = "0123456789"
 ALL_SYMBOLS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-# random_name = ""
 f = open("1.txt", "w+")
 print("--------------- Inizio Inserimento Personale\n")
 random_id = ""
@@ -104,7 +100,7 @@ for i in range(6000):
     surname = fake.last_name()
     name = fake.first_name()
     email = str(generateEmail(name, surname))
-    #random_id = "".join(random.choice(NUMBERS) for i in range(3))
+
     random_id = str(i)
     unique_Personale.append(random_id)
     
@@ -124,16 +120,16 @@ print("Inizio Creazione 2.txt")
 f = open("2.txt","w+")
 
 print("--------------- Inizio Inserimento Addetti Marketing\n")
-# parte addetti marketing
+
 unique_AddMark = ["''"]
 
 ruoli = ["Responsabile", "Analista", "Coordinatore"]
 values_marketing = []
 for i in range(3000):
-    # random_name = "".join(random.choice(NUMBERS) for i in range(3))
+   
     random_ruolo = random.choice(ruoli)
     random_id = unique_Personale[i]
-    # print(random_name, end="\n")
+    
     query = "('"+ random_id+ "','"+ random_ruolo+ "')"
     unique_AddMark.append(random_id)
     values_marketing.append(query)
@@ -141,7 +137,7 @@ f.write(
     "INSERT INTO AddettiMarketing (ID_Addetto,Ruolo) VALUES"+",\n".join(values_marketing)+";"
 )
 f.write("\n")
-# fine parte addetti marketing
+
 print("--------------- Fine Inserimento Addetti Marketing\n")
 f.write("\n")
 print("--------------- Inizio Inserimento Patente\n")
@@ -324,19 +320,25 @@ print("--------------- Inizio Inserimento Carte\n")
 unique_Carta = ["''"]
 values_carta = []
 
+utente_carta = []
 for i in range(10000):
-    #random_id = str(i)
-    random_id = str(random.randint(4,5))+"".join(str(random.randint(0,9)) for i in range(15))
+    
+    numero_Carta = str(random.randint(4,5))+"".join(str(random.randint(0,9)) for i in range(3))+" "+"".join(str(random.randint(0,9)) for i in range(4))+" "+"".join(str(random.randint(0,9)) for i in range(4))+" "+"".join(str(random.randint(0,9)) for i in range(4))
     data_scadenza = genRandomCardDate()
     cvv = "".join(str(random.randint(0,9)) for i in range(3))
     utente = unique_Utenti[i]
-    query = "('"+ random_id+ "','"+ str(data_scadenza)+ "','"+ cvv+ "','"+utente+"')"
-    unique_Carta.append(random_id)
+    query = "('"+ numero_Carta+ "','"+ str(data_scadenza)+ "','"+ cvv+ "','"+utente+"')"
+    unique_Carta.append(numero_Carta)
     values_carta.append(query)
+    
+    utente_carta.append((utente,numero_Carta))
 f.write(
     "INSERT INTO Carta (NumeroCarta,DataScandenza,CVV,ID_Utente) VALUES "+",\n".join(values_carta)+";"
 )
 print("--------------- Fine Inserimento Carte\n")
+
+print(utente_carta)
+
 print("3.txt Done")
 f.close()
 print("Inizio creazione 4.txt")
@@ -354,8 +356,9 @@ id_carta_utente = []
 for i in range(10000):
     random_id = str(i)
     passeggeri = str(random.randint(1,12))
-    utente = random.choice(unique_Utenti)
-    id_carta_utente.append(utente)  
+    
+    utente = utente_carta[i][0]
+    
     autista = random.choice(unique_Autisti)
     data = genRandomRequestDate()
     orario = random.choice(ora)
@@ -377,8 +380,8 @@ costo = ["25€","65€","115€","35€","50€"]
 for i in range(7000):
     random_id = unique_RichPren[i]
     costi = random.choice(costo)
-    #numcarta = random.choice(unique_Carta)
-    numcarta = id_carta_utente[i]
+    
+    numcarta = utente_carta[i][1]
     query = "('"+ random_id+ "','"+ str(costi)+ "','"+ str(numcarta)+ "')"
     unique_TrattaC.append(random_id)
     values_trattac.append(query)
@@ -410,14 +413,14 @@ feedback_autisti = {
 
 for i in range(7000):
     random_id = str(i)
-    # Ottieni una chiave casuale
+    
     stelle_random_ut = random.choice(list(feedback_utente.keys()))
-    # Ottieni il valore corrispondente alla chiave casuale
+    
     commento_ut = str(feedback_utente[stelle_random_ut])
 
-    #stelle_random_aut = random.choice(list(feedback_autisti.keys()))
+    
     stelle_random_aut = checkStelleUtenti(stelle_random_ut)
-    # Ottieni il valore corrispondente alla chiave casuale
+    
     commento_aut = str(feedback_autisti[stelle_random_aut])
     random_trattac = random.choice(unique_TrattaC)
     query = "('"+ random_id+ "','"+ str(stelle_random_ut)+ "','"+ str(commento_ut)+ "','"+str(stelle_random_aut)+"','"+str(commento_aut)+"','"+str(date[i])+"','"+str(random_trattac)+"')"
