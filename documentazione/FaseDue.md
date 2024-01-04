@@ -8,13 +8,12 @@
 - Schemi
 
 # Progetto VRoomA
-## Componenti del gruppo  
-
+## Componenti del gruppo
 | Nome | Cognome | Matricola | Mail |
-| -------- | -------- | --------- | ------------------------------------- |
+| ---- | ---- | ---- | ---- |
 | Leonardo | Ascenzi | 0310858 | leonardo.ascenzi@students.uniroma2.eu |
 | Franco | Salvucci | 0306604 | franco.salvucci@students.uniroma2.eu |
-| Nicolò | Spadoni | 0311175 | nicolo.spadoni@students.uniroma2.eu | | | | |
+| Nicolò | Spadoni | 0311175 | nicolo.spadoni@students.uniroma2.eu |
 ## Motivazioni
 
 Il database che stiamo realizzando è incentrato all'implementazione di un software dedicato all'organizzazione di viaggi tramite taxi.
