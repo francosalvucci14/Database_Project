@@ -21,7 +21,7 @@ def genRandomInsuranceDate():
     end_date = datetime.date(2025, 1, 1)
     num_days = (end_date - start_date).days
     rand_days = random.randint(1, num_days)
-    random = start_date + datetime.timedelta(days=rand_days)
+    random_date = start_date + datetime.timedelta(days=rand_days)
 
     return random_date
 
