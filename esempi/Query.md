@@ -1,0 +1,9 @@
+- Visualizza tutte i viaggi effettutati in un mese
+	- SELECT  * FROM TratteCompletate WHERE MONTH(Data) = 'mese';
+- Visualizza la media delle valutazioni dei conducenti
+	- SELECT AVG(Feedback) FROM TratteCompletate;
+- Recupera i viaggi effettuati durante le ore di punta
+	- SELECT * FROM RichiestaPrenotazioni WHERE HOUR(OrarioRichiesta) BETWEEN 7 AND 9 OR HOUR(OrarioRichiesta) BETWEEN 17 AND 19;
+- Visualizza i viaggi con feedback positivi
+	- SELECT * FROM TratteCompletate WHERE Feedback LIKE '....';
+- 
