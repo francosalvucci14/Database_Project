@@ -6,7 +6,7 @@ import datetime
 
 fake = Faker("it_IT")
 
-
+#Funzione Rand.DDN
 def genRandomDate():
     start_date = datetime.date(1975, 1, 1)
     end_date = datetime.date(2001, 12, 30)
@@ -16,6 +16,7 @@ def genRandomDate():
 
     return random_date
 
+#Funzione Rand.DA
 def genRandomInsuranceDate():
     start_date = datetime.date(2023, 1, 1)
     end_date = datetime.date(2025, 1, 1)
@@ -25,6 +26,7 @@ def genRandomInsuranceDate():
 
     return random_date
 
+#Funzione Rand.CD
 def genRandomCardDate():
     start_date = datetime.date(2027, 1, 1)
     end_date = datetime.date(2034, 12, 30)
@@ -34,6 +36,7 @@ def genRandomCardDate():
 
     return random_date
 
+#Funzione Rand.PD
 def genRandomLicenceDate():
     start_date = datetime.date(2025, 1, 1)
     end_date = datetime.date(2035, 12, 30)
@@ -43,6 +46,7 @@ def genRandomLicenceDate():
 
     return random_date
 
+#Funzione Rand.DDR
 def genRandomRequestDate():
     start_date = datetime.date(2022, 1, 1)
     end_date = datetime.date(2023, 12, 30)
@@ -52,12 +56,14 @@ def genRandomRequestDate():
 
     return random_date
 
+#Funzione Rand.Mail
 def generateEmail(name, surname):
     
     domain = fake.domain_name()
 
     return f"{name}.{surname}@{domain}"
 
+#Funzione Rand.T
 def generateTarga():
     SYMBOLS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     NUMBERS = "0123456789"
@@ -67,16 +73,17 @@ def generateTarga():
 
     return start+mezzo+fine
 
+#Funzione Rand.PSW
 def generatePsw():
     ALL = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
     psw = "".join(random.choice(ALL) for i in range(9))
     return psw
-
+#Funzione Rand.CN
 def generateCardNumber():
     NUMBERS = "0123456789"
     number = "".join(random.choice(NUMBERS) for i in range(16))
     return number
-
+#Funzione Rand.Star
 def checkStelleUtenti(stelle):
     if stelle == 1:
         return 1
@@ -197,7 +204,7 @@ values_assicurazione = []
 tipo_assicurazione=["Kasko","Furto","Incendio","Base"]
 for i in range(2901):
     random_id = str(i)
-    data = genRandomDate()
+    data = genRandomInsuranceDate()
     tipo = random.choice(tipo_assicurazione)
     query = "('"+ str(random_id)+ "','"+ str(data)+ "','"+ str(tipo)+ "')"
     unique_Assicurazione.append(random_id)
