@@ -6,4 +6,3 @@
 	- SELECT * FROM RichiestaPrenotazioni WHERE HOUR(OrarioRichiesta) BETWEEN 7 AND 9 OR HOUR(OrarioRichiesta) BETWEEN 17 AND 19;
 - Visualizza i viaggi con feedback positivi
 	- SELECT * FROM TratteCompletate WHERE Feedback LIKE '....';
-- 
