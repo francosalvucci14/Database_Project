@@ -11906,7 +11906,7 @@ INSERT INTO Patente (NumeroPatente,DDS,Categoria) VALUES ('XH00HGXCA','2027-04-1
 INSERT INTO Turni (ID_Turno,OrarioInizio,OrarioFine) VALUES ('6','9','16'),
 ('3','16','15'),
 ('8','10','14'),
-('6','10','22'),
+('4','10','22'),
 ('5','15','22');
 
 INSERT INTO Assicurazioni (ID_Assicurazione,DataScadenza,Tipo) VALUES ('0','2023-08-17','Incendio'),
@@ -20817,7 +20817,6 @@ INSERT INTO ContattaPerGuasto (ID_Manutentore,ID_Autista,Motivo) VALUES ('5901',
 ('5953','4374','Gomma Bucata'),
 ('5948','5040','Radiatore bucato');
 
---------------- Inizio Inserimento Offerte
 INSERT INTO Offerta (ID_Offerta,PromoCode,InfoOfferta,ID_Addetto) VALUES ('0','655239','Credito 10€','2556'),
 ('1','358843','Credito 5€','2466'),
 ('2','712925','Sconto 15%','2990'),
