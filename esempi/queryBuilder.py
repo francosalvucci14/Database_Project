@@ -210,7 +210,7 @@ for i in range(2901):
     unique_Assicurazione.append(random_id)
     values_assicurazione.append(query)
 f.write(
-    "INSERT INTO Assicurazione (ID_Assicurazione,DataScadenza,Tipo) VALUES "+",\n".join(values_assicurazione)+";"
+    "INSERT INTO Assicurazioni (ID_Assicurazione,DataScadenza,Tipo) VALUES "+",\n".join(values_assicurazione)+";"
 )
 f.write("\n")
 print("--------------- Fine Inserimento Assicurazione\n")
@@ -228,7 +228,7 @@ for i in range(2901):
     values_veicolo.append(query)
 
 f.write(
-    "INSERT INTO Veicoli (Targa,Marca,Modello,PostiDisponibili,Assicurazione) VALUES "+",\n".join(values_veicolo)+";"
+    "INSERT INTO Veicoli (Targa,Marca,Modello,PostiDisponibili,ID_Assicurazione) VALUES "+",\n".join(values_veicolo)+";"
 )
 f.write("\n")
 print("--------------- Fine Inserimento Veicoli\n")
