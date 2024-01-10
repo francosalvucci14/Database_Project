@@ -108,7 +108,7 @@ ALL_SYMBOLS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 f = open("1.txt", "w+")
 print("--------------- Inizio Inserimento Personale\n")
 random_id = ""
-unique_Personale = ["''"]
+unique_Personale = []
 
 values = []
 for i in range(6000):
@@ -137,14 +137,14 @@ f = open("2.txt","w+")
 
 print("--------------- Inizio Inserimento Addetti Marketing\n")
 
-unique_AddMark = ["''"]
+unique_AddMark = []
 
 ruoli = ["Responsabile", "Analista", "Coordinatore"]
 values_marketing = []
-for i in range(3000):
+for i in range(100):
    
     random_ruolo = random.choice(ruoli)
-    random_id = unique_Personale[i]
+    random_id = unique_Personale[5900+i]
     
     query = "('"+ random_id+ "','"+ random_ruolo+ "')"
     unique_AddMark.append(random_id)
@@ -159,9 +159,9 @@ f.write("\n")
 print("--------------- Inizio Inserimento Patente\n")
 
 patenti = ["B","BE","B96"]
-unique_Patente = ["''"]
+unique_Patente = []
 values_patenti = []
-for i in range(2900):
+for i in range(3000):
     data = genRandomLicenceDate()
     random_numpatente = "".join(random.choice(ALL_SYMBOLS) for i in range(9))
     categoria = "".join(random.choice(patenti) for i in range(1))
@@ -178,13 +178,14 @@ print("--------------- Fine Inserimento Patente\n")
 f.write("\n")
 print("--------------- Inizio Inserimento Turni\n")
 
-unique_Turno = ["''"]
-ora_inizio = ['9','10','11','14','15','16']
-ora_fine = ['14','15','16','20','21','22']
+unique_Turno = []
+ora_inizio = ['9','10','11','14']
+ora_fine = ['17','20','21','22']
 values_turni = []
 for i in range(5):
     
-    random_turno = "".join(random.choice(NUMBERS) for i in range(1))
+    #random_turno = "".join(random.choice(NUMBERS) for i in range(1))
+    random_turno = str(i)
     inizio = "".join(random.choice(ora_inizio))
     fine = "".join(random.choice(ora_fine))
     unique_Turno.append(random_turno)
@@ -199,10 +200,10 @@ print("--------------- Fine Inserimento Turni\n")
 f.write("\n")
 print("--------------- Inizio Inserimento Assicurazione\n")
 
-unique_Assicurazione = ["''"]
+unique_Assicurazione = []
 values_assicurazione = []
 tipo_assicurazione=["Kasko","Furto","Incendio","Base"]
-for i in range(2901):
+for i in range(3000):
     random_id = str(i)
     data = genRandomInsuranceDate()
     tipo = random.choice(tipo_assicurazione)
@@ -216,11 +217,11 @@ f.write("\n")
 print("--------------- Fine Inserimento Assicurazione\n")
 f.write("\n")
 print("--------------- Inizio Inserimento Veicoli\n")
-unique_Veicolo = ["''"]
+unique_Veicolo = []
 values_veicolo = []
 l_marca = ["Fiat","BMW","Audi","Range Rover","Seat"]
 l_modello = ["Punto","Panda","Q8","RS7"]
-for i in range(2901):
+for i in range(3000):
     random_targa = generateTarga()
     random_assicurazione = unique_Assicurazione[i]
     query = "('"+ str(random_targa)+ "','"+ str(random.choice(l_marca))+ "','"+ str(random.choice(l_modello))+ "','"+str(random.randint(1,12))+"','"+str(random_assicurazione)+"')"
@@ -228,18 +229,18 @@ for i in range(2901):
     values_veicolo.append(query)
 
 f.write(
-    "INSERT INTO Veicoli (Targa,Marca,Modello,PostiDisponibili,Assicurazione) VALUES "+",\n".join(values_veicolo)+";"
+    "INSERT INTO Veicoli (Targa,Marca,Modello,PostiDisponibili,ID_Assicurazione) VALUES "+",\n".join(values_veicolo)+";"
 )
 f.write("\n")
 print("--------------- Fine Inserimento Veicoli\n")
 f.write("\n")
 print("--------------- Inizio Inserimento Autisti\n")
 
-unique_Autisti = ["''"]
+unique_Autisti = []
 values_autisti = []
-stipendio = ["1200","1500","1350"]
-for i in range(2901):
-    random_id = unique_Personale[2999+i]
+stipendio = ["1200","1100","900","800"]
+for i in range(3000):
+    random_id = unique_Personale[i]
     random_patente = unique_Patente[i]
     random_Turno = random.choice(unique_Turno[1:])
     random_targa = random.choice(unique_Veicolo)
@@ -254,11 +255,11 @@ print("--------------- Fine Inserimento Autisti\n")
 f.write("\n")
 print("--------------- Inizio Inserimento Manutentori\n")
 
-unique_Manutentori = ["''"]
+unique_Manutentori = []
 values_manutentori = []
 qualifica = ["Gommista","Elettrauto","Meccanico","Carrozziere"]
-for i in range(100):
-    random_id = unique_Personale[5899+i]
+for i in range(2900):
+    random_id = unique_Personale[3000+i]
     
     query = "('"+ random_id+ "','"+ random.choice(qualifica)+ "')"
     unique_Manutentori.append(random_id)
@@ -271,12 +272,13 @@ print("--------------- Fine Inserimento Manutentori\n")
 f.write("\n")
 print("--------------- Inizio Inserimento ContattaPerGuasto\n")
 
-unique_Contatto = ["''"]
+unique_Contatto = []
 values_contatto = []
-motivi = ["Gomma Bucata","Spia dell motore accesa","Radiatore bucato","Batteria scarica"]
-for i in range(100):
+motivi = ["Gomma Bucata","Spia dell motore accesa","Radiatore bucato","Batteria scarica","Problema con il FAP","Errore centralina","Specchietto rotto","Guarnizione della testata bruciata","Rottura degli ammortizzatori","Semiasse distrutto","Differenziale rotto","La macchina non parte","Cambio pasticche dei freni"]
+
+for i in range(500):
     random_manutentore = random.choice(unique_Manutentori)
-    random_autista = random.choice(unique_Autisti)
+    random_autista = random.choice(unique_Autisti[0:200])
 
     query = "('"+ random_manutentore+ "','"+ random_autista+ "','"+random.choice(motivi)+"')"
     unique_Contatto.append((random_manutentore,random_autista))
@@ -294,7 +296,7 @@ print("Inizio Creazione 3.txt")
 f = open("3.txt","w+")
 
 print("--------------- Inizio Inserimento Offerte\n")
-unique_Offerta = ["''"]
+unique_Offerta = []
 offerta = ["Sconto 10%","Sconto 15%","Sconto 20%","Credito 5€","Credito 10€"]
 values_offerta = []
 for i in range(15):
@@ -312,9 +314,9 @@ print("--------------- Fine Inserimento Offerte\n")
 f.write("\n")
 print("--------------- Inizio Inserimento Utenti\n")
 
-unique_Utenti = ["''"]
+unique_Utenti = []
 values_utenti = []
-abbonamento = ["Trimestrale","Semestrale","Annuale"]
+
 for i in range(10000):
     random_id = str(i)
     surname = fake.last_name()
@@ -322,18 +324,18 @@ for i in range(10000):
     email = str(generateEmail(name, surname))
     psw = generatePsw()
     id_off = random.choice(unique_Offerta)
-    query = "('"+ random_id+ "','"+ name+ "','"+ surname+ "','"+email+"','"+psw+"','"+id_off+"','"+random.choice(abbonamento)+"')"
+    query = "('"+ random_id+ "','"+ name+ "','"+ surname+ "','"+email+"','"+psw+"','"+id_off+"')"
     unique_Utenti.append(random_id)
     values_utenti.append(query)
 f.write(
-    "INSERT INTO Utenti (ID_Utente,Nome,Cognome,Email,Password,ID_Offerta,Abbonamento) VALUES "+",\n".join(values_utenti)+";"
+    "INSERT INTO Utenti (ID_Utente,Nome,Cognome,Email,Password,ID_Offerta) VALUES "+",\n".join(values_utenti)+";"
 )
 f.write("\n")
 print("--------------- Fine Inserimento Utenti\n")
 f.write("\n")
 print("--------------- Inizio Inserimento Carte\n")
 
-unique_Carta = ["''"]
+unique_Carta = []
 values_carta = []
 
 utente_carta = []
@@ -353,7 +355,6 @@ f.write(
 )
 print("--------------- Fine Inserimento Carte\n")
 
-print(utente_carta)
 
 print("3.txt Done")
 f.close()
@@ -362,19 +363,21 @@ f = open("4.txt","w+")
 
 print("--------------- Inizio Inserimento RichiestaPrenotazioni\n")
 
-unique_RichPren = ["''"]
+unique_RichPren = []
 values_ricpren = []
 raccolta = ["Anagnina","Termini","Centocelle","Eur","Tor Vergata","Colosseo"]
 rilascio = ["Finocchio","Garbatella","Ostia","San Lorenzo","Primavalle","San Basilio"]
 date = []
 ora = ['9','10','11','14','15','16','20','21','22']
 id_carta_utente = []
-for i in range(10000):
+for i in range(20000):
     random_id = str(i)
     passeggeri = str(random.randint(1,12))
     
-    utente = utente_carta[i][0]
-    
+    tupla = random.choice(utente_carta[0:5000])
+    #print(utente)
+    utente = tupla[0]
+    id_carta_utente.append(utente)
     autista = random.choice(unique_Autisti)
     data = genRandomRequestDate()
     orario = random.choice(ora)
@@ -390,14 +393,15 @@ print("--------------- Fine Inserimento RichiestaPrenotazioni\n")
 f.write("\n")
 print("--------------- Inizio Inserimento TratteCompletate\n")
 
-unique_TrattaC = ["''"]
+unique_TrattaC = []
 values_trattac = []
-costo = ["25€","65€","115€","35€","50€"]
-for i in range(7000):
+costo = ["25","65","115","35","50"]
+for i in range(15000):
     random_id = unique_RichPren[i]
     costi = random.choice(costo)
+    id = int(id_carta_utente[i])
     
-    numcarta = utente_carta[i][1]
+    numcarta = utente_carta[id][1]
     query = "('"+ random_id+ "','"+ str(costi)+ "','"+ str(numcarta)+ "')"
     unique_TrattaC.append(random_id)
     values_trattac.append(query)
@@ -409,54 +413,54 @@ print("--------------- Fine Inserimento TratteCompletate\n")
 f.write("\n")
 print("--------------- Inizio Inserimento Feedback\n")
 
-unique_Feed = ["''"]
+unique_Feed = []
 values_feed = []
 feedback_utente = {
                     1: ["Non lo prenderò mai più!","Esperienza orribile"],
-                    2: ["Non mi è piaciuto lo stile di guida","La prossima volta preferirei un'altro autista"],
+                    2: ["Non mi è piaciuto lo stile di guida","La prossima volta preferirei un\'altro autista"],
                     3: ["Nulla di particolare","Tutto nella norma"],
                     4: ["Veicolo molto pulito e comodo.","Esperienza normale"],
                     5: ["Autista veramente cordiale","Ottima esperienza, lo dirò a tutti"],
                    }
 
 feedback_autisti = {
-                    1: ["Utente scortese!","L'utente offende"],
-                    2: ["Utente ritardatario","Non rispetta l'autista"],
+                    1: ["Utente scortese!","L\'utente offende"],
+                    2: ["Utente ritardatario","Non rispetta l\'autista"],
                     3: ["Nulla di particolare","Utente ok"],
                     4: ["Utente rispettoso.","Utente gentile"],
                     5: ["Utente veramente genuino","Molto bravo e cortese"],
                    }
 
-for i in range(7000):
+for i in range(15000):
     random_id = str(i)
     
     stelle_random_ut = random.choice(list(feedback_utente.keys()))
     
     commento_ut = str(random.choice(feedback_utente[stelle_random_ut]))
 
-    
     stelle_random_aut = checkStelleUtenti(stelle_random_ut)
     
     commento_aut = str(random.choice(feedback_autisti[stelle_random_aut]))
     random_trattac = random.choice(unique_TrattaC)
-    query = "('"+ random_id+ "','"+ str(stelle_random_ut)+ "','"+ str(commento_ut)+ "','"+str(stelle_random_aut)+"','"+str(commento_aut)+"','"+str(date[i])+"','"+str(random_trattac)+"')"
+    query = "('"+ random_id+ "','"+ str(stelle_random_ut)+ "','"+ str(commento_ut)+ "','"+str(stelle_random_aut)+"','"+str(commento_aut)+"','"+str(random_trattac)+"')"
 
     unique_Feed.append(random_id)
     values_feed.append(query)
+    unique_TrattaC.remove(random_trattac)
 
 f.write(
-    "INSERT INTO Feedback (ID_Feedback,StelleUtente,CommentoUtente,StelleAutista,CommentoAutista,Data,ID_TrattaCompletata) VALUES "+",\n".join(values_feed)+";"
+    "INSERT INTO Feedback (ID_Feedback,StelleUtente,CommentoUtente,StelleAutista,CommentoAutista,ID_TrattaCompletata) VALUES "+",\n".join(values_feed)+";"
 )
 f.write("\n")
 print("--------------- Fine Inserimento Feedback\n")
 f.write("\n")
 print("--------------- Inizio Inserimento TratteRifiutate\n")
 
-unique_TrattaR = ["''"]
+unique_TrattaR = []
 values_trattar = []
 motivi = ["Problema generale","Indisponibilità al servizio","Troppo lontano"]
-for i in range(3000):
-    random_id = unique_RichPren[6999+i]
+for i in range(5000):
+    random_id = unique_RichPren[15000+i]
     motivo = random.choice(motivi)
     query = "('"+ random_id+ "','"+ str(motivo)+ "')"
     unique_TrattaR.append(random_id)
