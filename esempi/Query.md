@@ -96,4 +96,55 @@ JOIN Veicoli v ON a.Targa = v.Targa
 JOIN Turni t ON a.Turno = t.ID_Turno
 WHERE ID_Autista BETWEEN 50 AND 400;
 ```
-- 
+- Visualizza tutte le tratte completate che non hanno un feedback
+```SQL
+SELECT tc.* FROM TratteCompletate tc 
+WHERE tc.ID_TrattaC NOT IN 
+(
+	SELECT ID_TrattaCompletata FROM Feedback f
+);
+```
+- Visualizza tutte le richieste di prenotazioni effettuate da un singolo utente
+```SQL
+SELECT rp.* FROM RichiestePrenotazioni rp JOIN Utenti u
+ON rp.ID_Utente = u.ID_Utente 
+WHERE u.Nome = 'Carla' AND u.Congome = 'Raimondi'
+```
+- Visualizza la media delle stelle ottenute da un singolo autista
+```SQL
+SELECT p.Nome, p.Cognome, AVG(f.StelleUtente) AS MediaStelle FROM Feedback f JOIN TratteCompletate tc
+ON f.ID_TrattaCompletata = tc.ID_TrattaC
+JOIN RichiestePrenotazioni rp ON tc.ID_TrattaC = rp.ID_Richiesta
+JOIN Autisti a ON rp.ID_Autista = a.ID_Autista
+JOIN Personale p ON a.ID_Autista = p.ID
+WHERE rp.ID_Autista = "500"
+GROUP BY p.Nome, p.Cognome
+ORDER BY MediaStelle DESC
+```
+- Visualizza la spesa totale di un singolo utente
+```SQL
+SELECT u.Nome, u.Cognome, SUM(tc.Costo) AS SpesaTotale
+FROM TratteCompletate tc JOIN RichiestePrenotazioni rp
+ON tc.ID_TrattaC = rp.ID_Richiesta
+JOIN Utenti u ON rp.ID_Utente = u.ID_Utente
+WHERE u.ID_Utente = "1"
+GROUP BY u.Nome, u.Cognome
+ORDER BY SpesaTotale
+```
+- Visualizza il numero totale delle assicurazioni kasko
+```SQL
+SELECT COUNT(a.Tipo) AS TotaleKasko
+FROM Assicurazioni a
+WHERE a.Tipo = "Kasko"
+```
+- Visualizza tutti gli autisti che hanno una certa categoria di patente
+```SQL
+SELECT p.Nome, p.Cognome, pt.Categoria
+FROM Personale p JOIN Autisti a ON p.ID = a.ID_Autista
+JOIN Patente pt ON pt.NumeroPatente = a.NumeroPatente
+WHERE pt.Categoria = "B96"
+```
+- Visualizza il numero di utenti che hanno lasciato almeno 3 stelle di valutazione nei feedback
+```SQL
+
+```
