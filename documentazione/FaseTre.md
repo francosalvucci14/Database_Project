@@ -392,7 +392,7 @@ CREATE TRIGGER `ControllaInserimentiCarta` BEFORE INSERT ON `Carta` FOR EACH ROW
 	IF EXISTS (
 		SELECT 1
 		FROM Carta c
-		WHERE NumeroCarta = NEW.NumeroCarta AND ID_Utente = NEW.ID_Utente
+		WHERE NumeroCarta = NEW.NumeroCarta
 	) THEN
 
 	-- Se si, interrompi l'inserimento
@@ -1560,7 +1560,94 @@ WHERE A.ID_Autista NOT IN
 
 ![[query20.png|center|300]]
 
+- Visualizza il totale dei pagamenti relativi ad un determinato giorno
+
+```SQL
+SELECT SUM(tc.Costo) AS TotalePagamenti FROM TratteCompletate tc
+JOIN RichiestePrenotazioni rp ON tc.ID_TrattaC = rp.ID_Richiesta
+WHERE rp.DataRichiesta = "2023-06-05"
+```
+
+![[query21.png|center|200]]
+
+- Visualizza gli autisti con lo stipendio più alto
+
+```SQL
+SELECT *
+FROM Autisti
+WHERE Stipendio =
+(
+	SELECT MAX(Stipendio)
+	FROM Autisti
+);
+```
+
+![[query22.png|center|300]]
+
+- Trova gli autisti che hanno completato il minor numero di corse in un determinato giorno
+
+```SQL
+SELECT a.ID_Autista,p.Nome,p.Cognome, COUNT(*) AS NumeroCorseEffettuate
+FROM TratteCompletate tc 
+JOIN RichiestePrenotazioni rp ON tc.ID_TrattaC = rp.ID_Richiesta
+JOIN Autisti a ON rp.ID_Autista = a.ID_Autista
+JOIN Personale p ON a.ID_Autista = p.ID
+WHERE rp.DataRichiesta = "2023-06-05"
+GROUP BY a.ID_Autista, p.Nome, p.Cognome
+ORDER BY NumeroCorseEffettuate
+```
+
+![[query23.png|center|450]]
+
+- Visualizza tutti i dati di un determinato utente, comprese le carte a lui associate
+
+```SQL
+SELECT u.*, c.NumeroCarta, c.DataScadenza, c.CVV
+FROM Utenti u JOIN Carta c ON c.ID_Utente = u.ID_Utente
+WHERE Nome = "Geronimo" AND Cognome = "Lucarelli"
+```
+
+![[query24.png|center]]
+
+-  Visualizza tutti gli utenti che hanno almeno 2 carte associate
+
+```SQL
+SELECT u.ID_Utente, u.Nome, u.Cognome, COUNT(*) AS NumeroCarteAssociate
+FROM Utenti u JOIN Carta c ON c.ID_Utente = u.ID_Utente
+GROUP BY u.ID_Utente, u.Nome, u.Cognome
+HAVING NumeroCarteAssociate > 2
+ORDER BY NumeroCarteAssociate DESC
+```
+
+![[query25.png|center|450]]
 
 #### Ottimizzazione
 
 Di seguito mettere le query ottimizzate tramite index
+
+### Algebra Relazionale
+
+Query da fare in algebra relazionale:
+- Visualizza tutti i veicoli la cui assicurazione scadrà entro febbraio 2024
+- Visualizza tutti i dati di un determinato utente, comprese le carte a lui associate
+- Visualizza il totale dei pagamenti relativi ad un determinato giorno
+- Visualizza tutti gli autisti che hanno una certa categoria di patente
+- Visualizza il numero totale delle assicurazioni Kasko
+- Visualizza tutte le tratte completate che non hanno un feedback
+
+
+**_Visualizza il numero totale delle assicurazioni Kasko_**
+
+In algebra relazionale la query diventa
+$$\pi_{COUNT(Tipo)}​(\sigma_{Tipo='Kasko'}​(Assicurazioni))$$
+Questa espressione rappresenta la proiezione $\pi$ sulla colonna COUNT(Tipo) della selezione $\sigma$ delle righe dove Tipo = 'Kasko' dalla tabella Assicurazioni
+
+_**Visualizza tutte le tratte completate che non hanno un feedback**_
+
+In algebra relazionale la query diventa
+$$\pi_{tc.*}​(TratteCompletate-(\rho_{(ID\_TrattaC)}​(\pi_{(ID\_TrattaCompletata)}​(Feedback))))$$
+Dove:
+
+- $\pi_{(ID\_TrattaCompletata)}(Feedback)$ rappresenta la proiezione sulla colonna ID_TrattaCompletata della tabella Feedback
+- $\rho_{(ID\_TrattaC)}(\pi_{(ID\_TrattaCompletata)}(Feedback))$ rappresenta la rinomina della colonna ID_TrattaCompletata come ID_TrattaC
+- $(TratteCompletate-(\rho_{(ID\_TrattaC)}(\pi_{(ID\_TrattaCompletata)}(Feedback))))$ rappresenta la differenza tra tutte le tuple di TratteCompletate e le tuple corrispondenti nella sottoquery.
