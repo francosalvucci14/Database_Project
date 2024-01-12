@@ -1501,7 +1501,7 @@ WHERE pt.Categoria = "B96"
 
 ![[query16.png|center|350]]
 
-- Visualizza il numero di feeback con alemno 3 stelle lasciati da ogni utente
+- Visualizza il numero di feeback con almeno 3 stelle lasciati da ogni utente
 
 ```SQL
 SELECT u.Nome,u.Cognome, COUNT(*) AS NumeroFeedback3Stelle
@@ -1532,6 +1532,34 @@ IN
 ```
 
 ![[query18.png|center]]
+
+- Visualizza le tratte completate con un certo tipo di veicolo
+
+```SQL
+SELECT TC.*,v.Marca,a.ID_Autista
+FROM TratteCompletate TC
+JOIN RichiestePrenotazioni rp ON TC.ID_TrattaC = rp.ID_Richiesta
+JOIN Autisti a ON rp.ID_Autista = a.ID_Autista
+JOIN Veicoli v ON a.Targa = v.Targa
+WHERE v.Marca = 'Seat';
+```
+
+![[query19.png|center|400]]
+
+- Trova tutti gli autisti che non hanno mai effettuato una richiesta di manutenzione
+
+```SQL
+SELECT A.*
+FROM Autisti A
+LEFT JOIN ContattaPerGuasto cpg ON A.ID_Autista = cpg.ID_Autista
+WHERE A.ID_Autista NOT IN 
+(
+	SELECT cpg.ID_Autista FROM ContattaPerGuasto cpg
+);
+```
+
+![[query20.png|center|300]]
+
 
 #### Ottimizzazione
 
