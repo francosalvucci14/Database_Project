@@ -1,11 +1,13 @@
 
 # Indice degli argomenti
 
-- Componenti
-- Motivazioni
-- Obiettivi
-- Raccolta dei dati
-- Schemi
+```table-of-contents
+style: nestedList # TOC style (nestedList|inlineFirstLevel)
+minLevel: 0 # Include headings from the specified level
+maxLevel: 0 # Include headings up to the specified level
+includeLinks: true # Make headings clickable
+debugInConsole: false # Print debug info in Obsidian console
+```
 
 # Progetto VRoomA
 ## Componenti del gruppo
@@ -338,10 +340,12 @@ CREATE TABLE ContattaPerGuasto (
 
 ### Triggers
 
-Abbiamo implementato dei triggers nel nostro sistema, per far rispettare i vincoli scritti sopra
-(i.e. Un utente **NON** può prenotare più di una corsa nello stesso momento,etc...)
+I trigger fanno parte del DDL (Data Definition Language), essi seguono il principio ECA, ovvero Event-Condition-Action. Solitamente, un trigger si può attivare prima o dopo un inserimento e hanno 2 livelli di granularità:
+1. attivarsi per ogni tupla
+2. attivarsi per ogni istruzione DML
 
-I triggers sono i seguenti
+Nello specifico in MySQL i trigger operano a livello di riga e si ammette un solo trigger per tabella. Osserviamo inoltre che questi vengono usati per mantenere constraint di ogni tipo, in primis il vincolo di integrità referenziale. Quelli di seguito sono una serie di trigger di esempio necessari per mantenere una serie di vincoli nel nostro database
+
 
 **Controlla Orario Richiesta**
 
@@ -1551,7 +1555,6 @@ WHERE v.Marca = 'Seat';
 ```SQL
 SELECT A.*
 FROM Autisti A
-LEFT JOIN ContattaPerGuasto cpg ON A.ID_Autista = cpg.ID_Autista
 WHERE A.ID_Autista NOT IN 
 (
 	SELECT cpg.ID_Autista FROM ContattaPerGuasto cpg
@@ -1625,29 +1628,151 @@ ORDER BY NumeroCarteAssociate DESC
 
 Di seguito mettere le query ottimizzate tramite index
 
-### Algebra Relazionale
+#### Algebra Relazionale
 
-Query da fare in algebra relazionale:
-- Visualizza tutti i veicoli la cui assicurazione scadrà entro febbraio 2024
-- Visualizza tutti i dati di un determinato utente, comprese le carte a lui associate
-- Visualizza il totale dei pagamenti relativi ad un determinato giorno
-- Visualizza tutti gli autisti che hanno una certa categoria di patente
-- Visualizza il numero totale delle assicurazioni Kasko
-- Visualizza tutte le tratte completate che non hanno un feedback
+L’algebra relazionale è un linguaggio query _procedurale_ in notazione algebrica. In una query, si applicano sequenzialmente le operazioni alle relazioni. Ogni operazione (unaria o binaria) riceve in input una relazione e ne produce un’altra in output.
 
+Le operazioni _**primitive**_ sono:
+- Selezione ($\sigma$)
+- Proiezione ($\pi$)
+- Unione ($\bigcup$)
+- Differenza Insiemistica ($-$)
+- Prodotto Cartesiano ($X$)
+- Ridenominazione ($\rho$)
 
-**_Visualizza il numero totale delle assicurazioni Kasko_**
+Esistono altre operazioni da esse derivabili, tra cui l’intersezione insiemistica ($\bigcap$).
+Di seguito troviamo alcune query sul nostro database scritte in Algebra Relazionale:
 
-In algebra relazionale la query diventa
-$$\pi_{COUNT(Tipo)}​(\sigma_{Tipo='Kasko'}​(Assicurazioni))$$
-Questa espressione rappresenta la proiezione $\pi$ sulla colonna COUNT(Tipo) della selezione $\sigma$ delle righe dove Tipo = 'Kasko' dalla tabella Assicurazioni
 
 _**Visualizza tutte le tratte completate che non hanno un feedback**_
 
+```SQL
+SELECT tc.* FROM TratteCompletate tc
+WHERE tc.ID_TrattaC NOT IN 
+(
+	SELECT ID_TrattaCompletata FROM Feedback f
+);
+```
+
 In algebra relazionale la query diventa
-$$\pi_{tc.*}​(TratteCompletate-(\rho_{(ID\_TrattaC)}​(\pi_{(ID\_TrattaCompletata)}​(Feedback))))$$
+$$\pi_{tc.*}(\text{TratteCompletate}\bowtie(\pi_\text{ID\_TrattaC}(\text{TratteCompletate})-\pi_\text{ID\_TrattaCompletata}(\text{Feedback})))$$
+_**Visualizza tutti i dati di un determinato utente, comprese le carte a lui associate**_
+
+```SQL
+SELECT u.*, c.NumeroCarta, c.DataScadenza, c.CVV
+FROM Utenti u JOIN Carta c ON c.ID_Utente = u.ID_Utente
+WHERE Nome = "Geronimo" AND Cognome = "Lucarelli"
+```
+
+In algebra relazionale la query diventa:
+$$\begin{align}&\text{Utenti}\bowtie_{\text{ID\_Utente=ID\_Utente}}\text{Carta}=A\\&\sigma_{\text{Nome='Geronimo',Cognome='Lucarelli'}}(A)\end{align}$$
+
 Dove:
 
-- $\pi_{(ID\_TrattaCompletata)}(Feedback)$ rappresenta la proiezione sulla colonna ID_TrattaCompletata della tabella Feedback
-- $\rho_{(ID\_TrattaC)}(\pi_{(ID\_TrattaCompletata)}(Feedback))$ rappresenta la rinomina della colonna ID_TrattaCompletata come ID_TrattaC
-- $(TratteCompletate-(\rho_{(ID\_TrattaC)}(\pi_{(ID\_TrattaCompletata)}(Feedback))))$ rappresenta la differenza tra tutte le tuple di TratteCompletate e le tuple corrispondenti nella sottoquery.
+- $\pi$ rappresenta l'operazione di proiezione.
+- $\sigma$ rappresenta l'operazione di selezione.
+- $\bowtie$ rappresenta l'operazione di join.
+
+L'operazione di join ($\bowtie$) viene eseguita sulla condizione ID_Utente=ID_Utente, e successivamente vengono selezionate le righe in cui Nome="Geronimo" e Cognome="Lucarelli", dopodiché viene applicata la proiezione sui campi specificati.
+
+Per questioni di semplicità, abbiamo denominato con A tutta la parte del join
+
+***Visualizza tutti i veicoli la cui assicurazione scadrà entro febbraio 2024***
+
+```SQL
+SELECT Targa, Modello, Marca, a.DataScadenza FROM Veicoli v 
+JOIN Assicurazioni a
+ON v.ID_Assicurazione = a.ID_Assicurazione
+WHERE YEAR(a.DataScadenza) = "2024" AND MONTH(a.DataScadenza) = "02";
+```
+
+In algebra relazionale la query diventa:
+$$\begin{align}&\text{Veicoli}\bowtie_{\text{ID\_Assicurazione=ID\_Assicurazione}}\text{Assicurazioni}= A\\&\pi_{\text{Targa,Modello,Marca,DataScadenza}}(\sigma_{\text{DataScadenza}<\text{'2024-02-01'}}(A))\end{align}$$
+
+***Visualizza tutti gli autisti che hanno una certa categoria di patente***
+
+```SQL
+SELECT p.Nome, p.Cognome, pt.Categoria
+FROM Personale p JOIN Autisti a ON p.ID = a.ID_Autista
+JOIN Patente pt ON a.NumeroPatente = pt.NumeroPatente
+WHERE pt.Categoria = "B96"
+```
+
+In algebra relazionale diventa:
+
+$$\begin{align}
+&\text{Personale}\bowtie_\text{ID=ID\_Autista}(\text{Autisti}\bowtie_\text{NumeroPatente=NumeroPatente}\text{Patente}) = A\\
+&\pi_\text{Nome,Cognome,Categoria}(\sigma_\text{Categoria='B96'}(A))
+\end{align}$$
+
+***Trova tutti gli autisti che non hanno mai effettuato una richiesta di manutenzione***
+
+```SQL
+SELECT A.*
+FROM Autisti A
+WHERE A.ID_Autista NOT IN 
+(
+	SELECT cpg.ID_Autista FROM ContattaPerGuasto cpg
+);
+```
+
+In algebra relazionale la query diventa
+
+$$\pi_{A.*}(\text{Autisti}\bowtie(\pi_\text{ID\_Autista}(\text{Autisti})-\pi_\text{ID\_Autista}(\text{ContattaPerGuasto})))$$
+***Visualizza le tratte completate con un certo tipo di veicolo***
+
+```SQL
+SELECT TC.*,v.Marca,a.ID_Autista
+FROM TratteCompletate TC
+JOIN RichiestePrenotazioni rp ON TC.ID_TrattaC = rp.ID_Richiesta
+JOIN Autisti a ON rp.ID_Autista = a.ID_Autista
+JOIN Veicoli v ON a.Targa = v.Targa
+WHERE v.Marca = 'Seat';
+```
+
+In algebra relazionale diventa
+
+$$\begin{align}&\text{TratteCompletate}\bowtie_{\text{ID\_TrattaC=ID\_Richiesta}}\text{RichiestePrenotazioni}\bowtie_{\text{ID\_Autista=ID\_Autista}}\text{Autisti}=A\\&\pi_{\text{TC.*,v.Marca,a.ID\_Autista}}(\sigma_{\text{Marca='Seat'}}(A\bowtie_{\text{Targa=Targa}}\text{Veicoli}))\end{align}$$
+Per comodità abbiamo raggruppato tutti i join nella variabile A, per poi effettuare l'ultimo join partendo da A
+#### Calcolo Relazionale
+
+Il calcolo relazionale è un linguaggio query non procedurale ma _dichiarativo_. Invece dell’algebra, utilizza il calcolo dei predicati matematici del primo ordine in notazione logica. L’output di una query è una relazione che contiene solo tuple che soddisfano le formule logiche espresse. Il potere espressivo del calcolo relazionale è dunque equivalente a quello
+dell’algebra relazionale.
+
+Versioni:
+1. Calcolo relazionale sui domini
+2. _Calcolo relazionale sulle tuple con dichiarazione di range_
+
+Di seguito sono alcune query espresse tramite il _calcolo relazionale sulle tuple con dichiarazione di range_:
+
+**_Visualizza tutte le tratte completate che non hanno un feedback_**
+
+$$\begin{align}&p = \text{tc.ID\_TrattaCompletata}\in{\text{tc}}\:\land\:\text{tc.ID\_TrattaCompletata}\not\in\text{f}\\&\{\text{tc.*}\:|\:\text{tc(TratteCompletate),f(Feedback)}\:|\:p \}\end{align}$$
+
+_**Visualizza tutti i dati di un determinato utente, comprese le carte a lui associate**_
+
+$$\begin{align}&p=\{(\text{u.Nome='Geronimo'}\land\text{u.Cognome='Lucarelli')}\land(\text{c.ID\_Utente=u.ID\_Utente})\}\\&\{\text{u.*,c.(NumeroCarta,DataScadenza,CVV)}|\text{u(Utenti),c(Carta)}|\:p\}\end{align}$$
+
+***Visualizza tutti i veicoli la cui assicurazione scadrà entro febbraio 2024***
+
+$$\begin{align*}
+&p = \{\text{(a.DataScadenza} <\text{'2024-01-02')}\land(\text{v.ID\_Assicurazione=a.ID\_Assicurazione})\}\\
+&\{\text{v.(Targa,Modello,Marca),a.(DataScadenza) | v(Veicoli),a(Assicurazione) | p} \}
+\end{align*}$$
+### Sicurezza
+
+Ovviamente in un database aziendale devono essere presenti diverse tipologie di utenti con diversi diritti, nella nostra modellizzazione della realtà, infatti, abbiamo definito quattro classi di utenti:
+- un amministratore che ha tutti i diritti
+- gli autisti,gli addetti marketing e gli utenti che possono aggiungere righe e fare query
+- il manutentore che può solamente fare query.
+
+Inoltre, si è definito un quarto utente che ha accesso solamente a delle view in modalità lettura, questo perché non gli si vuole dare accesso alle tabelle originali per questioni di sicurezza. Ovviamente la creazione di questo ultimo utente ha il solo fine dimostrativo e non sarebbe effettivamente inserito in un progetto reale.
+
+Le view sono tabelle che non memorizzano dati, esse condividono lo stesso spazio delle tabelle originali. Spesso vengono assegnate ad altri utenti con specifici campi oscurati anche se il loro utilizzo inappropriato può portare all’inconsistenza del database.
+
+#### Views
+
+qui ci vanno le viste
+#### Creazione Utenti
+
+qua ci va la creazione di utenti fittizzi
