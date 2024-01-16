@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2024-01-16T15:11:12.494Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:120.0) Gecko/20100101 Firefox/120.0" etag="zzed5X0t55NHi0WzlzFP" version="22.1.17" type="device">
+<mxfile host="app.diagrams.net" modified="2024-01-16T15:24:12.950Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:120.0) Gecko/20100101 Firefox/120.0" etag="5CsdqrXRimnx02iEbvEk" version="22.1.17" type="device">
   <diagram id="R2lEEEUBdFMjLlhIrx00" name="Page-1">
-    <mxGraphModel dx="1451" dy="866" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="4681" math="0" shadow="0" extFonts="Permanent Marker^https://fonts.googleapis.com/css?family=Permanent+Marker">
+    <mxGraphModel dx="779" dy="465" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="4681" math="0" shadow="0" extFonts="Permanent Marker^https://fonts.googleapis.com/css?family=Permanent+Marker">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -301,7 +301,7 @@
         <mxCell id="SL3OJ4g4mQe82jDkw0CZ-176" value="" style="resizable=0;html=1;whiteSpace=wrap;align=right;verticalAlign=bottom;" parent="1" connectable="0" vertex="1">
           <mxGeometry x="1980.0014560815348" y="1540.0034811778005" as="geometry" />
         </mxCell>
-        <mxCell id="SL3OJ4g4mQe82jDkw0CZ-177" value="Assicurazione" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="SL3OJ4g4mQe82jDkw0CZ-177" value="Assicurazioni" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="2032.24" y="1660" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="SL3OJ4g4mQe82jDkw0CZ-178" value="" style="endArrow=oval;html=1;rounded=0;endFill=1;" parent="1" target="SL3OJ4g4mQe82jDkw0CZ-179" edge="1">
@@ -443,7 +443,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="SL3OJ4g4mQe82jDkw0CZ-319" value="Tratte Complete" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="SL3OJ4g4mQe82jDkw0CZ-319" value="Tratte Completate" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="1922.24" y="1989.4499999999998" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="SL3OJ4g4mQe82jDkw0CZ-320" value="" style="endArrow=oval;html=1;rounded=0;endFill=1;" parent="1" target="SL3OJ4g4mQe82jDkw0CZ-321" edge="1">
