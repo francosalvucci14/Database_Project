@@ -72,19 +72,19 @@ Ogni **utente** può accedere alla cronologia delle prenotazioni effettuate.
 | ---------------------- | ----------------------------------------------------------------- | ------------------------- | --------------------------------------------------------------------------------- |
 | Personale | Membri totali della società | **ID**, Nome, Cognome, DDN, Numero di Telefono, Email | Addetti Marketing, Manutentori, Autisti |
 | Patente | Descrive tutte le info riguardanti la patente degli autisti | **Numero Patente**, DDS, Categoria | Autisti |
-| Offerte | Serie di offerte che vengono proposte al singolo utente | **ID**, Promo Code, Info Offerta, | Utenti, Addetti Marketing |
-| Manutentori | Addetti alla manutenzione delle auto degli autisti | **ID**, Qualifica | Personale, Autisti |
-| Autisti | Personale che svolge il ruolo di autista delle auto nella società | **ID**, Stipendio | Patente, Manutentori, Veicoli, Turni, Richiesta Prenotazione, Personale, Feedback |
+| Offerte | Serie di offerte che vengono proposte al singolo utente | **ID_Offerta**, Promo Code, Info Offerta, | Utenti, Addetti Marketing |
+| Manutentori | Addetti alla manutenzione delle auto degli autisti | **ID_Manutentore**, Qualifica | Personale, Autisti |
+| Autisti | Personale che svolge il ruolo di autista delle auto nella società | **ID_Autista**, Stipendio | Patente, Manutentori, Veicoli, Turni, Richiesta Prenotazione, Personale, Feedback |
 | Veicoli | Auto utilizzate per il servizio di taxi | **Targa**, Marca, Modello, Posti disponibili | Autisti, Assicurazione |
-| Turni | Turni lavorativi che riguardano gli autisti | **ID**, Orario inizio, Orario fine | Autisti |
-| Richiesta Prenotazione | Richieste di prenotazioni effettuate da parte dall'utente | **ID**, Punto di raccolta, Punto di rilascio, Data richiesta, Orario richiesta, Numero Passeggeri | Autisti, Utenti, Tratte Complete, Tratte Rifiutate |
-| Utenti | Utenti utilizzatori del servizio taxi | **ID**, Nome, Cognome, Email, Password | Carta, Richiesta Prenotazione, Offerte, Feedback, Tratte completate |
-| Feedback | Recensioni lasciate dall'utente e dagli autisti | **ID**, StelleUtente, CommentoUtente,StelleAutista, CommentoAutista | Tratte Completate, Utenti, Autisti |
-| Tratte Completate | Corse effettuate portate a termine con successo | **ID**, Costo | Richiesta Prenotazione, Feedback, Carta, Utenti |
-| Tratte Rifiutate | Corse rifiutate da parte dell'autista per determinati motivi | **ID**, Motivazione | Richiesta Prenotazione |
+| Turni | Turni lavorativi che riguardano gli autisti | **ID_Turno**, Orario inizio, Orario fine | Autisti |
+| Richiesta Prenotazione | Richieste di prenotazioni effettuate da parte dall'utente | **ID_Richiesta**, Punto di raccolta, Punto di rilascio, Data richiesta, Orario richiesta, Numero Passeggeri | Autisti, Utenti, Tratte Complete, Tratte Rifiutate |
+| Utenti | Utenti utilizzatori del servizio taxi | **ID_Utente**, Nome, Cognome, Email, Password | Carta, Richiesta Prenotazione, Offerte, Feedback, Tratte completate |
+| Feedback | Recensioni lasciate dall'utente e dagli autisti | **ID_Feedback**, StelleUtente, CommentoUtente,StelleAutista, CommentoAutista | Tratte Completate, Utenti, Autisti |
+| Tratte Completate | Corse effettuate portate a termine con successo | **ID_TrattaC**, Costo | Richiesta Prenotazione, Feedback, Carta, Utenti |
+| Tratte Rifiutate | Corse rifiutate da parte dell'autista per determinati motivi | **ID_TrattaR**, Motivazione | Richiesta Prenotazione |
 | Carta | Carta di credito personale dell'utente | **Numero Carta**, Data di Scadenza, CVV | Utenti, Tratte completate |
-| Assicurazioni | Dati dell'assicurazione associata al singolo veicolo | **ID**, Data di scadenza, Tipo | Veicoli |
-| Addetti Marketing | Personale addetto al reparto marketing della società | **ID**, Ruolo | Offerte, Personale |
+| Assicurazioni | Dati dell'assicurazione associata al singolo veicolo | **ID_Assicurazione**, Data di scadenza, Tipo | Veicoli |
+| Addetti Marketing | Personale addetto al reparto marketing della società | **ID_Addetto**, Ruolo | Offerte, Personale |
 
 ### Glossario dei termini
 
@@ -131,11 +131,11 @@ Ogni **utente** può accedere alla cronologia delle prenotazioni effettuate.
 
 Le chiave primarie sono identificate in **grassetto**, mentre le chiavi secondarie (o esterne) sono scritte in stile _Italic_
 
-- Personale (**ID_Personale**, Nome, Cognome, NumeroTelefono, Email)
-- Autisti (**ID_Autista**, Stipendio, _NumeroPatente_, _Targa_, _ID_Turno_)
+- Personale (**ID_Personale**, Nome, Cognome, NumeroTelefono, DDN, Email)
+- Autisti (**ID_Autista**, Stipendio, _NumeroPatente_, _Targa_, _Turno_)
 - Manutentori (**ID_Manutentore**, Qualifica)
 - Addetti Marketing (**ID_Addetto**, Ruolo)
-- ContattaPerGuasto (_ID_Manutentore_, _ID_Autista_)
+- ContattaPerGuasto (Motivo, _ID_Manutentore_, _ID_Autista_)
 - Patente (**NumeroPatente**, DDS, Categoria)
 - Turni (**ID_Turno**, OrarioInizio, OrarioFine)
 - Veicoli (**Targa**, Marca, Modello, PostiDisponibili, _ID_Assicurazione_)
@@ -143,10 +143,10 @@ Le chiave primarie sono identificate in **grassetto**, mentre le chiavi secondar
 - Offerte (**ID_Offerta**, PromoCode, InfoOfferta, _ID_Addetto_)
 - Utenti (**ID_Utente**, Nome, Cognome, Email, PSW, _ID_Offerta_)
 - Carta (**NumeroCarta**, DataScadenza, CVV, _ID_Utente_)
-- Richiesta Prenotazione (**ID_Richiesta**, OrarioRichiesta, NumeroPasseggeri, PuntoRaccolta, PuntoRilascio, _ID_Utente_, _ID_Autista_)
-- Tratte Complete (**ID_Tratta**, Costo, _NumeroCarta_)
-- Tratte Rifiutate (**ID_Tratta**, Motivazione)
-- Feedback (**ID_Feedback**, StelleUtente, CommentoUtente,StelleAutista, CommentoAutista, _ID_TrattaCompletata_)
+- Richiesta Prenotazione (**ID_Richiesta**, OrarioRichiesta, DataRichiesta, NumeroPasseggeri, PuntoRaccolta, PuntoRilascio, _ID_Utente_, _ID_Autista_)
+- Tratte Completate (**ID_TrattaC**, Costo, _NumeroCarta_)
+- Tratte Rifiutate (**ID_TrattaR**, Motivazione)
+- Feedback (**ID_Feedback**, StelleUtente, CommentoUtente,StelleAutista, CommentoAutista, _ID_TrattaC_)
 ### Schema Logico
 
 ![[Schema-Logico.jpg|center]]
