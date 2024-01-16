@@ -141,7 +141,7 @@ Le chiave primarie sono identificate in **grassetto**, mentre le chiavi secondar
 - Veicoli (**Targa**, Marca, Modello, PostiDisponibili, _ID_Assicurazione_)
 - Assicurazioni (**ID_Assicurazione**, DataDiScadenza, Tipo)
 - Offerte (**ID_Offerta**, PromoCode, InfoOfferta, _ID_Addetto_)
-- Utenti (**ID_Utente**, Nome, Cognome, Email, Abbonamento, PSW, _ID_Offerta_)
+- Utenti (**ID_Utente**, Nome, Cognome, Email, PSW, _ID_Offerta_)
 - Carta (**NumeroCarta**, DataScadenza, CVV, _ID_Utente_)
 - Richiesta Prenotazione (**ID_Richiesta**, OrarioRichiesta, NumeroPasseggeri, PuntoRaccolta, PuntoRilascio, _ID_Utente_, _ID_Autista_)
 - Tratte Complete (**ID_Tratta**, Costo, _NumeroCarta_)
@@ -1732,7 +1732,9 @@ WHERE v.Marca = 'Seat';
 
 In algebra relazionale diventa
 
-$$\begin{align}&\text{TratteCompletate}\bowtie_{\text{ID\_TrattaC=ID\_Richiesta}}\text{RichiestePrenotazioni}\bowtie_{\text{ID\_Autista=ID\_Autista}}\text{Autisti}=A\\&\pi_{\text{TC.*,v.Marca,a.ID\_Autista}}(\sigma_{\text{Marca='Seat'}}(A\bowtie_{\text{Targa=Targa}}\text{Veicoli}))\end{align}$$
+$$\begin{align}&(\text{TratteCompletate}\bowtie_{\text{ID\_TrattaC=ID\_Richiesta}}\text{RichiestePrenotazioni}\\
+&\bowtie_{\text{ID\_Autista=ID\_Autista}}\text{Autisti})=A\\
+\\&\pi_{\text{TC.*,v.Marca,a.ID\_Autista}}(\sigma_{\text{Marca='Seat'}}(A\bowtie_{\text{Targa=Targa}}\text{Veicoli}))\end{align}$$
 Per comodità abbiamo raggruppato tutti i join nella variabile A, per poi effettuare l'ultimo join partendo da A
 #### Calcolo Relazionale
 
@@ -1758,6 +1760,24 @@ $$\begin{align}&p=\{(\text{u.Nome='Geronimo'}\land\text{u.Cognome='Lucarelli')}\
 $$\begin{align*}
 &p = \{\text{(a.DataScadenza} <\text{'2024-01-02')}\land(\text{v.ID\_Assicurazione=a.ID\_Assicurazione})\}\\
 &\{\text{v.(Targa,Modello,Marca),a.(DataScadenza) | v(Veicoli),a(Assicurazione) | p} \}
+\end{align*}$$
+
+***Visualizza tutti gli autisti che hanno una certa categoria di patente***
+
+$$\begin{align*}
+&p = \{\text{(pt.Categoria='B96'}\land(\text{p.ID=a.ID\_Autista})\land\text{a.NumeroPat = p.NumeroPat}\}\\
+&\{\text{p.(Nome,Cognome),pt.(Categoria) | p(Personale), pt(Patenti), a(Autisiti) | p} \}
+\end{align*}$$
+
+***Trova tutti gli autisti che non hanno mai effettuato una richiesta di manutenzione***
+
+$$\begin{align}&p = \{\text{a.ID\_Autista}\in{\text{a}}\:\land\:\text{a.ID\_Autista}\not\in\text{cpg}\}\\&\{\text{a.*}\:|\:\text{a(Autista), cpg(ContattaPerGuasto)}\:|\:p \}\end{align}$$
+
+***Visualizza le tratte completate con un certo tipo di veicolo***
+
+$$\begin{align*}
+&p = \{(\text{tc.ID\_TrattaC=rp.ID\_Richiesta})\land(\text{a.Id\_Aut = rp.Id\_Aut})\land(\text{a.Targa = v.Targa})\\&\land\text{v.Marca = 'Seat'}\}\\
+&\{\text{tc.*, v(Marca), a.(Id\_Aut) | tc.(TratCompl), v(Veicoli), a(Autisti), rp(RichPren) | p} \}
 \end{align*}$$
 ### Sicurezza
 
