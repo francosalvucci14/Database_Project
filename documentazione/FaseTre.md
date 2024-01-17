@@ -83,7 +83,7 @@ Ogni **utente** può accedere alla cronologia delle prenotazioni effettuate.
 | Tratte Completate | Corse effettuate portate a termine con successo | **ID_TrattaC**, Costo | Richiesta Prenotazione, Feedback, Carta, Utenti |
 | Tratte Rifiutate | Corse rifiutate da parte dell'autista per determinati motivi | **ID_TrattaR**, Motivazione | Richiesta Prenotazione |
 | Carta | Carta di credito personale dell'utente | **Numero Carta**, Data di Scadenza, CVV | Utenti, Tratte completate |
-| Assicurazioni | Dati dell'assicurazione associata al singolo veicolo | **ID_Assicurazione**, Data di scadenza, Tipo | Veicoli |
+| Assicurazioni | Dati dell'assicurazione associata al singolo veicolo | **ID_Asscurazione**, Data di scadenza, Tipo | Veicoli |
 | Addetti Marketing | Personale addetto al reparto marketing della società | **ID_Addetto**, Ruolo | Offerte, Personale |
 
 ### Glossario dei termini
@@ -131,11 +131,11 @@ Ogni **utente** può accedere alla cronologia delle prenotazioni effettuate.
 
 Le chiave primarie sono identificate in **grassetto**, mentre le chiavi secondarie (o esterne) sono scritte in stile _Italic_
 
-- Personale (**ID_Personale**, Nome, Cognome, NumeroTelefono, DDN, Email)
-- Autisti (**ID_Autista**, Stipendio, _NumeroPatente_, _Targa_, _Turno_)
+- Personale (**ID_Personale**, Nome, Cognome, NumeroTelefono, Email,DDN)
+- Autisti (**ID_Autista**, Stipendio, _NumeroPatente_, _Targa_, _ID_Turno_)
 - Manutentori (**ID_Manutentore**, Qualifica)
 - Addetti Marketing (**ID_Addetto**, Ruolo)
-- ContattaPerGuasto (Motivo, _ID_Manutentore_, _ID_Autista_)
+- ContattaPerGuasto (_ID_Manutentore_, _ID_Autista_,Motivo)
 - Patente (**NumeroPatente**, DDS, Categoria)
 - Turni (**ID_Turno**, OrarioInizio, OrarioFine)
 - Veicoli (**Targa**, Marca, Modello, PostiDisponibili, _ID_Assicurazione_)
@@ -143,10 +143,10 @@ Le chiave primarie sono identificate in **grassetto**, mentre le chiavi secondar
 - Offerte (**ID_Offerta**, PromoCode, InfoOfferta, _ID_Addetto_)
 - Utenti (**ID_Utente**, Nome, Cognome, Email, PSW, _ID_Offerta_)
 - Carta (**NumeroCarta**, DataScadenza, CVV, _ID_Utente_)
-- Richiesta Prenotazione (**ID_Richiesta**, OrarioRichiesta, DataRichiesta, NumeroPasseggeri, PuntoRaccolta, PuntoRilascio, _ID_Utente_, _ID_Autista_)
-- Tratte Completate (**ID_TrattaC**, Costo, _NumeroCarta_)
-- Tratte Rifiutate (**ID_TrattaR**, Motivazione)
-- Feedback (**ID_Feedback**, StelleUtente, CommentoUtente,StelleAutista, CommentoAutista, _ID_TrattaC_)
+- Richiesta Prenotazione (**ID_Richiesta**, DataRichiesta, OrarioRichiesta, NumeroPasseggeri, PuntoRaccolta, PuntoRilascio, _ID_Utente_, _ID_Autista_)
+- Tratte Complete (**ID_Tratta**, Costo, _NumeroCarta_)
+- Tratte Rifiutate (**ID_Tratta**, Motivazione)
+- Feedback (**ID_Feedback**, StelleUtente, CommentoUtente,StelleAutista, CommentoAutista, _ID_TrattaCompletata_)
 ### Schema Logico
 
 ![[Schema-Logico.jpg|center]]
@@ -164,7 +164,7 @@ Abbiamo distinto le frecce che vanno dalle entità figlie a quelle padre mettend
 
 Nelle entità, le chiavi secondarie sono indentificate con il pallino grigio, mentre quelle primarie sono identificate con il pallino nero.
 
-![[Schema-Fisico.jpg|center]]
+![[Schema-Fisico.jpg]]
 
 #### Generalizzazione
 
@@ -392,7 +392,7 @@ END
 ```SQL
 CREATE TRIGGER `ControllaInserimentiCarta` BEFORE INSERT ON `Carta` FOR EACH ROW BEGIN
 
--- Controlla se l'autista è stato già assegnato al turno richiesto
+-- Controlla se la carta è stato già inserita
 	IF EXISTS (
 		SELECT 1
 		FROM Carta c
@@ -1397,7 +1397,6 @@ LIMIT 10;
 - Visualizza gli utenti che hanno effettuato almeno 10 richieste
 
 ```SQL
-
 SELECT u.ID_Utente, u.Nome, u.Cognome, COUNT(*) AS NumeroRichieste
 FROM RichiestePrenotazioni rp JOIN Utenti u ON rp.ID_Utente = u.ID_Utente
 GROUP BY u.ID_Utente, u.Nome, u.Cognome
@@ -1626,7 +1625,126 @@ ORDER BY NumeroCarteAssociate DESC
 
 #### Ottimizzazione
 
-Di seguito mettere le query ottimizzate tramite index
+Di seguito abbiamo selezionato degli attributi su cui creare indici secondari per velocizzare l’esecuzione delle query.
+Ovviamente, non abbiamo creato troppi indici per una questione di costi di memoria.
+Gli indici occupano memoria e quindi abbiamo trovato un compromesso, creando indici solo per gli attributi più richiesti.
+
+**Creazione di indici in MySQL**
+
+Minor corse effettuate
+```SQL
+CREATE INDEX idx_name 
+ON Personale(Nome);
+```
+
+```SQL
+CREATE INDEX idx_stip 
+ON Autisti(Stipendio);
+```
+
+```SQL
+CREATE INDEX idx_ut_star
+ON Feedback(StelleUtente);
+```
+
+```SQL
+CREATE INDEX idx_ut_name
+ON Utenti(Nome);
+```
+
+Utilizzando questi indici secondari, abbiamo la versione ottimizzata di alcune delle query descritte in precedenza, che vengono eseguite sui dati casuali generati dal programma Python. Riportiamo inoltre, la frazione di miglioramento temporale delle ottimizzazioni.
+
+<u>Formula di miglioramento : 100 * (originale-nuovo) / originale</u>
+
+**Visualizza gli autisti con lo stipendio più alto**
+
+```SQL
+SELECT *
+FROM Autisti
+WHERE Stipendio =
+(
+	SELECT MAX(Stipendio)
+	FROM Autisti
+);
+```
+
+Prima della creazione dell'index sul campo "Stipendio",  il tempo di esecuzione della query è il seguente
+![[tempoEsecQuery1.png|center]]
+
+Dopo aver creato l'index, il tempo di esecuzione è il seguente:
+
+![[tempoEsecQueryConIndex1.png|center]]
+
+La formula di miglioramento risulta essere la seguente
+$$100*\frac{(0.063-0.060)}{0.063}\sim 4.7\:\%$$
+Quindi, volendo arrotondare, abbiamo un miglioramento di circa il 5%
+
+**Visualizza il numero di feeback con almeno 3 stelle lasciati da ogni utente**
+
+```SQL
+SELECT u.Nome,u.Cognome, COUNT(*) AS NumeroFeedback3Stelle
+FROM Feedback f JOIN TratteCompletate tc ON f.ID_TrattaCompletata = tc.ID_TrattaC
+JOIN RichiestePrenotazioni rp ON tc.ID_TrattaC = rp.ID_Richiesta
+JOIN Utenti u ON rp.ID_Utente = u.ID_Utente
+WHERE f.StelleUtente >= 3
+GROUP BY u.Nome,u.Cognome
+ORDER BY NumeroFeedback3Stelle DESC
+```
+
+Prima di aver creato l'index sul campo "StelleUtente", il tempo di esecuzione della query è il seguente
+
+![[tempoEsecQuery2.png|center]]
+
+Dopo aver creato l'index, il tempo di esecuzione risulta essere:
+
+![[tempoEsecQueryConIndex2.png|center]]
+
+La formula di miglioramento risulta essere la seguente
+$$100*\frac{(0.632-0.342)}{0.632}\sim 45.9\:\%$$
+
+**Visualizza gli utenti che hanno effettuato almeno 10 richieste**
+
+```SQL
+SELECT u.ID_Utente, u.Nome, u.Cognome, COUNT(*) AS NumeroRichieste
+FROM RichiestePrenotazioni rp JOIN Utenti u ON rp.ID_Utente = u.ID_Utente
+GROUP BY u.ID_Utente, u.Nome, u.Cognome
+HAVING NumeroRichieste >= 10
+ORDER BY NumeroRichieste DESC;
+```
+
+Prima di aver creato l'index sul campo "Nome", il tempo di esecuzione della query è il seguente
+
+![[tempoEsecQuery3.png|center]]
+
+Dopo aver creato l'index, il tempo di esecuzione risulta essere:
+
+![[tempoEsecQueryConIndex3.png|center]]
+
+La formula di miglioramento risulta essere la seguente
+$$100*\frac{(0.161-0.115)}{0.161}\sim28.6\:\%$$
+**Trova gli autisti che hanno completato il minor numero di corse in un determinato giorno**
+
+```SQL
+SELECT a.ID_Autista,p.Nome,p.Cognome, COUNT(*) AS NumeroCorseEffettuate
+FROM TratteCompletate tc 
+JOIN RichiestePrenotazioni rp ON tc.ID_TrattaC = rp.ID_Richiesta
+JOIN Autisti a ON rp.ID_Autista = a.ID_Autista
+JOIN Personale p ON a.ID_Autista = p.ID
+WHERE rp.DataRichiesta = "2023-06-05"
+GROUP BY a.ID_Autista, p.Nome, p.Cognome
+ORDER BY NumeroCorseEffettuate
+```
+
+Prima di aver creato l'index sul campo "Nome", dell'entità Personale, il tempo di esecuzione della query è il seguente
+
+![[tempoEsecQuery4.png|center]]
+
+Dopo aver creato l'index, il tempo di esecuzione risulta essere:
+
+![[tempoEsecQUeryConIndex4.png|center]]
+
+La formula di miglioramento risulta essere la seguente
+$$100*\frac{0.035-0.015}{0.035}\sim 57.15\:\%$$
 
 #### Algebra Relazionale
 
@@ -1732,9 +1850,7 @@ WHERE v.Marca = 'Seat';
 
 In algebra relazionale diventa
 
-$$\begin{align}&(\text{TratteCompletate}\bowtie_{\text{ID\_TrattaC=ID\_Richiesta}}\text{RichiestePrenotazioni}\\
-&\bowtie_{\text{ID\_Autista=ID\_Autista}}\text{Autisti})=A\\
-\\&\pi_{\text{TC.*,v.Marca,a.ID\_Autista}}(\sigma_{\text{Marca='Seat'}}(A\bowtie_{\text{Targa=Targa}}\text{Veicoli}))\end{align}$$
+$$\begin{align}&\text{TratteCompletate}\bowtie_{\text{ID\_TrattaC=ID\_Richiesta}}\text{RichiestePrenotazioni}\bowtie_{\text{ID\_Autista=ID\_Autista}}\text{Autisti}=A\\&\pi_{\text{TC.*,v.Marca,a.ID\_Autista}}(\sigma_{\text{Marca='Seat'}}(A\bowtie_{\text{Targa=Targa}}\text{Veicoli}))\end{align}$$
 Per comodità abbiamo raggruppato tutti i join nella variabile A, per poi effettuare l'ultimo join partendo da A
 #### Calcolo Relazionale
 
@@ -1781,18 +1897,74 @@ $$\begin{align*}
 \end{align*}$$
 ### Sicurezza
 
-Ovviamente in un database aziendale devono essere presenti diverse tipologie di utenti con diversi diritti, nella nostra modellizzazione della realtà, infatti, abbiamo definito quattro classi di utenti:
+Ovviamente in un database aziendale devono essere presenti diverse tipologie di utenti con diversi diritti, nella nostra modellizzazione della realtà, infatti, abbiamo definito 2 classi di utenti:
 - un amministratore che ha tutti i diritti
-- gli autisti,gli addetti marketing e gli utenti che possono aggiungere righe e fare query
-- il manutentore che può solamente fare query.
+- gli autisti,gli addetti marketing e i manutentori che possono aggiungere righe e fare query
 
-Inoltre, si è definito un quarto utente che ha accesso solamente a delle view in modalità lettura, questo perché non gli si vuole dare accesso alle tabelle originali per questioni di sicurezza. Ovviamente la creazione di questo ultimo utente ha il solo fine dimostrativo e non sarebbe effettivamente inserito in un progetto reale.
+Inoltre, si è definito un terzo utente che ha accesso solamente a delle view in modalità lettura, questo perché non gli si vuole dare accesso alle tabelle originali per questioni di sicurezza. Ovviamente la creazione di questo ultimo utente ha il solo fine dimostrativo e non sarebbe effettivamente inserito in un progetto reale.
 
 Le view sono tabelle che non memorizzano dati, esse condividono lo stesso spazio delle tabelle originali. Spesso vengono assegnate ad altri utenti con specifici campi oscurati anche se il loro utilizzo inappropriato può portare all’inconsistenza del database.
-
 #### Views
 
-qui ci vanno le viste
+ ***Visualizza tutti gli utenti che hanno almeno 2 carte associate***
+
+```SQL
+CREATE VIEW CartePerUtente AS 
+(
+	SELECT u.ID_Utente, u.Nome, u.Cognome, COUNT(*) AS NumeroCarteAssociate
+	FROM Utenti u JOIN Carta c ON c.ID_Utente = u.ID_Utente
+	GROUP BY u.ID_Utente, u.Nome, u.Cognome
+	HAVING NumeroCarteAssociate > 2
+	ORDER BY NumeroCarteAssociate DESC
+)
+```
+
+![[view1.png|center]]
+
+![[risView1.png|center|450]]
+
+
+***Visualizza il numero di feeback con almeno 3 stelle lasciati da ogni utente***
+
+```SQL
+CREATE VIEW NumeroFeedbackTreStelle AS 
+(
+	SELECT u.Nome,u.Cognome, COUNT(*) AS NumeroFeedback3Stelle
+	FROM Feedback f JOIN TratteCompletate tc ON f.ID_TrattaCompletata = tc.ID_TrattaC
+	JOIN RichiestePrenotazioni rp ON tc.ID_TrattaC = rp.ID_Richiesta
+	JOIN Utenti u ON rp.ID_Utente = u.ID_Utente
+	WHERE f.StelleUtente >= 3
+	GROUP BY u.Nome,u.Cognome
+	ORDER BY NumeroFeedback3Stelle DESC
+)
+```
+
+![[view2.png|center]]
+
+![[risView2.png|center|450]]
+
 #### Creazione Utenti
 
-qua ci va la creazione di utenti fittizzi
+Poiché il progetto rappresenta una realtà aziendale di una società, abbiamo creato 3 classi di utenti in ordine decrescente di grado di privilegi. Un amministratore è colui che gestisce il database e quindi ha tutti i diritti. Il personale ha il diritto di inserire nuove tuple e di effettuare query ai fini lavorativi. Gli utenti sono autorizzati ad effettuare query e inserire nuove tuple, in quanto usufruiscono del database solo ai fini di prenotare le corse.
+Infine, abbiamo creato anche un generico utente autorizzato solo ad interrogare le view esistenti.
+
+1. **Amministratore**: ha tutti i diritti
+```SQL
+CREATE USER 'administrator'@'localhost' IDENTIFIED BY 'adminpassword';
+REVOKE ALL PRIVILEGES, GRANT OPTION FROM 'administrator'@'localhost';
+GRANT ALL ON VroomA.* TO 'administrator'@'localhost';
+```
+2. **Personale**:  Può fare query e inserire tuple
+```SQL
+CREATE USER 'personale'@'localhost' IDENTIFIED BY 'perspassword';
+REVOKE ALL PRIVILEGES, GRANT OPTION FROM 'personale'@'localhost';
+GRANT SELECT ON VroomA.* TO 'personale'@'localhost';
+GRANT INSERT ON VroomA.* TO 'personale'@'localhost';
+```
+3. Creazione di un utente che ha il solo diritto di eseguire le view sopra scritte
+```SQL
+CREATE USER 'lfn'@'localhost' IDENTIFIED BY 'lfnpassword';
+REVOKE ALL PRIVILEGES, GRANT OPTION FROM 'lfn'@'localhost';
+GRANT SELECT ON CartePerUtente TO 'lfn'@'localhost';
+GRANT SELECT ON NumeroFeedbackTreStelle TO 'lfn'@'localhost';
+```
