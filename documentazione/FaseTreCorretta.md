@@ -51,8 +51,8 @@ Le tipologie di **veicolo** disponibili sono le seguenti:
 Ogni **veicolo**, identificato in modo univoco dalla targa, per poter circolare, deve essere assicurato.
 
 Quando si prenota una **corsa** (**tratta**) si possono scegliere due punti:
-- Partenza
-- Arrivo
+- Partenza, ovvero la **via** da dove si vuole iniziare la corsa
+- Arrivo, ovvero la **via** in cui termina la corsa
 
 Ogni **prenotazione** può essere accettata o rifiutata in base a determinate esigenze dell'**utente** (Es: prenotazione effettuata per errore) e dell'**autista** (Es: indisponibilità al servizio).
 Ad ogni tratta completata è associato un feedback che può essere lasciato sia dall'**utente** che dall'**autista**.
@@ -62,7 +62,6 @@ A corsa completata l'**utente** può lasciare un **feedback** con un numero di s
 Ogni **utente** deve aggiungere una **carta** con cui effettuare il pagamento relativo alla tratta effettuata, in un secondo momento potrà aggiungere altri metodi di pagamento secondo le proprie esigenze.
 Ogni **utente** può aggiungere alla lista dei preferiti ua qualunque delle tratte effettuate da lui, scegliendo se aggiungere solo la tratta o anche l'autista.
 Ogni **utente** può accedere alla cronologia delle prenotazioni effettuate.
-
 ### Glossario delle entità
 
 | Entità | Descrizione | Attributi | Relazioni Coinvolte |
@@ -72,31 +71,29 @@ Ogni **utente** può accedere alla cronologia delle prenotazioni effettuate.
 | Autisti | Personale che svolge il ruolo di autista delle auto nella società | **ID_Autista**, Stipendio | Patente, Manutentori, Veicoli,  Richiesta Prenotazione,  Feedback,Turni |
 | Veicoli | Auto utilizzate per il servizio di taxi | **Targa**, Marca, Modello, Posti disponibili | Autisti, Assicurazione |
 | Turni | Turni lavorativi che riguardano gli autisti | **ID_Turno**, Orario inizio, Orario fine | Autisti |
-| ElencoPunti | Elenco di tutti i punti disponibili che l'utente può scegliere | **Nome**, Latitudine, Longitudine | Utente |
 | Richiesta Prenotazione | Richieste di prenotazioni effettuate da parte dall'utente | **Partenza, Arrivo, Data richiesta, Orario richiesta**, Numero Passeggeri | Utenti, Tratte Complete, Tratte Rifiutate |
 | Utenti | Utenti utilizzatori del servizio taxi | **ID_Utente**, Nome, Cognome, Email, Password | Carta, Richiesta Prenotazione, Feedback, Tratte completate |
 | Feedback | Recensioni lasciate dall'utente e dagli autisti | **ID_Feedback**, StelleUtente, CommentoUtente,StelleAutista, CommentoAutista | Tratte Completate, Utenti, Autisti |
 | Tratte Completate | Corse effettuate portate a termine con successo | Costo, MetodoDiPagamento | Richiesta Prenotazione, Feedback,Autisti |
 | Tratte Rifiutate | Corse rifiutate da parte dell'autista per determinati motivi | Motivazione | Richiesta Prenotazione, Autisti |
 | Carta | Carta di credito personale dell'utente | **Numero Carta** | Utenti |
-| Assicurazioni | Dati dell'assicurazione associata al singolo veicolo | **ID_Asscurazione**, Data di scadenza, Tipo | Veicoli |
+| Assicurazioni | Dati dell'assicurazione associata al singolo veicolo | **ID_Assicurazione**, Data di scadenza, Tipo | Veicoli |
 ### Glossario dei termini
 
-| Entità                 | Descrizione                                                       | Sinonimi                  |
-| ---------------------- | ----------------------------------------------------------------- | ------------------------- |
-| Patente                | Descrive tutte le info riguardanti la patente degli autisti       | Licenza di Guida          |
-| Manutentori            | Addetti alla manutenzione delle auto degli autisti                | Meccanici, Operai         |
-| Autisti                | Personale che svolge il ruolo di autista delle auto nella società | Driver                    |
-| Veicoli                | Auto utilizzate per il servizio di taxi                           | Automobili                |
-| Turni                  | Turni lavorativi che riguardano gli autisti                       | Orario Lavorativo         |
-| Richiesta Prenotazione | Richieste di prenotazioni effettuate da parte dall'utente         | Prenotazioni              |
-| Utenti                 | Utenti utilizzatori del servizio taxi                             | Persone                   |
-| Feedback               | Recensioni lasciate dall'utente e dagli autisti                   | Recensioni                |
-| Tratte Completate      | Corse effettuate portate a termine con successo                   | Corse                     |
-| Tratte Rifiutate       | Corse rifiutate da parte dell'autista per determinati motivi      | Corse Annullate           |
-| Carta                  | Carta di credito personale dell'utente                            | Metodo di pagamento       |
-| Assicurazioni          | Dati dell'assicurazione associata al singolo veicolo              | RCA, Polizza assicurativa |
-| ElencoPunti            | Elenco dei punti disponibili per la scelta della tratta           | Lista                          |
+| Entità | Descrizione | Sinonimi |
+| ---- | ---- | ---- |
+| Patente | Descrive tutte le info riguardanti la patente degli autisti | Licenza di Guida |
+| Manutentori | Addetti alla manutenzione delle auto degli autisti | Meccanici, Operai |
+| Autisti | Personale che svolge il ruolo di autista delle auto nella società | Driver |
+| Veicoli | Auto utilizzate per il servizio di taxi | Automobili |
+| Turni | Turni lavorativi che riguardano gli autisti | Orario Lavorativo |
+| Richiesta Prenotazione | Richieste di prenotazioni effettuate da parte dall'utente | Prenotazioni |
+| Utenti | Utenti utilizzatori del servizio taxi | Persone |
+| Feedback | Recensioni lasciate dall'utente e dagli autisti | Recensioni |
+| Tratte Completate | Corse effettuate portate a termine con successo | Corse |
+| Tratte Rifiutate | Corse rifiutate da parte dell'autista per determinati motivi | Corse Annullate |
+| Carta | Carta di credito personale dell'utente | Metodo di pagamento |
+| Assicurazioni | Dati dell'assicurazione associata al singolo veicolo | RCA, Polizza assicurativa |
 ### Glossario delle relazioni
 
 | Relazione | Descrizione | Entità |
@@ -119,14 +116,14 @@ Ogni **utente** può accedere alla cronologia delle prenotazioni effettuate.
 
 #### Normalizzazione
 
-Di seguito si discutono le forme normali dello schema logico:
+Di seguito si discutono le forme normali dello schema concettuale:
 
 - **1NF**: tutti gli schemi di relazione nello schema logico sopra riportato sono in **1NF**, poiché tutti gli attributi sono semplici, ovvero contengono soltanto valori atomici indivisibili.
 - **2NF**: tutti gli schemi di relazione dello schema logico sono anche già in **2NF**, poiché sono già in **1NF** e nessun attributo presenta alcuna dipendenza parziale. Tutti gli attributi dipendono funzionalmente solo dalla chiave primaria della stessa tabella.
 - **3NF**: tutti gli schemi di relazione sono anche in **3NF** perché già in **2NF**, ed inoltre, tutti gli attributi delle tabelle dipendono funzionalmente e direttamente dalla chiave primaria, senza transitività.
 #### Generalizzazione
 
-Una generalizzazione rappresenta un legame logico tra un’entità genitore e una o più entità figlie, in questo caso l'entità genitore è "Richiesta Prenotazione", ognuna con le rispettive entità figlie, che sono:
+Una generalizzazione rappresenta un legame logico tra un’entità genitore e una o più entità figlie, in questo caso l'entità genitore è "Richiesta Prenotazione", e le entità figlie sono:
 
 1) **Richiesta prenotazione**
 	1) Tratte completate
@@ -1948,4 +1945,3 @@ REVOKE ALL PRIVILEGES, GRANT OPTION FROM 'lfn'@'localhost';
 GRANT SELECT ON CartePerUtente TO 'lfn'@'localhost';
 GRANT SELECT ON NumeroFeedbackTreStelle TO 'lfn'@'localhost';
 ```
-
