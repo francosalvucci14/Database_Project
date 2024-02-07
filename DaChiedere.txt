@@ -1,0 +1,5 @@
+- Entità Fermate/Percorsi
+- Gestione della localizzazione degli autisti
+- Può esistere una tabella senza collegamenti?
+- Una relazione N:N può diventare entità padre?
+
