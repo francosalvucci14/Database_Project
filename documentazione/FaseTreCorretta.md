@@ -64,67 +64,81 @@ Ogni **utente** può aggiungere alla lista dei preferiti ua qualunque delle trat
 Ogni **utente** può accedere alla cronologia delle prenotazioni effettuate.
 ### Glossario delle entità
 
-| Entità | Descrizione | Attributi | Relazioni Coinvolte |
-| ---- | ---- | ---- | ---- |
-| Patente | Descrive tutte le info riguardanti la patente degli autisti | **Numero Patente**, DDS, Categoria | Autisti |
-| Manutentori | Addetti alla manutenzione delle auto degli autisti | **ID_Manutentore**, Qualifica | Autisti |
-| Autisti | Personale che svolge il ruolo di autista delle auto nella società | **ID_Autista**, Stipendio | Patente, Manutentori, Veicoli,  Richiesta Prenotazione,  Feedback,Turni |
-| Veicoli | Auto utilizzate per il servizio di taxi | **Targa**, Marca, Modello, Posti disponibili | Autisti, Assicurazione |
-| Turni | Turni lavorativi che riguardano gli autisti | **ID_Turno**, Orario inizio, Orario fine | Autisti |
-| Richiesta Prenotazione | Richieste di prenotazioni effettuate da parte dall'utente | **Partenza, Arrivo, Data richiesta, Orario richiesta**, Numero Passeggeri | Utenti, Tratte Complete, Tratte Rifiutate |
-| Utenti | Utenti utilizzatori del servizio taxi | **ID_Utente**, Nome, Cognome, Email, Password | Carta, Richiesta Prenotazione, Feedback, Tratte completate |
-| Feedback | Recensioni lasciate dall'utente e dagli autisti | **ID_Feedback**, StelleUtente, CommentoUtente,StelleAutista, CommentoAutista | Tratte Completate, Utenti, Autisti |
-| Tratte Completate | Corse effettuate portate a termine con successo | Costo, MetodoDiPagamento | Richiesta Prenotazione, Feedback,Autisti |
-| Tratte Rifiutate | Corse rifiutate da parte dell'autista per determinati motivi | Motivazione | Richiesta Prenotazione, Autisti |
-| Carta | Carta di credito personale dell'utente | **Numero Carta** | Utenti |
-| Assicurazioni | Dati dell'assicurazione associata al singolo veicolo | **ID_Assicurazione**, Data di scadenza, Tipo | Veicoli |
+| Entità                 | Descrizione                                                       | Attributi                                                                    | Relazioni Coinvolte                                                     |
+| ---------------------- | ----------------------------------------------------------------- | ---------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| Patente                | Descrive tutte le info riguardanti la patente degli autisti       | **Numero Patente**, DDS, Categoria                                           | Autisti                                                                 |
+| Manutentori            | Addetti alla manutenzione delle auto degli autisti                | **ID_Manutentore**, Qualifica                                                | Autisti                                                                 |
+| Autisti                | Personale che svolge il ruolo di autista delle auto nella società | **ID_Autista**, Stipendio                                                    | Patente, Manutentori, Veicoli,  Richiesta Prenotazione,  Feedback,Turni |
+| Veicoli                | Auto utilizzate per il servizio di taxi                           | **Targa**, Marca, Modello, Posti disponibili                                 | Autisti, Assicurazione                                                  |
+| Turni                  | Turni lavorativi che riguardano gli autisti                       | **ID_Turno**, Orario inizio, Orario fine                                     | Autisti                                                                 |
+| Richiesta Prenotazione | Richieste di prenotazioni effettuate da parte dall'utente         | **Partenza, Arrivo, Data richiesta, Orario richiesta**, Numero Passeggeri    | Utenti, Tratte Complete, Tratte Rifiutate                               |
+| Utenti                 | Utenti utilizzatori del servizio taxi                             | **ID_Utente**, Nome, Cognome, Email, Password                                | Carta, Richiesta Prenotazione, Feedback, Tratte completate              |
+| Feedback               | Recensioni lasciate dall'utente e dagli autisti                   | **ID_Feedback**, StelleUtente, CommentoUtente,StelleAutista, CommentoAutista | Tratte Completate, Utenti, Autisti                                      |
+| Tratte Completate      | Corse effettuate portate a termine con successo                   | Costo, MetodoDiPagamento                                                     | Richiesta Prenotazione, Feedback,Autisti                                |
+| Tratte Rifiutate       | Corse rifiutate da parte dell'autista per determinati motivi      | Motivazione                                                                  | Richiesta Prenotazione, Autisti                                         |
+| Carta                  | Carta di credito personale dell'utente                            | **Numero Carta**                                                             | Utenti                                                                  |
+| Assicurazioni          | Dati dell'assicurazione associata al singolo veicolo              | **ID_Assicurazione**, Data di scadenza, Tipo                                 | Veicoli                                                                 |
+| Fermate                | Elenco delle fermate disponibili                                  | **Latitudine**, **Longitudine**, NomeFermata                                                                             | Richiesta Prenotazione                                                                        |
 ### Glossario dei termini
 
-| Entità | Descrizione | Sinonimi |
-| ---- | ---- | ---- |
-| Patente | Descrive tutte le info riguardanti la patente degli autisti | Licenza di Guida |
-| Manutentori | Addetti alla manutenzione delle auto degli autisti | Meccanici, Operai |
-| Autisti | Personale che svolge il ruolo di autista delle auto nella società | Driver |
-| Veicoli | Auto utilizzate per il servizio di taxi | Automobili |
-| Turni | Turni lavorativi che riguardano gli autisti | Orario Lavorativo |
-| Richiesta Prenotazione | Richieste di prenotazioni effettuate da parte dall'utente | Prenotazioni |
-| Utenti | Utenti utilizzatori del servizio taxi | Persone |
-| Feedback | Recensioni lasciate dall'utente e dagli autisti | Recensioni |
-| Tratte Completate | Corse effettuate portate a termine con successo | Corse |
-| Tratte Rifiutate | Corse rifiutate da parte dell'autista per determinati motivi | Corse Annullate |
-| Carta | Carta di credito personale dell'utente | Metodo di pagamento |
-| Assicurazioni | Dati dell'assicurazione associata al singolo veicolo | RCA, Polizza assicurativa |
+| Entità                 | Descrizione                                                       | Sinonimi                  |
+| ---------------------- | ----------------------------------------------------------------- | ------------------------- |
+| Patente                | Descrive tutte le info riguardanti la patente degli autisti       | Licenza di Guida          |
+| Manutentori            | Addetti alla manutenzione delle auto degli autisti                | Meccanici, Operai         |
+| Autisti                | Personale che svolge il ruolo di autista delle auto nella società | Driver                    |
+| Veicoli                | Auto utilizzate per il servizio di taxi                           | Automobili                |
+| Turni                  | Turni lavorativi che riguardano gli autisti                       | Orario Lavorativo         |
+| Richiesta Prenotazione | Richieste di prenotazioni effettuate da parte dall'utente         | Prenotazioni              |
+| Utenti                 | Utenti utilizzatori del servizio taxi                             | Persone                   |
+| Feedback               | Recensioni lasciate dall'utente e dagli autisti                   | Recensioni                |
+| Tratte Completate      | Corse effettuate portate a termine con successo                   | Corse                     |
+| Tratte Rifiutate       | Corse rifiutate da parte dell'autista per determinati motivi      | Corse Annullate           |
+| Carta                  | Carta di credito personale dell'utente                            | Metodo di pagamento       |
+| Assicurazioni          | Dati dell'assicurazione associata al singolo veicolo              | RCA, Polizza assicurativa |
+| Fermate                | Elenco delle fermate selezionabili da un utente                   | Punti                          |
 ### Glossario delle relazioni
 
-| Relazione | Descrizione | Entità |
-| ---- | ---- | ---- |
-| VeicoloPossiedeAssicurazione | Relazione che dice che ogni veicolo ha una propria assicurazione | Veicoli (1,1), Assicurazione (1,1) |
-| AutistaGuidaVeicolo | Relazione che dice che ogni autista guida la propria autovettura | Autisti (1,1), Veicoli (1,1) |
-| AutistaPossiedePatente | Relazione che dice che ogni autista, per poter guidare, necessita di una patente | Autisti (1,1), Patente (1,1) |
-| ContattaPerGuasto | Relazione che dice che ogni autista può (non necessariamente) contattare un manutentore per un guasto al veicolo | Autisti (0,N), Manutentori (0,N) |
-| AutistaAccettaCorsa | Relazione che dice che ogni autista accetta la richiesta di prenotazione | Autisti (1,N), TratteCompletate (1,1) |
-| AutistaRifiutaCorsa | Relazione che dice che l'autista rifiuta la corsa, in base a determinate circostanze | Autisti (1,N), TratteRifiutate (1,1) |
-| UtentePossiedeCarta | Relazione che dice che ogni utente deve possedere almeno una carta con cui effettuare i pagamenti | Utenti (1,N), Carta (1,1) |
-| EffettuaPrenotazione | Relazione che dice che ogni utente effettua una o più prenotazioni | Utenti (1,N), Richiesta Prenotazioni (1,1) |
-| TrattaAvereFeedback | Relazione che dice che ogni tratta completata può avere (non necessariamente) un solo feedback, che viene lasciato dagli utenti e dagli autisti | Tratte Completate (0,1), Feedback (1,1) |
-| TabellaOrarioLavorativo | Ogni autista ha un proprio turno lavorativo, ad ogni turno lavorativo vengono assegnati uno o più autisti | Autisti (1,N), Turni (1,N) |
+| Relazione                    | Descrizione                                                                                                                                     | Entità                                     |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| VeicoloPossiedeAssicurazione | Relazione che dice che ogni veicolo ha una propria assicurazione                                                                                | Veicoli (1,1), Assicurazione (1,1)         |
+| AutistaGuidaVeicolo          | Relazione che dice che ogni autista guida la propria autovettura                                                                                | Autisti (1,1), Veicoli (1,1)               |
+| AutistaPossiedePatente       | Relazione che dice che ogni autista, per poter guidare, necessita di una patente                                                                | Autisti (1,1), Patente (1,1)               |
+| ContattaPerGuasto            | Relazione che dice che ogni autista può (non necessariamente) contattare un manutentore per un guasto al veicolo                                | Autisti (0,N), Manutentori (0,N)           |
+| AutistaAccettaCorsa          | Relazione che dice che ogni autista accetta la richiesta di prenotazione                                                                        | Autisti (1,N), TratteCompletate (1,1)      |
+| AutistaRifiutaCorsa          | Relazione che dice che l'autista rifiuta la corsa, in base a determinate circostanze                                                            | Autisti (1,N), TratteRifiutate (1,1)       |
+| UtentePossiedeCarta          | Relazione che dice che ogni utente deve possedere almeno una carta con cui effettuare i pagamenti                                               | Utenti (1,N), Carta (1,1)                  |
+| EffettuaPrenotazione         | Relazione che dice che ogni utente effettua una o più prenotazioni                                                                              | Utenti (1,N), Richiesta Prenotazioni (1,1) |
+| TrattaAvereFeedback          | Relazione che dice che ogni tratta completata può avere (non necessariamente) un solo feedback, che viene lasciato dagli utenti e dagli autisti | Tratte Completate (0,1), Feedback (1,1)    |
+| TabellaOrarioLavorativo      | Ogni autista ha un proprio turno lavorativo, ad ogni turno lavorativo vengono assegnati uno o più autisti                                       | Autisti (1,N), Turni (1,N)                 |
+| SceglierePartenza            | Punto di partenza scelto per il ritiro da parte dell'autista                                                                                    | Fermate(1,N), RichiestaPrenotazioni(1,1)   |
+| ScegliArrivo                 | Punto di fine scelto per il rilascio da parte dell'autista                                                                                      | Fermate(1,N), RichiestaPrenotazioni(1,1)   |
+| Accettare                    | L'autista accetta la tratta                                                                                                                     | Autisti(0,N), TratteCompletate(1,1)        |
+| Rifiutare                             | L'autista rifiuta la tratta                                                                                                                                                | Autisti(0,N), TratteRifiutate(1,1)                                           |
 ## Schemi
 
 ### Schema Scheletro
 
-Descrizione 1
+Le entità principali del sistema sono le seguenti.
+La relazione che intercorre tra queste entità ci permette di affermare che l'utente può effettuare una prenotazione che verrà poi assegnata ad un singolo autista.
 
 ![[SchemaScheletro1.jpg]]
 
-Descrizione 2
+In questo caso stiamo raffinando l'entità utenti.
+Ad ogni utente è associata una o più carte (1,N : 1,1) con cui poi l'utente effettuerà i vari pagamenti.
+I dati della carta non sono salvati nel database per questioni di privacy, bensì, verranno prelevati tramite interrogazioni al database della banca (che non fa parte del nostro sistema)
 
 ![[SchemaScheletro2.jpg]]
 
-Descrizione 3
+In questo caso stiamo raffinando l'entità autisti.
+La prima relazione che si ha descrive il comportamento tra autisti e turni, un
+autista ha uno o più turni lavorativi, con il vincolo che non può avere due turni uguali. Ad un turno sono assegnati uno o più autisti
+La seconda relazione che si ha descrive il comportamento tra autisti e patenti, un autista possiede una ed una sola patente. Una patente è posseduta da uno ed un solo autista
+La terza relazione che si ha descrive il comportamento tra autisti e veicoli, un autista possiede uno più veicoli con cui effettua le sue corse. Il veicolo è privato e quindi è associato ad un singolo autista.
+L'ultima relazione descrive il comportamento tra veicoli e assicurazioni, ovvero, ad ogni veicolo è associata una sola assicurazione.
 
 ![[SchemaScheletro3.jpg]]
 
-Descrizione 4
+
 
 ![[SchemaScheletro4.jpg]]
 
