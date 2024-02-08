@@ -110,9 +110,28 @@ Ogni **utente** può accedere alla cronologia delle prenotazioni effettuate.
 | TabellaOrarioLavorativo | Ogni autista ha un proprio turno lavorativo, ad ogni turno lavorativo vengono assegnati uno o più autisti | Autisti (1,N), Turni (1,N) |
 ## Schemi
 
+### Schema Scheletro
+
+Descrizione 1
+
+![[SchemaScheletro1.jpg]]
+
+Descrizione 2
+
+![[SchemaScheletro2.jpg]]
+
+Descrizione 3
+
+![[SchemaScheletro3.jpg]]
+
+Descrizione 4
+
+![[SchemaScheletro4.jpg]]
+
 ### Schema Concettuale
 
-![[Schema-Logico.jpg|center]]
+![[SchemaConcettuale.jpg]]
+
 
 #### Normalizzazione
 
