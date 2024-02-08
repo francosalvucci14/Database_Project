@@ -66,12 +66,12 @@ Ogni **utente** può accedere alla cronologia delle prenotazioni effettuate.
 
 | Entità                 | Descrizione                                                       | Attributi                                                                    | Relazioni Coinvolte                                                     |
 | ---------------------- | ----------------------------------------------------------------- | ---------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| Patente                | Descrive tutte le info riguardanti la patente degli autisti       | **Numero Patente**, DDS, Categoria                                           | Autisti                                                                 |
-| Manutentori            | Addetti alla manutenzione delle auto degli autisti                | **ID_Manutentore**, Qualifica                                                | Autisti                                                                 |
-| Autisti                | Personale che svolge il ruolo di autista delle auto nella società | **ID_Autista**, Stipendio                                                    | Patente, Manutentori, Veicoli,  Richiesta Prenotazione,  Feedback,Turni |
-| Veicoli                | Auto utilizzate per il servizio di taxi                           | **Targa**, Marca, Modello, Posti disponibili                                 | Autisti, Assicurazione                                                  |
-| Turni                  | Turni lavorativi che riguardano gli autisti                       | **ID_Turno**, Orario inizio, Orario fine                                     | Autisti                                                                 |
-| Richiesta Prenotazione | Richieste di prenotazioni effettuate da parte dall'utente         | **Partenza, Arrivo, Data richiesta, Orario richiesta**, Numero Passeggeri    | Utenti, Tratte Complete, Tratte Rifiutate                               |
+| Patenti                | Descrive tutte le info riguardanti la patente degli autisti       | **Numero Patente**, DDS, Categoria                                           | Autisti                                                                 |
+| Manutentori            | Addetti alla manutenzione delle auto degli autisti                | **ID_Manutentore**, Email, BNumeroTelefono, DDN, Congome, Nome, Qualifica                                                | Autisti                                                                 |
+| Autisti                | Personale che svolge il ruolo di autista delle auto nella società | **ID_Autista**, Stipendio, Email, BNumeroTelefono, DDN, Congome, Nome                                                    | Patenti, Manutentori, Veicoli, TratteCompletate, TratteRifiutate,Turni |
+| Veicoli                | Auto utilizzate per il servizio di taxi                           | **Targa**, Marca, Modello, NumeroPosti                                 | Autisti, Assicurazione                                                  |
+| Turni                  | Turni lavorativi che riguardano gli autisti                       | **OraInzio**, **OraFine**                                     | Autisti                                                                 |
+| Richiesta Prenotazione | Richieste di prenotazioni effettuate da parte dall'utente         | **Data**, **Ora**, **LascioDaModificare**    | Utenti, Tratte Completate, Tratte Rifiutate, Fermate                               |
 | Utenti                 | Utenti utilizzatori del servizio taxi                             | **ID_Utente**, Nome, Cognome, Email, Password                                | Carta, Richiesta Prenotazione, Feedback, Tratte completate              |
 | Feedback               | Recensioni lasciate dall'utente e dagli autisti                   | **ID_Feedback**, StelleUtente, CommentoUtente,StelleAutista, CommentoAutista | Tratte Completate, Utenti, Autisti                                      |
 | Tratte Completate      | Corse effettuate portate a termine con successo                   | Costo, MetodoDiPagamento                                                     | Richiesta Prenotazione, Feedback,Autisti                                |
@@ -118,34 +118,55 @@ Ogni **utente** può accedere alla cronologia delle prenotazioni effettuate.
 
 ### Schema Scheletro
 
-Le entità principali del sistema sono le seguenti.
-La relazione che intercorre tra queste entità ci permette di affermare che l'utente può effettuare una prenotazione che verrà poi assegnata ad un singolo autista.
+Le entità principali del sistema sono le seguenti:
 
-![[SchemaScheletro1.jpg]]
+- *Utenti*
+- *RichiestaPrenotazioni*
+- *Autisti*
 
-In questo caso stiamo raffinando l'entità utenti.
-Ad ogni utente è associata una o più carte (1,N : 1,1) con cui poi l'utente effettuerà i vari pagamenti.
-I dati della carta non sono salvati nel database per questioni di privacy, bensì, verranno prelevati tramite interrogazioni al database della banca (che non fa parte del nostro sistema)
+La relazione che intercorre tra queste entità ci permette di affermare che l'*Utente* può effettuare una *Prenotazione* che verrà poi assegnata ad un singolo *Autista*.
 
-![[SchemaScheletro2.jpg]]
+![[Scheletro.png | Center | 900]]
 
-In questo caso stiamo raffinando l'entità autisti.
-La prima relazione che si ha descrive il comportamento tra autisti e turni, un
-autista ha uno o più turni lavorativi, con il vincolo che non può avere due turni uguali. Ad un turno sono assegnati uno o più autisti
-La seconda relazione che si ha descrive il comportamento tra autisti e patenti, un autista possiede una ed una sola patente. Una patente è posseduta da uno ed un solo autista
-La terza relazione che si ha descrive il comportamento tra autisti e veicoli, un autista possiede uno più veicoli con cui effettua le sue corse. Il veicolo è privato e quindi è associato ad un singolo autista.
-L'ultima relazione descrive il comportamento tra veicoli e assicurazioni, ovvero, ad ogni veicolo è associata una sola assicurazione.
+# Raffinazione
 
-![[SchemaScheletro3.jpg]]
+In questo caso stiamo raffinando l'entità *Utenti*.
 
+- Ad ogni *Utente* è associata una o più *Carte* con cui poi l'*Utente* effettuerà i vari pagamenti.
 
+I dati della *Carta* non sono salvati nel database per questioni di privacy, bensì, verranno prelevati tramite interrogazioni al database della banca (che non fa parte del nostro sistema)
 
-![[SchemaScheletro4.jpg]]
+![[RaffinazioneUtent.png| center | 900]]
+
+In questo caso stiamo raffinando l'entità *Autisti*.
+
+- La prima relazione che si ha descrive il comportamento tra *Autisti* e *Turni*, un*Autista* ha uno o più *Turni* lavorativi, con il vincolo che non può avere due *Turni* uguali. Ad un *Turno* sono assegnati uno o più *Autisti*
+
+- La seconda relazione che si ha descrive il comportamento tra *Autisti* e *Patenti*, un *Autista* possiede una ed una sola *Patente*. Una *Patente* è posseduta da uno ed un solo *Autista*
+
+- La terza relazione che si ha descrive il comportamento tra *Autisti* e *Veicoli*, un *Autista* possiede uno più *Veicoli* con cui effettua le sue corse. Il *Veicolo* è privato e quindi è associato ad un singolo *Autista*.
+
+- La quarta relazione che si ha descrive il comportamento tra gli *Autisti* e i *Manutentori*, un *Autista* può contattare uno o più *Manutentori*. Un *Manutentore* può essere contattato da uno o più *Autisti*
+
+- L'ultima relazione descrive il comportamento tra *Veicoli* e *Assicurazioni*, ovvero, ad ogni *Veicolo* è associata una sola *Assicurazione*. Viceversa per le *Assicurazioni*.
+
+![[RaffinazioneAutisti.png | center | 900]]
+
+In questo caso stiamo raffinando l'entità *RichiestaPrenotazione*.
+
+- La prima relazione che si ha permette alla *Prenotazione* di decidere uno ed un solo punto di partenza tra le *Fermate*. Le *Fermate* hanno più di un punto di partenza.
+
+- La seconda relazione che si ha permette alla *Prenotazione* di decidere uno ed un solo punto di arrivo tra le *Fermate*. Le *Fermate* hanno più di un punto di arrivo.
+
+Successivamente si evidenzia il fatto che la *RichiestaPrenotazione* ha 2 entità figlie (*TratteCompletate*, *TratteRifiutate*) che verranno generalizzate più avanti.
+
+- Infine troviamo l'ultima relazione che descrive il comportamento tra le *Tratte completate* e *Feedback*. Una *Tratta Completata* può avere uno ed un solo *Feedback*. Un *Feedback* appartiene ad una sola *Tratta Completata*.
+
+![[RaffinazionePrenotazioni.png | center | 900]]
 
 ### Schema Concettuale
 
-![[SchemaConcettuale.jpg]]
-
+![[SchemaConcettuale.png| center | 900]]
 
 #### Normalizzazione
 
