@@ -1,7 +1,7 @@
 use VroomA;
 
 CREATE TABLE Patente (
-	NumeroPatente int not null,
+	NumeroPatente varchar(50) not null,
 	DDS date not null,
 	Categoria varchar(50),
 	PRIMARY KEY (NumeroPatente)
@@ -20,8 +20,7 @@ CREATE TABLE Veicoli (
 	Targa varchar(50) not null,
 	Marca varchar(50) not null,
 	Modello varchar(50) not null,
-	PostiDisponibili int not null,
-	Matricola int not null,
+	NumPosti int not null,
 	PRIMARY KEY (Targa)
 );
 CREATE TABLE Autisti (
@@ -31,7 +30,7 @@ CREATE TABLE Autisti (
 	Email varchar(50) not null,
 	DDN date not null,
 	NumeroTelefono varchar(25) not null,
-	NumeroPatente int not null,
+	NumeroPatente varchar(50) not null,
 	Targa varchar(50) not null,
 	Stipendio int not null,
 	PRIMARY KEY (Matricola),
