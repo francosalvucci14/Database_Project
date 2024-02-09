@@ -199,9 +199,11 @@ Nelle entità, le chiavi secondarie sono indentificate con il pallino grigio, me
 
 #### Schema Finale
 
-![[Schema-Fisico.jpg]]
+![[SchemaFinale.png|Center|900]]
 
 ### Schema Logico
+
+![[SchemaLogico.png|center|900]]
 
 Le chiave primarie sono identificate in **grassetto**, mentre le chiavi secondarie (o esterne) sono scritte in stile _Italic_
 
