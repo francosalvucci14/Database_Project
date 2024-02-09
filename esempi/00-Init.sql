@@ -14,7 +14,7 @@ CREATE TABLE Manutentori (
 	DDN date not null,
 	NumeroTelefono varchar(25) not null,
 	Qualifica varchar(50) not null,
-	PRIMARY KEY (ID_Manutentore),
+	PRIMARY KEY (ID_Manutentore)
 );
 CREATE TABLE Veicoli (
 	Targa varchar(50) not null,
@@ -25,7 +25,7 @@ CREATE TABLE Veicoli (
 	PRIMARY KEY (Targa)
 );
 CREATE TABLE Autisti (
-	Martricola int not null ,
+	Matricola int not null ,
 	Nome varchar(25) not null,
 	Cognome varchar(25) not null,
 	Email varchar(50) not null,
@@ -45,7 +45,7 @@ CREATE TABLE Assicurazione (
 	Tipo varchar(50) not null,
 	Stato varchar(25) not null,
 	Targa varchar(50) not null,
-	PRIMARY KEY (ID_Assicurazione),
+	PRIMARY KEY (Numero),
 	FOREIGN KEY (Targa) REFERENCES Veicoli(Targa)
 );
 
@@ -73,7 +73,7 @@ CREATE TABLE RichiestePrenotazioni (
 	OrarioRichiesta varchar(25) not null,
 	NumeroPasseggeri int not null,
 	PRIMARY KEY (ID_Utente,Partenza,Arrivo,DataRichiesta,OrarioRichiesta),
-	FOREIGN KEY (ID_Utente) REFERENCES Utenti(ID_Utente),
+	FOREIGN KEY (ID_Utente) REFERENCES Utenti(ID_Utente)
 );
 
 
@@ -148,7 +148,6 @@ CREATE TABLE TabellaOrarioLavorativo(
 	OrarioFine int not null,
 	Data date not null,
 	PRIMARY KEY(Matricola,OrarioInizio, OrarioFine),
-	FOREIGN KEY	(Autista) REFERENCES Autisti(Matricola),
-	FOREIGN KEY	(OrarioInizio) REFERENCES Turni(OrarioInizio),
-	FOREIGN KEY	(OrarioFine) REFERENCES Turni(OrarioFine),
+	FOREIGN KEY	(Matricola) REFERENCES Autisti(Matricola),
+	FOREIGN KEY	(OrarioInizio,OrarioFine) REFERENCES Turni(OrarioInizio,OrarioFine)
 );
