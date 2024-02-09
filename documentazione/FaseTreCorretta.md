@@ -162,7 +162,7 @@ Successivamente si evidenzia il fatto che la *RichiestaPrenotazione* ha 2 entit√
 
 - Infine troviamo l'ultima relazione che descrive il comportamento tra le *Tratte completate* e *Feedback*. Una *Tratta Completata* pu√≤ avere uno ed un solo *Feedback*. Un *Feedback* appartiene ad una sola *Tratta Completata*.
 
-![[RaffinazionePrenotazioni.png | center | 900]]
+![[IMG/RaffinazionePrenotazioni.png| center | 900]]
 
 ### Schema Concettuale
 
