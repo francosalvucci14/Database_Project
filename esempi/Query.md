@@ -148,3 +148,27 @@ WHERE pt.Categoria = "B96"
 ```SQL
 
 ```
+
+# Nuove Query 
+
+Visualizza tutte le tratte completate, il costo e il metodo di pagamento di un determinato utente
+```
+SELECT tc.Partenza, tc.Arrivo, tc.Costo, tc.MetodoDiPagamento FROM TratteCompletate tc
+JOIN Utenti u ON tc.ID_Utente = u.ID_Utente 
+WHERE u.Nome = 'Nino' AND u.Cognome = 'Pausini'
+```
+Visualizza i veicoli la cui assicurazione scadrà nel mese di febbraio e i dati del proprietario
+```
+SELECT v.Targa, Modello, Marca, a.DDS  AS DataScadenza, au.Nome, au.Cognome FROM Veicoli v 
+JOIN Assicurazioni a ON v.Targa  = a.Targa  
+JOIN Autisti au ON au.Matricola = v.Matricola 
+WHERE YEAR(a.DDS) = "2024" AND MONTH(a.DDS) = "02";
+```
+Visualizza tutti i turni lavorati da un dato autista 
+```
+SELECT tol.Data, tol.OraInizio, tol.OraFine FROM Autisti a JOIN TabellaOrarioLavorativo tol 
+ON a.Matricola  = tol.Matricola 
+WHERE a.Nome = "Silvia" AND a.Cognome = "Saffi"
+ORDER BY tol.Data;
+```
+
