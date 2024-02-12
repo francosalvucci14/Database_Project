@@ -172,7 +172,32 @@ f.write(
 )
 f.write("\n")
 print("--------------- Fine Inserimento Turni\n")
+print("--------------- Inizio Inserimento Autisti\n")
 
+unique_Autisti = []
+values_autisti = []
+stipendio = ["1200","1100","900","800"]
+
+for i in range(3000):
+    matricola = "".join(random.choice(NUMBERS) for i in range(6))
+    if matricola in unique_Autisti:
+        matricola = "".join(random.choice(NUMBERS) for i in range(6))
+    random_patente = unique_Patente[i]
+    #random_Turno = random.choice(unique_Turno[1:])
+    #random_targa = random.choice(unique_Veicolo)
+    nome = fake.first_name()
+    cognome = fake.last_name()
+    email = generateEmail(nome,cognome)
+    ddn = genRandomDate()
+    num_telefono = fake.phone_number()
+    query = "('"+ matricola+ "','"+ str(nome)+ "','"+ str(cognome)+ "','"+ str(email)+ "','"+ str(ddn)+ "','"+ num_telefono+ "','"+ random_patente+ "','"+random.choice(stipendio)+"')"
+    unique_Autisti.append(matricola)
+    values_autisti.append(query)
+f.write(
+    "INSERT INTO Autisti (Matricola,Nome,Cognome,Email,DDN,NumeroTelefono,NumeroPatente,Stipendio) VALUES "+",\n".join(values_autisti)+";"
+)
+f.write("\n")
+print("--------------- Fine Inserimento Autisti\n")
 f.write("\n")
 print("--------------- Inizio Inserimento Veicoli\n")
 unique_Veicolo = []
@@ -189,13 +214,13 @@ for i in range(3000):
     #random_assicurazione = unique_Assicurazione[i]
     marca_random = random.choice(list(dict_veicoli.keys()))
     modello_random = str(random.choice(dict_veicoli[marca_random]))
-
-    query = "('"+ str(random_targa)+ "','"+ str(marca_random)+ "','"+ str(modello_random)+ "','"+str(random.randint(1,12))+"')"
+    autista = unique_Autisti[i]
+    query = "('"+ str(random_targa)+ "','"+ str(marca_random)+ "','"+ str(modello_random)+ "','"+str(random.randint(3,12))+"','"+autista+"')"
     unique_Veicolo.append(random_targa)
     values_veicolo.append(query)
 
 f.write(
-    "INSERT INTO Veicoli (Targa,Marca,Modello,NumPosti) VALUES "+",\n".join(values_veicolo)+";"
+    "INSERT INTO Veicoli (Targa,Marca,Modello,NumPosti,Matricola) VALUES "+",\n".join(values_veicolo)+";"
 )
 f.write("\n")
 print("--------------- Fine Inserimento Veicoli\n")
@@ -203,7 +228,7 @@ print("--------------- Inizio Inserimento Assicurazione\n")
 
 unique_Assicurazione = []
 values_assicurazione = []
-tipo_assicurazione=["Kasko","Furto","Incendio","Base"]
+tipo_assicurazione=["Kasko","Furto","Incendio","Base","Polizza cristalli"]
 
 for i in range(3000):
     random_id = str(i)
@@ -223,29 +248,6 @@ f.write(
 f.write("\n")
 print("--------------- Fine Inserimento Assicurazione\n")
 f.write("\n")
-print("--------------- Inizio Inserimento Autisti\n")
-
-unique_Autisti = []
-values_autisti = []
-stipendio = ["1200","1100","900","800"]
-
-for i in range(3000):
-    matricola = "".join(random.choice(NUMBERS) for i in range(6))
-    random_patente = unique_Patente[i]
-    #random_Turno = random.choice(unique_Turno[1:])
-    random_targa = random.choice(unique_Veicolo)
-    nome = fake.first_name()
-    cognome = fake.last_name()
-    email = generateEmail(nome,cognome)
-    ddn = genRandomDate()
-    query = "('"+ matricola+ "','"+ str(nome)+ "','"+ str(cognome)+ "','"+ str(email)+ "','"+ str(ddn)+ "','"+ random_patente+ "','"+random_targa+"','"+random.choice(stipendio)+"')"
-    unique_Autisti.append(matricola)
-    values_autisti.append(query)
-f.write(
-    "INSERT INTO Autisti (Matricola,Nome,Cognome,Email,DDN,NumeroPatente,Targa,Stipendio) VALUES "+",\n".join(values_autisti)+";"
-)
-f.write("\n")
-print("--------------- Fine Inserimento Autisti\n")
 f.write("\n")
 f.write("\n")
 print("--------------- Inizio Inserimento TabellaOrarioLavorativo\n")
@@ -254,11 +256,12 @@ values_tabella = []
 unique_TabellaOrario = []
 for i in range(2000):
     matricola = random.choice(unique_Autisti)
-    turno_inizio  =random.choice(unique_Turno[0])
-    turno_fine  =random.choice(unique_Turno[1])
+    turno = random.choice(unique_Turno)
+    turno_inizio = turno[0]
+    turno_fine = turno[1]
     data = genRandomInsuranceDate()
     query = "('"+ matricola+ "','"+ turno_inizio+ "','"+turno_fine+"','"+str(data)+"')"
-    unique_TabellaOrario.append((matricola,turno_inizio,turno_fine))
+    unique_TabellaOrario.append((matricola,turno_inizio,turno_fine,data))
     values_tabella.append(query)
 f.write(
     "INSERT INTO TabellaOrarioLavorativo (Matricola,OraInizio,OraFine,Data) VALUES "+",\n".join(values_tabella)+";"
@@ -302,7 +305,7 @@ for i in range(1500):
     unique_Contatto.append((random_manutentore,random_autista))
     values_contatto.append(query)
 f.write(
-    "INSERT INTO ContattaPerGuasto (ID_Manutentore,ID_Autista,Motivo,Data) VALUES "+",\n".join(values_contatto)+";"
+    "INSERT INTO ContattaPerGuasto (ID_Manutentore,Matricola,Motivo,Data) VALUES "+",\n".join(values_contatto)+";"
 )
 f.write("\n")
 print("--------------- Fine Inserimento ContattaPerGuasto\n")
@@ -426,7 +429,7 @@ for i in range(15000):
     autista = random.choice(unique_Autisti)
     query = "('"+ str(pk[0])+ "','"+ str(pk[1])+ "','"+ str(pk[2])+ "','"+ str(pk[3])+ "','"+ str(pk[4])+ "','"+ str(costi)+ "','"+ str(metodo)+ "','"+ str(pk[3])+ "','"+ str(orario_pagamento)+ "','"+str(autista)+"')"
     
-    unique_TrattaC.append((utente,partenza,arrivo,data,ora))
+    unique_TrattaC.append((utente,partenza,arrivo,data,orario))
     values_trattac.append(query)
     
 f.write(
