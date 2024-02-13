@@ -194,7 +194,6 @@ Tra questi metodi abbiamo scelto il terzo in quanto da noi considerato il più a
 Il secondo metodo necessita dell’aggiunta di un attributo nell' entità "Richiesta Prenotazioni", ovvero il tipo di prenotazione (Es. Completata = 1 e Rifiutata = 2), in più si sarebbe dovuto scegliere se perdere informazioni (attributi) dei figli o inserire le informazioni nel padre, quindi aggiungere attributi dei figli al padre. La seconda scelta avrebbe portato ad una quantità non indifferente di valori NULL.
 
 Nelle entità, le chiavi secondarie sono indentificate con il pallino grigio, mentre quelle primarie sono identificate con il pallino nero.
-
 #### Schema Finale
 
 ![[SchemaFinale.jpg|center|600]]
@@ -246,13 +245,7 @@ CREATE TABLE Manutentori (
 	Qualifica varchar(50) not null,
 	PRIMARY KEY (ID_Manutentore)
 );
-CREATE TABLE Veicoli (
-	Targa varchar(50) not null,
-	Marca varchar(50) not null,
-	Modello varchar(50) not null,
-	NumPosti int not null,
-	PRIMARY KEY (Targa)
-);
+
 CREATE TABLE Autisti (
 	Matricola int not null ,
 	Nome varchar(25) not null,
@@ -261,14 +254,22 @@ CREATE TABLE Autisti (
 	DDN date not null,
 	NumeroTelefono varchar(25) not null,
 	NumeroPatente varchar(50) not null,
-	Targa varchar(50) not null,
 	Stipendio int not null,
 	PRIMARY KEY (Matricola),
-	FOREIGN KEY (NumeroPatente) REFERENCES Patente(NumeroPatente),
-	FOREIGN KEY (Targa) REFERENCES Veicoli(Targa)
+	FOREIGN KEY (NumeroPatente) REFERENCES Patente(NumeroPatente)
 );
 
-CREATE TABLE Assicurazione (
+CREATE TABLE Veicoli (
+	Targa varchar(50) not null,
+	Marca varchar(50) not null,
+	Modello varchar(50) not null,
+	NumPosti int not null,
+	Matricola int not null,
+	PRIMARY KEY (Targa),
+	FOREIGN KEY (Matricola) REFERENCES Autisti(Matricola)
+);
+
+CREATE TABLE Assicurazioni (
 	Numero int not null,
 	DDS date not null,
 	Tipo varchar(50) not null,
@@ -291,7 +292,15 @@ CREATE TABLE Utenti (
 	Cognome varchar(50) not null,
 	Email varchar(255) not null,
 	Password varchar(255) not null,
+	DDN date not null,
 	PRIMARY KEY (ID_Utente)
+);
+
+CREATE TABLE Fermate (
+	NomeFermata varchar(50) not null,
+	Latitudine varchar(25) not null,
+	Longitudine varchar(25) not null,
+	PRIMARY KEY (NomeFermata)
 );
 
 CREATE TABLE RichiestePrenotazioni (
@@ -302,25 +311,11 @@ CREATE TABLE RichiestePrenotazioni (
 	OrarioRichiesta varchar(25) not null,
 	NumeroPasseggeri int not null,
 	PRIMARY KEY (ID_Utente,Partenza,Arrivo,DataRichiesta,OrarioRichiesta),
-	FOREIGN KEY (ID_Utente) REFERENCES Utenti(ID_Utente)
+	FOREIGN KEY (ID_Utente) REFERENCES Utenti(ID_Utente),
+	FOREIGN KEY (Partenza) REFERENCES Fermate(NomeFermata),
+	FOREIGN KEY (Arrivo) REFERENCES Fermate(NomeFermata)
 );
 
-
-CREATE TABLE Feedback (
-	ID_Feedback int not null ,
-	StelleUtente int not null,
-	CommentoUtente varchar(255) not null,
-	StelleAutista int not null,
-	CommentoAutista varchar(255) not null,
-	ID_Utente int not null,
-	Partenza varchar(50) not null,
-	Arrivo varchar(50) not null,
-	DataRichiesta date not null,
-	OrarioRichiesta varchar(25) not null,
-	PRIMARY KEY (ID_Feedback),
-	FOREIGN KEY (ID_Utente,Partenza,Arrivo,DataRichiesta,OrarioRichiesta) 
-	REFERENCES RichiestePrenotazioni(ID_Utente,Partenza,Arrivo,DataRichiesta,OrarioRichiesta)
-);
 
 CREATE TABLE Carta (
 	NumeroCarta varchar(50) not null,
@@ -340,7 +335,7 @@ CREATE TABLE TratteCompletate (
 	Costo int not null,
 	MetodoDiPagamento varchar(50) not null,
 	DataPagamento date not null,
-	OraPagamento date not null,
+	OraPagamento varchar(10) not null,
 	Autista int not null,
 	PRIMARY KEY (ID_Utente,Partenza,Arrivo,DataRichiesta,OrarioRichiesta),
 	FOREIGN KEY (ID_Utente,Partenza,Arrivo,DataRichiesta,OrarioRichiesta) 
@@ -362,6 +357,22 @@ CREATE TABLE TratteRifiutate (
 	FOREIGN KEY	(Autista) REFERENCES Autisti(Matricola)
 );
 
+CREATE TABLE Feedback (
+	ID_Feedback int not null ,
+	StelleUtente int not null,
+	CommentoUtente varchar(255) not null,
+	StelleAutista int not null,
+	CommentoAutista varchar(255) not null,
+	ID_Utente int not null,
+	Partenza varchar(50) not null,
+	Arrivo varchar(50) not null,
+	DataRichiesta date not null,
+	OrarioRichiesta varchar(25) not null,
+	PRIMARY KEY (ID_Feedback),
+	FOREIGN KEY (ID_Utente,Partenza,Arrivo,DataRichiesta,OrarioRichiesta) 
+	REFERENCES TratteCompletate(ID_Utente,Partenza,Arrivo,DataRichiesta,OrarioRichiesta)
+);
+
 CREATE TABLE ContattaPerGuasto (
 	ID_Manutentore int not null,
 	Matricola int not null,
@@ -373,12 +384,12 @@ CREATE TABLE ContattaPerGuasto (
 
 CREATE TABLE TabellaOrarioLavorativo(
 	Matricola int not null,
-	OrarioInizio int not null,
-	OrarioFine int not null,
+	OraInizio int not null,
+	OraFine int not null,
 	Data date not null,
-	PRIMARY KEY(Matricola,OrarioInizio, OrarioFine),
+	PRIMARY KEY(Matricola,OraInizio, OraFine,Data),
 	FOREIGN KEY	(Matricola) REFERENCES Autisti(Matricola),
-	FOREIGN KEY	(OrarioInizio,OrarioFine) REFERENCES Turni(OrarioInizio,OrarioFine)
+	FOREIGN KEY	(OraInizio,OraFine) REFERENCES Turni(OrarioInizio,OrarioFine)
 );
 ```
 
@@ -390,87 +401,13 @@ I trigger fanno parte del DDL (Data Definition Language), essi seguono il princi
 
 Nello specifico in MySQL i trigger operano a livello di riga e si ammette un solo trigger per tabella. Osserviamo inoltre che questi vengono usati per mantenere constraint di ogni tipo, in primis il vincolo di integrità referenziale. Quelli di seguito sono una serie di trigger di esempio necessari per mantenere una serie di vincoli nel nostro database
 
-
-**Controlla Orario Richiesta**
-
-```SQL
-CREATE TRIGGER `ControllaOrarioRichiesta` BEFORE INSERT ON `RichiestePrenotazioni` FOR EACH ROW BEGIN
-
--- Controlla se l'orario richiesto esiste già nella tabella
-	IF EXISTS (
-		SELECT 1
-		FROM RichiestePrenotazioni
-		WHERE OrarioRichiesta = NEW.OrarioRichiesta AND ID_Utente = NEW.ID_Utente
-	) THEN
-	
-	-- Se l'orario esiste già, interrompi l'inserimento
-		SIGNAL SQLSTATE '45000'
-		SET MESSAGE_TEXT = '[ERRORE],OGNI UTENTE NON PUÒ PRENOTARE PIÙ DI UNA CORSA NELLO STESSO ORARIO';
-	END IF;
-
-END
-```
-
-**Controlla Turno Lavorativo**
-
-```SQL
-CREATE TRIGGER `ControllaTurnoLavorativo` BEFORE INSERT ON `Autisti` FOR EACH ROW BEGIN
-
--- Controlla se l'autista è stato già assegnato al turno richiesto
-	IF EXISTS (
-		SELECT 1
-		FROM Autisti a 
-		WHERE Turno = NEW.Turno AND ID_Autista = NEW.ID_Autista
-	) THEN
-	
-	-- Se si, interrompi l'inserimento
-		SIGNAL SQLSTATE '45000'
-		SET MESSAGE_TEXT = '[ERRORE],UN AUTISTA NON PUÒ ESSERE ASSEGNATO A DUE TURNI CHE HANNO LO STESSO ORARIO DI INIZIO E FINE';
-	END IF;
-
-END
-```
-
-**Controlla Carta**
-
-```SQL
-CREATE TRIGGER `ControllaInserimentiCarta` BEFORE INSERT ON `Carta` FOR EACH ROW BEGIN
-
--- Controlla se la carta è stato già inserita
-	IF EXISTS (
-		SELECT 1
-		FROM Carta c
-		WHERE NumeroCarta = NEW.NumeroCarta
-	) THEN
-
-	-- Se si, interrompi l'inserimento
-		SIGNAL SQLSTATE '45000'
-		SET MESSAGE_TEXT = '[ERRORE],LA CARTA CHE SI VUOLE AGGIUNGERE È GIÀ PRESENTE NEL DATABASE';
-
-	END IF;
-
-END
-```
-
-### Stored Procedure
-
-Le **stored procedure** sono un insieme di istruzioni SQL precompilate e memorizzate
-
-I **vantaggi** sono:
-- **Efficienza**: Minimizzano il traffico di rete eseguendo le operazioni direttamente sui server
-- **Sicurezza**: Limitano l'accesso diretto alle tabelle, controllando le operazioni consentite
-- **Riutilizzabilità**: Possono essere richiamate da più punti dell'applicazione
-
-Abbiamo creato due stored procedures, all'interno del nostro database, per mascherare i campi sensibili della tabella Utenti (ovvero il campo **PASSWORD**) e della tabella Carte (ovvero il campo **CVV**)
-Le stored procedure sostituisce i valori in quei campi mettendo il carattere `*` tante volte quanto è la lunghezza della stringa da modificare.
-
-La stored procedure per la Carta è la seguente
+**Maschera CVV**
 
 ```SQL
 DELIMITER //
 
-CREATE PROCEDURE mask_card_cvv()
-BEGIN
+CREATE TRIGGER `MaskCVV` BEFORE INSERT ON `Carta` FOR EACH ROW BEGIN
+
     DECLARE done INT DEFAULT 0;
     DECLARE original_value VARCHAR(255);
     DECLARE str_length INT;
@@ -496,19 +433,13 @@ END//
 DELIMITER ;
 ```
 
-La chiamata alla stored procedure è la seguente
-
-```SQL
-EXEC mask_card_cvv();
-```
-
-La stored procedure per gli Utenti è la seguente:
+**Maschera Password Utente**
 
 ```SQL
 DELIMITER //
 
-CREATE PROCEDURE mask_user_psw()
-BEGIN
+CREATE TRIGGER `MaskPSW` BEFORE INSERT ON `Utenti` FOR EACH ROW BEGIN
+
     DECLARE done INT DEFAULT 0;
     DECLARE original_value VARCHAR(255);
     DECLARE str_length INT;
@@ -534,8 +465,29 @@ END//
 DELIMITER ;
 ```
 
+**Controlla Partenza e Arrivo**
+
 ```SQL
-CALL mask_user_psw();
+use VroomA;
+
+DELIMITER //
+
+CREATE TRIGGER `CheckPartenzaArrivo` BEFORE INSERT ON `RichiestePrenotazioni` FOR EACH ROW BEGIN
+
+-- Controlla se la partenza e l'arrivo sono uguali
+	IF EXISTS (
+		SELECT 1
+		FROM RichiestePrenotazioni
+		WHERE NEW.Partenza = NEW.Arrivo
+	) THEN
+	
+	-- Se lo sono, interrompi l'inserimento
+		SIGNAL SQLSTATE '45000'
+		SET MESSAGE_TEXT = '[ERRORE],LE FERMATE SCELTE NON POSSONO ESSERE UGUALI';
+	END IF;
+
+END //
+DELIMITER 
 ```
 ### Inserimenti
 
@@ -544,178 +496,179 @@ Di seguito vengono riportati alcuni estratti di query per l'inserimento, presi d
 **Patente**
 
 ```SQL
-INSERT INTO Patente (NumeroPatente,DDS,Categoria) VALUES ('HKPX715I3','2031-12-28','B'),
-('Q2FCNBMCD','2033-07-28','B96'),
-('G7IFAV0Z8','2027-06-15','BE'),
-('3LQX7RLIX','2033-11-07','B96'),
-('Q4RQZ29GI','2027-12-22','BE'),
-('5EMXM3KOH','2033-11-10','B'),
-('4UVI9FQMA','2033-06-20','BE'),
-('SEQAOYLET','2029-05-06','BE'),
-('RR6OQ0NDS','2034-07-26','B'),
-('UKL9VMHXB','2034-10-13','B96'),
-('L3FHVSXBA','2031-05-17','BE'),
-('T7P0QR534','2028-04-19','BE'),
-('Z6NYUBZST','2025-02-09','B96'),
-('82AVGQYSP','2031-09-27','B96'),
-('TNFACZQVM','2027-08-20','B96'),
-('4LU0F1K8E','2027-03-27','B96'),
-('2VB57E9R9','2030-04-25','B96'),
-('IBO6ONSUD','2026-11-20','B96'),
-('RUK5FB7US','2033-03-28','B96'),
-('M48H2B75Q','2034-10-26','BE'),
-('QO1MZ950V','2028-01-30','B'),
+INSERT INTO Patenti (NumeroPatente,DDS,Categoria) VALUES ('EHWG3H1B7','2035-05-27','B'),
+('Y7YHGWEHQ','2025-12-29','B'),
+('UF1SENNTF','2031-02-26','B96'),
+('9YT7A9PVI','2029-09-03','BE'),
+('RW8IHEVV6','2025-07-27','BE'),
+('V237AZUJ2','2035-11-26','BE'),
+('9OMH8G2NQ','2034-12-01','B96'),
+('8CPZXDWY0','2032-09-30','BE'),
+('TKT1JRIBR','2033-02-09','B'),
+('BERW3WFWM','2032-06-26','B96'),
+('6WZTUDP40','2029-04-08','B96'),
+('MQRVDSV6F','2026-10-13','BE'),
+('BX02A0VU1','2035-01-31','B'),
+('P62UTI6T3','2026-12-09','B'),
+('7TEM5ASMM','2035-06-19','B96'),
+('QL2D47JVC','2030-04-13','B96'),
+('6QMZC1SO8','2025-04-17','B'),
+('1VX58URD4','2028-05-22','B'),
+('9OIJPBKP5','2031-03-10','B'),
+('N30EJXUVS','2028-02-13','BE'),
+('C1W3VO2RV','2030-02-24','BE'),
+('JZLS8HW6Y','2025-04-13','B96'),
+('W8RKEZHZU','2028-04-15','B'),
+('L9WMDN05J','2032-12-13','B96'),
 ```
 
 **Turni**
 
 ```SQL
-INSERT INTO Turni (OrarioInizio,OrarioFine) VALUES ('9','22'),
-('11','22'),
-('11','22'),
+INSERT INTO Turni (OrarioInizio,OrarioFine) VALUES ('10','22'),
+('14','21'),
+('10','17'),
 ('9','17'),
-('10','20');
+('11','20');
 ```
 
 **Assicurazioni**
 
 ```SQL
-INSERT INTO Assicurazioni (Numero,DDS,Tipo,Stato,Targa) VALUES ('0','2024-09-14','Polizza cristalli','Valida','FM416CA'),
-('1','2023-11-09','Incendio','Scaduta','CL223GG'),
-('2','2023-01-13','Incendio','Scaduta','CQ304GB'),
-('3','2024-12-07','Polizza cristalli','Valida','AN836EC'),
-('4','2024-09-15','Furto','Valida','CL530BC'),
-('5','2024-06-08','Kasko','Valida','GO694BC'),
-('6','2024-12-06','Polizza cristalli','Valida','BK395EA'),
-('7','2023-04-01','Furto','Scaduta','CM401CG'),
-('8','2024-04-24','Incendio','Valida','EK029BA'),
-('9','2024-03-04','Kasko','Valida','DK043FB'),
-('10','2023-11-01','Furto','Scaduta','CQ952DB'),
-('11','2024-09-06','Incendio','Valida','DL779ED'),
-('12','2023-04-07','Base','Scaduta','AM297GB'),
-('13','2023-04-09','Furto','Scaduta','GM047DD'),
-('14','2023-09-15','Incendio','Scaduta','CL891EE'),
+INSERT INTO Assicurazioni (Numero,DDS,Tipo,Stato,Targa) VALUES ('0','2024-12-11','Polizza cristalli','Valida','EJ653GD'),
+('1','2023-01-14','Incendio','Scaduta','EI831GC'),
+('2','2023-10-11','Furto','Scaduta','AJ543GE'),
+('3','2024-04-01','Polizza cristalli','Valida','BK471BF'),
+('4','2024-12-13','Incendio','Valida','EK281EF'),
+('5','2024-07-24','Polizza cristalli','Valida','DN364DA'),
+('6','2024-10-13','Polizza cristalli','Valida','GM256ED'),
+('7','2024-02-23','Incendio','Valida','EP555AF'),
+('8','2023-09-08','Base','Scaduta','AQ238AA'),
+('9','2024-09-22','Polizza cristalli','Valida','GO564BA'),
+('10','2023-07-14','Incendio','Scaduta','DL749AB'),
+('11','2024-08-14','Base','Valida','GJ735FG'),
+('12','2024-11-22','Incendio','Valida','BO916AE'),
+('13','2023-06-05','Polizza cristalli','Scaduta','BR844FC'),
+('14','2023-02-03','Polizza cristalli','Scaduta','BP196AE'),
+('15','2024-10-22','Base','Valida','BN418FG'),
+('16','2023-02-27','Base','Scaduta','DN508CA'),
+('17','2023-12-26','Polizza cristalli','Scaduta','FN951DC'),
+('18','2024-01-15','Base','Scaduta','DQ859EB'),
+('19','2023-11-09','Furto','Scaduta','BR827DD'),
+('20','2023-10-02','Kasko','Scaduta','AP980BD'),
+('21','2024-06-06','Polizza cristalli','Valida','GL833EB'),
+('22','2023-03-29','Furto','Scaduta','CI759DE'),
+('23','2023-01-06','Furto','Scaduta','FI524BD'),
+('24','2023-02-07','Base','Scaduta','FP347EG'),
+('25','2023-09-23','Furto','Scaduta','FP636AD'),
 ```
 
 **Veicoli**
 
 ```SQL
-INSERT INTO Veicoli (Targa,Marca,Modello,NumPosti,Matricola) VALUES ('FM416CA','Range Rover','Hybrid','6','480947'),
-('CL223GG','Fiat','Punto','5','586333'),
-('CQ304GB','Fiat','Panda','11','863215'),
-('AN836EC','Range Rover','Hybrid','12','346108'),
-('CL530BC','Fiat','Punto','11','496844'),
-('GO694BC','Fiat','Panda','11','227174'),
-('BK395EA','Fiat','Punto','6','704787'),
-('CM401CG','Audi','RS7','8','512030'),
-('EK029BA','Audi','RS7','3','281746'),
-('DK043FB','Audi','RS7','5','349579'),
-('CQ952DB','Fiat','Panda','3','921949'),
-('DL779ED','Fiat','Punto','7','061892'),
+INSERT INTO Veicoli (Targa,Marca,Modello,NumPosti,Matricola) VALUES ('EJ653GD','Alfa Romeo','Giulia','6','907043'),
+('EI831GC','Renault','Clio','6','097191'),
+('AJ543GE','Renault','Clio','10','892418'),
+('BK471BF','Audi','A1','8','367546'),
+('EK281EF','Fiat','Panda','9','291867'),
+('DN364DA','Audi','RS7','10','660815'),
+('GM256ED','Fiat','Tipo','7','996037'),
+('EP555AF','Fiat','Panda','12','824266'),
+('AQ238AA','Alfa Romeo','Giulia','4','425418'),
+('GO564BA','Renault','Captur','11','907043'),
+('DL749AB','Alfa Romeo','Giulia','7','705683'),
+('GJ735FG','Audi','Q8','7','337035'),
+('BO916AE','Range Rover','Hybrid','8','350166'),
+('BR844FC','Alfa Romeo','Giulietta','12','184585'),
+('BP196AE','Fiat','Punto','8','238930'),
+('BN418FG','Fiat','Punto','7','456561'),
+('DN508CA','Fiat','Panda','3','988512'),
+('FN951DC','Range Rover','Hybrid','6','362750'),
+('DQ859EB','BMW','X1','7','765838'),
+('BR827DD','Range Rover','Defender','7','166452'),
+('AP980BD','BMW','X1','12','387263'),
 ```
 
 **Autisti**
 
 ```SQL
-INSERT INTO Autisti (Matricola,Nome,Cognome,Email,DDN,NumeroTelefono,NumeroPatente,Stipendio) VALUES ('480947','Dolores','Montalcini','Dolores.Montalcini@orengo.it','1978-11-27','+39 335632162','HKPX715I3','900'),
-('586333','Atenulf','Bragadin','Atenulf.Bragadin@granatelli-ferrucci.it','1985-02-21','07836682893','Q2FCNBMCD','900'),
-('863215','Luchino','Bersani','Luchino.Bersani@lucchesi-boldu.eu','1987-05-02','0771029519','G7IFAV0Z8','1100'),
-('346108','Giampiero','Oscuro','Giampiero.Oscuro@collodi.it','2001-04-15','+39 380471432','3LQX7RLIX','1200'),
-('496844','Orlando','Taliercio','Orlando.Taliercio@zampa.net','1986-08-18','+39 0171091967','Q4RQZ29GI','900'),
-('227174','Gianpaolo','Toso','Gianpaolo.Toso@piccio-campanella.it','1994-04-03','+39 053642323','5EMXM3KOH','1200'),
-('704787','Arturo','Puglisi','Arturo.Puglisi@zito.it','1980-03-01','+39 35006004804','4UVI9FQMA','800'),
-('512030','Amanda','Ferragni','Amanda.Ferragni@mennea.eu','1993-10-06','+39 0583657248','SEQAOYLET','800'),
-('281746','Mariana','Casalodi','Mariana.Casalodi@pizzamano.com','1992-03-06','0375970136','RR6OQ0NDS','1100'),
-('349579','Maria','Mantegazza','Maria.Mantegazza@sismondi.eu','1976-03-28','33013777135','UKL9VMHXB','800'),
-('921949','Niccolò','Ludovisi','Niccolò.Ludovisi@peruzzi.net','1997-03-08','+39 041013938','L3FHVSXBA','1100'),
-('061892','Mario','Verdi','Mario.Verdi@condoleo.it','1981-03-01','3716718328','T7P0QR534','900'),
-('136408','Angelo','Giannelli','Angelo.Giannelli@beccaria-offredi.it','1986-08-11','078419979','Z6NYUBZST','900'),
-('494547','Flavia','Dovara','Flavia.Dovara@vattimo-sordi.com','1985-11-15','037557096','82AVGQYSP','1100'),
+INSERT INTO Autisti (Matricola,Nome,Cognome,Email,DDN,NumeroTelefono,NumeroPatente,Stipendio) VALUES ('862339','Mario','Palazzo','Mario.Palazzo@trentini-pulci.net','1997-10-15','0835517007','EHWG3H1B7','900'),
+('359600','Silvia','Lombroso','Silvia.Lombroso@soderini.it','2000-05-17','37364037445','Y7YHGWEHQ','900'),
+('766220','Fulvio','Viola','Fulvio.Viola@scaduto.it','1994-01-14','376039271','UF1SENNTF','900'),
+('164922','Marco','Chiaramonte','Marco.Chiaramonte@acerbi.net','1977-03-31','+39 09114486182','9YT7A9PVI','900'),
+('228009','Orlando','Stefanelli','Orlando.Stefanelli@gori.it','1994-08-02','077582906','RW8IHEVV6','1200'),
+('180221','Massimiliano','Mazzocchi','Massimiliano.Mazzocchi@sanudo.it','1982-02-15','0185928182','V237AZUJ2','900'),
+('892418','Eraldo','Curiel','Eraldo.Curiel@conte.com','1989-11-06','+39 3629501183','9OMH8G2NQ','800'),
+('438144','Lando','Satta','Lando.Satta@montalti.it','2001-12-15','+39 0835247442','8CPZXDWY0','800'),
+('557580','Lazzaro','Castelli','Lazzaro.Castelli@fischetti.net','1997-11-09','+39 351745817','TKT1JRIBR','900'),
+('726111','Ronaldo','Zabarella','Ronaldo.Zabarella@fantini.com','1999-03-11','+39 0331778576','BERW3WFWM','900'),
 ```
 
 **Manutentori**
 
 ```SQL
-INSERT INTO Manutentori (ID_Manutentore,Nome,Cognome,Email,DDN,NumeroTelefono,Qualifica) VALUES ('0','Ottavio','Visconti','Ottavio.Visconti@bignami.com','1986-12-18','+39 03730487036','Elettrauto'),
-('1','Ludovico','Tartaglia','Ludovico.Tartaglia@agazzi-scarponi.it','1983-08-13','+39 037244223','Meccanico'),
-('2','Isa','Mercadante','Isa.Mercadante@chiaramonte.eu','1991-06-07','3500409248','Meccanico'),
-('3','Pierina','Mercalli','Pierina.Mercalli@guarato.it','1994-11-23','3777210212','Meccanico'),
-('4','Maria','Fabbri','Maria.Fabbri@giolitti.org','1976-03-07','+39 016134999','Elettrauto'),
-('5','Romeo','Luna','Romeo.Luna@callegari.com','1990-05-07','+39 0588027969','Carrozziere'),
-('6','Adriana','Mattarella','Adriana.Mattarella@mengolo.it','1977-12-07','054409430','Carrozziere'),
-('7','Giampaolo','Farina','Giampaolo.Farina@dibiasi-panatta.net','1994-05-21','+39 347879749','Gommista'),
+INSERT INTO Manutentori (ID_Manutentore,Nome,Cognome,Email,DDN,NumeroTelefono,Qualifica) VALUES ('0','Ezio','Abbagnale','Ezio.Abbagnale@zichichi.eu','1975-03-16','377228848','Meccanico'),
+('1','Aldo','Pirandello','Aldo.Pirandello@luna-scaduto.com','1985-04-25','35144225856','Elettrauto'),
+('2','Ansaldo','Caracciolo','Ansaldo.Caracciolo@tognazzi.org','1987-08-08','324692291','Meccanico'),
+('3','Silvio','Curiel','Silvio.Curiel@caruso.org','1983-12-27','+39 01082492773','Meccanico'),
+('4','Donato','Bersani','Donato.Bersani@grossi-boaga.eu','1997-08-02','320651106','Elettrauto'),
+('5','Massimo','Serlupi','Massimo.Serlupi@mazzacurati-porcellato.org','1992-09-19','0344384866','Elettrauto'),
+('6','Natalia','Opizzi','Natalia.Opizzi@missoni.com','1991-11-01','3500584409','Meccanico'),
+('7','Annalisa','Bonolis','Annalisa.Bonolis@modigliani.com','1987-09-17','+39 3778345997','Carrozziere'),
+('8','Micheletto','Modigliani','Micheletto.Modigliani@soffici.org','1986-05-24','0933585905','Meccanico'),
+('9','Irma','Guglielmi','Irma.Guglielmi@giulietti.com','1981-02-12','+39 0166621144','Carrozziere'),
+('10','Rocco','Cortese','Rocco.Cortese@gianetti-modiano.com','1997-09-11','0906462388','Gommista'),
 ```
 
 **ContattaPerGuasto**
 
 ```SQL
-INSERT INTO ContattaPerGuasto (ID_Manutentore,Matricola,Motivo,Data) VALUES ('13','483544','Cambio pasticche dei freni','2024-12-24'),
-('92','633913','Rottura degli ammortizzatori','2024-12-21'),
-('100','689328','Rottura degli ammortizzatori','2024-08-04'),
-('136','349579','Problema con il FAP','2023-05-20'),
-('173','464026','Guarnizione della testata bruciata','2023-10-12'),
-('44','704787','Specchietto rotto','2023-06-27'),
-('61','623689','Errore centralina','2024-07-13'),
-('158','056954','Radiatore bucato','2024-12-20'),
-('105','491273','Gomma Bucata','2023-09-22'),
-('96','247901','Semiasse distrutto','2023-09-01'),
-('27','768938','La macchina non parte','2024-10-13'),
-('23','733539','Gomma Bucata','2024-09-18'),
-('171','210993','Rottura degli ammortizzatori','2023-11-10'),
-('172','683761','Specchietto rotto','2024-04-05'),
-('110','765494','Differenziale rotto','2023-11-11'),
-('9','195893','Rottura degli ammortizzatori','2023-09-11'),
-('128','311231','Batteria scarica','2023-01-23'),
-('75','833423','Differenziale rotto','2023-02-15'),
-('111','933365','Errore centralina','2024-04-28'),
+INSERT INTO ContattaPerGuasto (ID_Manutentore,Matricola,Motivo,Data) VALUES ('169','919110','Problema con il FAP','2024-04-17'),
+('87','887799','Radiatore bucato','2024-06-06'),
+('81','267120','Errore centralina','2024-03-10'),
+('190','902982','Gomma Bucata','2023-05-29'),
+('84','778618','Errore centralina','2024-05-14'),
+('79','477856','Problema con il FAP','2023-09-10'),
+('40','769888','Guarnizione della testata bruciata','2023-12-25'),
+('34','605185','Radiatore bucato','2024-04-15'),
 ```
 
 **Utenti**
 
 ```SQL
-INSERT INTO Utenti (ID_Utente,Nome,Cognome,Email,Password,DDN) VALUES ('0','Nino','Pausini','Nino.Pausini@rosiello-pugliese.net','OgMJrNMmL','1990-05-31'),
-('1','Armando','Brunelleschi','Armando.Brunelleschi@missoni.eu','5073Ynsp6','1975-05-22'),
-('2','Maurizio','Rossi','Maurizio.Rossi@borrani.eu','hDkqGSiC2','2001-10-27'),
-('3','Dario','Farinelli','Dario.Farinelli@vanvitelli-schicchi.eu','PxRSUj6Wl','1985-03-29'),
-('4','Rosario','Callegari','Rosario.Callegari@versace.it','OMK9P9WVs','1983-08-21'),
-('5','Alina','Stradivari','Alina.Stradivari@marzorati-rapisardi.it','MC0qQOITu','1976-02-15'),
-('6','Giovanna','Gatto','Giovanna.Gatto@franceschi-tencalla.it','nuYW246nI','1981-04-05'),
-('7','Carla','Gucci','Carla.Gucci@gentilini.com','Sig6YwuI7','1984-05-21'),
-('8','Aria','Gibilisco','Aria.Gibilisco@jacuzzi.it','nCCWUBVk2','1989-02-05'),
-('9','Giacinto','Verga','Giacinto.Verga@sraffa-stucchi.org','pBqVE42il','1990-10-15'),
-('10','Mirko','Verga','Mirko.Verga@lupo.com','jgapQdw7b','1982-11-14'),
-('11','Francesco','Roth','Francesco.Roth@barbarigo.it','HvKEDWd4I','1986-06-27'),
-('12','Silvestro','Odescalchi','Silvestro.Odescalchi@santoro.it','tuw7v5yhM','1995-06-01'),
-('13','Melania','Interminei','Melania.Interminei@soffici-trussardi.it','H4gmhTCMI','1992-07-24'),
-('14','Dina','Pertini','Dina.Pertini@curiel.com','UUMQL0p7r','1978-02-28'),
-('15','Mario','Montalcini','Mario.Montalcini@asmundo-basso.net','OIyQghvq5','1987-02-07'),
-('16','Delfino','Draghi','Delfino.Draghi@faranda.com','dKCy3xyBY','1993-03-07'),
-('17','Mirco','Orsini','Mirco.Orsini@semitecolo.it','336iAsdFR','1981-09-27'),
-('18','Vanessa','Boccherini','Vanessa.Boccherini@troisi-traetta.net','8rhpIixkL','1980-01-04'),
-('19','Marcella','Onisto','Marcella.Onisto@legnante.it','xb3Rt1MeT','1978-09-07'),
-('20','Adriana','Villadicani','Adriana.Villadicani@cendron.com','ZSLoqaMNc','1999-10-04'),
-('21','Tiziana','Andreozzi','Tiziana.Andreozzi@bodoni.com','uNqmv7Lve','1982-03-09'),
+INSERT INTO Utenti (ID_Utente,Nome,Cognome,Email,Password,DDN) VALUES ('0','Benvenuto','Crespi','Benvenuto.Crespi@antonello.net','tglhLl809','1998-04-19'),
+('1','Pierluigi','Comencini','Pierluigi.Comencini@dulbecco-bergoglio.org','KZcROjzwj','1998-08-24'),
+('2','Alessandro','Piccinni','Alessandro.Piccinni@medici.net','eSPCmZKEM','1976-11-09'),
+('3','Cassandra','Gagliardi','Cassandra.Gagliardi@montecchi.com','9C4KGy0W5','1977-11-17'),
+('4','Tiziana','Ferretti','Tiziana.Ferretti@schiavone.com','u12oqaoer','1981-01-20'),
+('5','Annalisa','Calvo','Annalisa.Calvo@ottino.it','y77wFFk1q','1990-03-10'),
+('6','Giacomo','Impastato','Giacomo.Impastato@sordi.com','VzzJPry9S','1985-05-13'),
+('7','Dolores','Broggini','Dolores.Broggini@monteverdi.it','yOeh4BYEs','1977-12-20'),
+('8','Achille','Vanvitelli','Achille.Vanvitelli@scarpetta-roncalli.it','EUGQocKVv','1996-02-16'),
+('9','Ciro','Valmarana','Ciro.Valmarana@verdi-mimun.it','5xLHVnvKK','1979-11-09'),
+('10','Marisa','Miniati','Marisa.Miniati@marazzi.it','FT3geaukL','1994-12-29'),
+('11','Rodolfo','Cuzzocrea','Rodolfo.Cuzzocrea@gravina.com','1gFceVPV7','1995-05-06'),
+('12','Rosa','Totino','Rosa.Totino@jacuzzi-sraffa.com','xPTggCyAL','1994-09-06'),
+('13','Giuliano','Varano','Giuliano.Varano@cortese-guinizzelli.it','OP7qwo90A','1996-01-08'),
 ```
 
 **Carta**
 
 ```SQL
 INSERT INTO Carta (NumeroCarta,DataScadenza,CVV,ID_Utente) VALUES 
-('5194 4874 5125 4737','2032-07-22','495','9688'),
-('4063 2470 3279 3909','2034-08-22','235','8144'),
-('5472 5811 7462 7407','2029-07-11','671','539'),
-('5800 4778 7806 7518','2033-10-08','102','4435'),
-('5148 3037 1076 8603','2030-03-25','017','283'),
-('5176 7539 9659 8757','2027-10-11','359','9603'),
-('4097 8804 6170 0270','2033-07-11','675','2046'),
-('5459 3694 6961 2311','2029-05-13','701','9628'),
-('4749 9182 5844 0303','2033-04-23','986','4569'),
-('5929 7311 1858 8108','2029-08-07','579','9057'),
-('5287 7132 5601 6121','2032-01-27','333','6696'),
-('4999 5453 9134 6593','2029-10-17','829','4623'),
-('5052 0309 2191 8530','2027-12-26','670','2607'),
-('5510 7794 2858 7021','2027-08-24','521','6622'),
-('4565 7587 7347 4014','2027-07-08','487','8314'),
+('5408 5435 8155 5165','2031-04-21','723','559'),
+('5403 9253 8984 9652','2032-11-17','463','7319'),
+('4538 0898 9479 9627','2032-03-26','947','92'),
+('4137 1568 0601 0206','2027-03-11','305','6653'),
+('4132 5464 2554 0178','2034-12-03','682','2540'),
+('4659 8931 2359 3963','2027-02-15','550','5095'),
+('4110 0127 3522 2047','2031-09-09','526','1217'),
+('5477 3054 3417 3215','2034-08-07','624','5836'),
+('5165 7046 9800 8081','2033-11-22','509','85'),
+('4523 4831 1850 5881','2031-02-20','406','2213'),
+('5358 5488 6836 2290','2031-07-04','581','1833'),
+('5018 7484 7748 9774','2031-04-22','684','4241'),
+('4437 3291 9168 3552','2033-02-27','461','4172'),
 ```
 
 **Fermate**
@@ -742,81 +695,71 @@ INSERT INTO Fermate (NomeFermata,Latitudine,Longitudine) VALUES ('Anagnina','41.
 **Richieste Prenotazioni**
 
 ```SQL
-INSERT INTO RichiestePrenotazioni (ID_Utente,Partenza,Arrivo,DataRichiesta,OrarioRichiesta,NumeroPasseggeri) VALUES ('8362','Pigneto','Porta Furba','2022-12-06','9','11'),
-('328','Prenestina','Tor Bella Monaca','2023-11-19','21','6'),
-('634','Prima Porta','Trastevere','2022-11-18','22','12'),
-('9619','Palmiro Togliatti','Campo de Fiori','2022-12-17','16','8'),
-('9426','Prima Porta','Porta Furba','2022-08-21','14','11'),
-('1154','Verano','Tufello','2022-03-18','14','5'),
-('3551','Colosseo','Prima Porta','2022-05-07','22','11'),
-('202','Palmiro Togliatti','Tor Bella Monaca','2023-03-06','11','12'),
-('5348','Colosseo','Porta Furba','2023-01-26','16','10'),
-('8139','Giardinetti','Termini','2022-07-14','22','5'),
-('7045','Colosseo','Tufello','2022-09-06','16','2'),
-('6203','Trastevere','Campo de Fiori','2022-06-05','22','1'),
-('2815','Giardinetti','Palmiro Togliatti','2023-01-04','9','7'),
-('9971','Prima Porta','Porta Furba','2022-07-23','22','3'),
-('6524','Tor Bella Monaca','Palmiro Togliatti','2023-11-04','11','4'),
-('9972','Tufello','Colosseo','2023-03-05','20','3'),
-('6276','Tor Bella Monaca','Salaria','2023-05-24','14','2'),
-('9177','Tufello','Trastevere','2022-10-08','16','8'),
-('213','Verano','Tufello','2022-07-07','9','11'),
-('8770','Tufello','Tor Bella Monaca','2022-09-11','22','3'),
-('4122','Prima Porta','Tufello','2023-11-09','21','7'),
-('9445','Lucio Sestio','Tufello','2022-09-07','21','4'),
-('7801','Porta Furba','Prima Porta','2023-01-24','22','10'),
+INSERT INTO RichiestePrenotazioni (ID_Utente,Partenza,Arrivo,DataRichiesta,OrarioRichiesta,NumeroPasseggeri) VALUES ('4695','Salaria','Palmiro Togliatti','2023-05-20','20','1'),
+('9386','Porta Furba','Campo de Fiori','2021-10-26','16','11'),
+('9786','Lucio Sestio','Pigneto','2020-04-05','9','8'),
+('4997','Giardinetti','Pigneto','2022-09-17','9','2'),
+('5734','Termini','Colosseo','2021-09-12','11','4'),
+('7414','Tufello','Prenestina','2021-03-13','10','6'),
+('465','Porta Furba','Anagnina','2024-02-13','9','11'),
+('4557','Prima Porta','Trastevere','2023-11-28','20','7'),
+('7961','Pigneto','Colosseo','2021-06-07','9','6'),
+('1865','Pigneto','Prenestina','2022-03-04','14','10'),
+('9852','Lucio Sestio','Tufello','2022-09-09','10','8'),
+('6460','Verano','Tor Bella Monaca','2020-10-12','14','11'),
+('929','Pigneto','Lucio Sestio','2021-01-09','22','4'),
+('2007','Campo de Fiori','Pigneto','2023-07-21','20','1'),
+('4055','Palmiro Togliatti','Salaria','2022-05-13','15','6'),
+('6351','Termini','Lucio Sestio','2021-04-24','22','4'),
+('9795','Lucio Sestio','Verano','2023-03-30','11','6'),
 ```
 
 **Tratte Completate**
 
 ```SQL
-INSERT INTO TratteCompletate (ID_Utente,Partenza,Arrivo,DataRichiesta,OrarioRichiesta,Costo,MetodoDiPagamento,DataPagamento,OraPagamento,Autista) VALUES ('8362','Pigneto','Porta Furba','2022-12-06','9','25','Postepay','2022-12-06','23','684214'),
-('328','Prenestina','Tor Bella Monaca','2023-11-19','21','50','Paypal','2023-11-19','23','914913'),
-('634','Prima Porta','Trastevere','2022-11-18','22','115','Paypal','2022-11-18','23','549721'),
-('9619','Palmiro Togliatti','Campo de Fiori','2022-12-17','16','115','Postepay','2022-12-17','23','883523'),
-('9426','Prima Porta','Porta Furba','2022-08-21','14','65','Paypal','2022-08-21','20','500278'),
-('1154','Verano','Tufello','2022-03-18','14','35','Carta di debito','2022-03-18','23','106212'),
-('3551','Colosseo','Prima Porta','2022-05-07','22','25','Carta di credito','2022-05-07','23','119888'),
-('202','Palmiro Togliatti','Tor Bella Monaca','2023-03-06','11','50','CashUp','2023-03-06','21','816806'),
-('5348','Colosseo','Porta Furba','2023-01-26','16','115','Postepay','2023-01-26','23','091325'),
-('8139','Giardinetti','Termini','2022-07-14','22','35','Carta di debito','2022-07-14','23','923138'),
-('7045','Colosseo','Tufello','2022-09-06','16','25','Satispay','2022-09-06','23','194371'),
-('6203','Trastevere','Campo de Fiori','2022-06-05','22','115','Paypal','2022-06-05','22','448190'),
-('2815','Giardinetti','Palmiro Togliatti','2023-01-04','9','65','Carta di debito','2023-01-04','23','854587'),
+INSERT INTO TratteCompletate (ID_Utente,Partenza,Arrivo,DataRichiesta,OrarioRichiesta,Costo,MetodoDiPagamento,DataPagamento,OraPagamento,Autista) VALUES ('4695','Salaria','Palmiro Togliatti','2023-05-20','20','25','Postepay','2023-05-20','23','315732'),
+('9386','Porta Furba','Campo de Fiori','2021-10-26','16','115','Carta di credito','2021-10-26','23','636668'),
+('9786','Lucio Sestio','Pigneto','2020-04-05','9','115','Contanti','2020-04-05','23','752609'),
+('4997','Giardinetti','Pigneto','2022-09-17','9','65','Carta di debito','2022-09-17','9','836794'),
+('5734','Termini','Colosseo','2021-09-12','11','35','Carta di credito','2021-09-12','15','399715'),
+('7414','Tufello','Prenestina','2021-03-13','10','50','CashUp','2021-03-13','22','002725'),
+('465','Porta Furba','Anagnina','2024-02-13','9','115','Satispay','2024-02-13','23','332908'),
+('4557','Prima Porta','Trastevere','2023-11-28','20','50','Contanti','2023-11-28','21','105954'),
+('7961','Pigneto','Colosseo','2021-06-07','9','115','Carta di debito','2021-06-07','23','363195'),
+('1865','Pigneto','Prenestina','2022-03-04','14','25','Postepay','2022-03-04','15','801129'),
+('9852','Lucio Sestio','Tufello','2022-09-09','10','35','Satispay','2022-09-09','14','908342'),
+('6460','Verano','Tor Bella Monaca','2020-10-12','14','115','Carta di credito','2020-10-12','9','777773'),
+('929','Pigneto','Lucio Sestio','2021-01-09','22','65','Carta di credito','2021-01-09','23','895521'),
 ```
 
 **Feedback**
 
 ```SQL
-INSERT INTO Feedback (ID_Feedback,StelleUtente,CommentoUtente,StelleAutista,CommentoAutista,ID_Utente,Partenza,Arrivo,DataRichiesta,OrarioRichiesta) VALUES ('0','1','Non lo prenderò mai più!','2','Utente ritardatario','3867','Trastevere','Prima Porta','2022-02-16','10'),
-('1','1','Esperienza orribile','2','Utente ritardatario','3867','Trastevere','Prima Porta','2022-02-16','10'),
-('2','2','La prossima volta preferirei un' altro autista','1','L' utente insisteva nel cambiare strada','3867','Trastevere','Prima Porta','2022-02-16','10'),
-('3','3','Tutto nella norma','3','Nulla di particolare','3867','Trastevere','Prima Porta','2022-02-16','10'),
-('4','3','Tutto nella norma','2','Utente ritardatario','3867','Trastevere','Prima Porta','2022-02-16','10'),
-('5','5','Ottima esperienza, lo dirò a tutti','1','L utente insisteva nel cambiare strada','3867','Trastevere','Prima Porta','2022-02-16','10'),
-('6','5','Autista veramente cordiale','4','Utente rispettoso.','3867','Trastevere','Prima Porta','2022-02-16','10'),
-('7','1','Esperienza orribile','5','Molto bravo e cortese','3867','Trastevere','Prima Porta','2022-02-16','10'),
-('8','5','Ottima esperienza, lo dirò a tutti','3','Nulla di particolare','3867','Trastevere','Prima Porta','2022-02-16','10'),
-('9','1','Non lo prenderò mai più!','5','Utente veramente genuino','3867','Trastevere','Prima Porta','2022-02-16','10'),
-('10','1','Guidava in stato di ebrezza','1','Utente scortese!','3867','Trastevere','Prima Porta','2022-02-16','10'),
-('11','4','Esperienza normale','1','L utente insisteva nel cambiare strada','3867','Trastevere','Prima Porta','2022-02-16','10'),
-('12','1','Guidava in stato di ebrezza','1','L utente insisteva nel cambiare strada','3867','Trastevere','Prima Porta','2022-02-16','10'),
+INSERT INTO Feedback (ID_Feedback,StelleUtente,CommentoUtente,StelleAutista,CommentoAutista,ID_Utente,Partenza,Arrivo,DataRichiesta,OrarioRichiesta) VALUES ('0','4','Veicolo molto pulito e comodo.','4','Utente gentile','7177','Colosseo','Lucio Sestio','2020-03-01','15'),
+('1','2','Non mi è piaciuto lo stile di guida','3','Nulla di particolare','7177','Colosseo','Lucio Sestio','2020-03-01','15'),
+('2','1','Non lo prenderò mai più!','5','Utente veramente genuino','7177','Colosseo','Lucio Sestio','2020-03-01','15'),
+('3','2','Non mi è piaciuto lo stile di guida','4','Utente gentile','7177','Colosseo','Lucio Sestio','2020-03-01','15'),
+('4','5','Autista veramente cordiale','1','Utente scortese!','7177','Colosseo','Lucio Sestio','2020-03-01','15'),
+('5','3','Nulla di particolare','3','Utente ok','7177','Colosseo','Lucio Sestio','2020-03-01','15'),
+('6','5','Ottima esperienza, lo dirò a tutti','3','Nulla di particolare','7177','Colosseo','Lucio Sestio','2020-03-01','15'),
+('7','5','Autista veramente cordiale','2','Non rispetta l autista','7177','Colosseo','Lucio Sestio','2020-03-01','15'),
+('8','5','Autista veramente cordiale','4','Utente gentile','7177','Colosseo','Lucio Sestio','2020-03-01','15'),
+('9','5','Ottima esperienza, lo dirò a tutti','2','Non rispetta l autista','7177','Colosseo','Lucio Sestio','2020-03-01','15'),
+('10','4','Veicolo molto pulito e comodo.','4','Utente rispettoso.','7177','Colosseo','Lucio Sestio','2020-03-01','15'),
 ```
 
 **Tratte Rifiutate**
 
 ```SQL
-INSERT INTO TratteRifiutate (ID_Utente,Partenza,Arrivo,DataRichiesta,OrarioRichiesta,Motivazione,Autista) VALUES ('936','Verano','Trastevere','2023-05-04','10','Indisponibilità al servizio','311633'),
-('8584','Trastevere','Giardinetti','2022-09-01','9','Troppo lontano','474700'),
-('9348','Lucio Sestio','Tor Bella Monaca','2023-06-26','22','Utente con recensioni troppo negative','898327'),
-('8562','Prima Porta','Tufello','2022-08-14','11','Indisponibilità al servizio','973668'),
-('9929','Tor Bella Monaca','Lucio Sestio','2023-05-13','11','Troppo lontano','996832'),
-('3686','Verano','Termini','2023-04-13','15','Indisponibilità al servizio','691146'),
-('2172','Colosseo','Verano','2022-03-22','15','Fuori dal mio orario lavorativo','101513'),
-('8663','Anagnina','Giardinetti','2023-01-16','22','Indisponibilità al servizio','853833'),
-('6222','Campo de Fiori','Prenestina','2023-08-15','21','Problema generale','634836'),
-('1718','Trastevere','Prima Porta','2022-05-12','16','Problema generale','729852'),
-('4229','Giardinetti','Palmiro Togliatti','2022-04-22','15','Fuori dal mio orario lavorativo','279493'),
+INSERT INTO TratteRifiutate (ID_Utente,Partenza,Arrivo,DataRichiesta,OrarioRichiesta,Motivazione,Autista) VALUES ('1046','Pigneto','Verano','2022-02-27','11','Utente con recensioni troppo negative','286836'),
+('5138','Colosseo','Tor Bella Monaca','2023-01-08','14','Utente con recensioni troppo negative','220447'),
+('1082','Prenestina','Colosseo','2020-04-22','15','Problema generale','305507'),
+('6458','Palmiro Togliatti','Lucio Sestio','2022-09-20','16','Problema generale','722714'),
+('3773','Giardinetti','Pigneto','2023-03-07','22','Indisponibilità al servizio','405336'),
+('135','Tor Bella Monaca','Lucio Sestio','2022-08-22','15','Troppo lontano','987641'),
+('4922','Anagnina','Salaria','2020-06-24','15','Problema generale','097874'),
+('5684','Tor Bella Monaca','Palmiro Togliatti','2022-01-07','10','Indisponibilità al servizio','704570'),
+('8725','Campo de Fiori','Salaria','2020-08-10','21','Utente con recensioni troppo negative','987641'),
 ```
 
 ### Script di creazione automatica di query
@@ -1337,46 +1280,46 @@ f.close()
 - Visualizza tutte le tratte completate, con annesso costo e carta usata per il pagamento, fatte da un determinato utente
 
 ```SQL
-SELECT ID_Richiesta, PuntoDiRaccolta as Partenza, PuntoDiRilascio as Arrivo, Costo, c.NumeroCarta as Carta from `RichiestePrenotazioni` rp 
-JOIN `TratteCompletate` tc on rp.`ID_Richiesta` = tc.`ID_TrattaC` 
-JOIN `Carta` c on tc.`NumeroCarta` = c.`NumeroCarta` 
-JOIN `Utenti` u on c.`ID_Utente` = u.`ID_Utente` 
-WHERE u.Nome = 'Carla' AND u.Cognome = 'Raimondi';
+SELECT tc.*
+from TratteCompletate tc
+JOIN Utenti u on tc.ID_Utente = u.ID_Utente
+WHERE u.Nome = 'Benvenuto' AND u.Cognome = 'Crespi';
 ```
 
 
-![[appunti bsd/Progetto db/Risultati Query/query1.png|center|500]]
+![[query1.png|center|700]]
 
 
 - Visualizza tutti i veicoli la cui assicurazione scadrà entro febbraio 2024
 
 ```SQL
-SELECT Targa, Modello, Marca, a.DataScadenza AS DataScadenza FROM Veicoli v 
-JOIN Assicurazioni a
-ON v.ID_Assicurazione = a.ID_Assicurazione
-WHERE YEAR(a.DataScadenza) = "2024" AND MONTH(a.DataScadenza) = "02";
+SELECT v.Targa, Modello, Marca, a.DDS AS DataScadenza, a.Stato 
+FROM Veicoli v
+JOIN Assicurazioni a ON v.Targa = a.Targa
+WHERE YEAR(a.DDS) = "2024" AND MONTH(a.DDS) = "02" AND Stato = "Valida";
 ```
 
-![[appunti bsd/Progetto db/Risultati Query/query2.png|center|300]]
+![[query2.png|center|500]]
 
-- Visualizza il/i turno/i di un dato autista
+
+- Visualizza gli autisti che hanno lavorato in una data specifica
 
 ```SQL
-SELECT p.Nome, p.Cognome, t.OrarioInizio, t.OrarioFine FROM Autisti a JOIN Personale p
-ON a.ID_Autista = p.ID
-JOIN Turni t ON a.Turno = t.ID_Turno
-WHERE p.Nome = "Patrizio" AND p.Cognome = "Mattarella";
+SELECT a.Nome, a.Cognome, tol.OraInizio, tol.OraFine 
+FROM Autisti a
+JOIN TabellaOrarioLavorativo tol ON a.Matricola = tol.Matricola
+WHERE tol.`Data` = "2020-01-02";
 ```
 
 ![[appunti bsd/Progetto db/Risultati Query/query3.png|center|350]]
 
-- Visualizza tutti gli autisti che hanno lo stesso turno
+- Visualizza tutti gli autisti che hanno avuto lo stesso turno in una data specifica
 
 ```SQL
-SELECT p.Nome, p.Cognome, a.Turno, a.ID_Autista FROM Autisti a JOIN Personale p
-ON a.ID_Autista = p.ID
-JOIN Turni t ON a.Turno = t.ID_Turno
-WHERE a.Turno = 2;
+SELECT a.Nome, a.Cognome, tol.OraInizio, tol.OraFine 
+FROM Autisti a
+JOIN TabellaOrarioLavorativo tol ON a.Matricola = tol.Matricola
+WHERE tol.`Data` = "2020-01-02" AND tol.OraInizio = "9" AND tol.OraFine = "17"
 ```
 
 ![[query4.png|center|350]]
