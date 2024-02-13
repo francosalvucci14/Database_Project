@@ -431,7 +431,7 @@ for i in range(15000):
     autista = random.choice(unique_Autisti)
     query = "('"+ str(pk[0])+ "','"+ str(pk[1])+ "','"+ str(pk[2])+ "','"+ str(pk[3])+ "','"+ str(pk[4])+ "','"+ str(costi)+ "','"+ str(metodo)+ "','"+ str(pk[3])+ "','"+ str(orario_pagamento)+ "','"+str(autista)+"')"
     
-    unique_TrattaC.append((utente,partenza,arrivo,data,orario))
+    unique_TrattaC.append((pk[0],pk[1],pk[2],pk[3],pk[4]))
     values_trattac.append(query)
     
 f.write(
@@ -453,8 +453,8 @@ feedback_utente = {
                    }
 
 feedback_autisti = {
-                    1: ["Utente scortese!","L\' utente offende","L\' utente insisteva nel cambiare strada"],
-                    2: ["Utente ritardatario","Non rispetta l\'autista","Stava fumando in macchina"],
+                    1: ["Utente scortese!","L utente offende","L utente insisteva nel cambiare strada"],
+                    2: ["Utente ritardatario","Non rispetta l autista","Stava fumando in macchina"],
                     3: ["Nulla di particolare","Utente ok"],
                     4: ["Utente rispettoso.","Utente gentile"],
                     5: ["Utente veramente genuino","Molto bravo e cortese"],

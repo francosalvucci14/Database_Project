@@ -227,7 +227,7 @@ Lo schema fisico è il seguente
 ### Creazione delle tabelle
 
 ```SQL
-use VroomA;
+- [ ] use VroomA;
 
 CREATE TABLE Patente (
 	NumeroPatente varchar(50) not null,
