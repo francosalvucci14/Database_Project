@@ -69,8 +69,8 @@ def genRandomLicenceDate():
 
 #Funzione Rand.DDR
 def genRandomRequestDate():
-    start_date = datetime.date(2022, 1, 1)
-    end_date = datetime.date(2023, 12, 30)
+    start_date = datetime.date(2020, 1, 1)
+    end_date = datetime.date(2024, 2, 16)
     num_days = (end_date - start_date).days
     rand_days = random.randint(1, num_days)
     random_date = start_date + datetime.timedelta(days=rand_days)
@@ -147,7 +147,7 @@ for i in range(3000):
     
     values_patenti.append(query)
 f.write(
-    "INSERT INTO Patente (NumeroPatente,DDS,Categoria) VALUES "+",\n".join(values_patenti)+";"
+    "INSERT INTO Patenti (NumeroPatente,DDS,Categoria) VALUES "+",\n".join(values_patenti)+";"
 )
 f.write("\n")
 print("--------------- Fine Inserimento Patente\n")
@@ -203,18 +203,20 @@ print("--------------- Inizio Inserimento Veicoli\n")
 unique_Veicolo = []
 values_veicolo = []
 dict_veicoli={
-    "Fiat":["Punto","Panda"],
-    "BMW":["Q3","Q8","X1","Gran Coupè"],
-    "Audi":["RS7"],
-    "Range Rover":["Hybrid","Defender","Sport"]
+    "Fiat":["Punto","Panda","Tipo"],
+    "BMW":["X3","X8","X1","Gran Coupè"],
+    "Audi":["RS7", "A1", "Q3", "Q8"],
+    "Range Rover":["Hybrid","Defender","Sport"],
+    "Alfa Romeo":["Giulia", "Giulietta"],
+    "Renault":["Clio", "Captur", "Arkana"]
 }
 
-for i in range(3000):
+for i in range(5000):
     random_targa = generateTarga()
     #random_assicurazione = unique_Assicurazione[i]
     marca_random = random.choice(list(dict_veicoli.keys()))
     modello_random = str(random.choice(dict_veicoli[marca_random]))
-    autista = unique_Autisti[i]
+    autista = random.choice(unique_Autisti)
     query = "('"+ str(random_targa)+ "','"+ str(marca_random)+ "','"+ str(modello_random)+ "','"+str(random.randint(3,12))+"','"+autista+"')"
     unique_Veicolo.append(random_targa)
     values_veicolo.append(query)
@@ -230,7 +232,7 @@ unique_Assicurazione = []
 values_assicurazione = []
 tipo_assicurazione=["Kasko","Furto","Incendio","Base","Polizza cristalli"]
 
-for i in range(3000):
+for i in range(5000):
     random_id = str(i)
     targa = unique_Veicolo[i]
     data = genRandomInsuranceDate()
@@ -254,12 +256,12 @@ print("--------------- Inizio Inserimento TabellaOrarioLavorativo\n")
 
 values_tabella = []
 unique_TabellaOrario = []
-for i in range(2000):
+for i in range(15000):
     matricola = random.choice(unique_Autisti)
     turno = random.choice(unique_Turno)
     turno_inizio = turno[0]
     turno_fine = turno[1]
-    data = genRandomInsuranceDate()
+    data = genRandomRequestDate()
     query = "('"+ matricola+ "','"+ turno_inizio+ "','"+turno_fine+"','"+str(data)+"')"
     unique_TabellaOrario.append((matricola,turno_inizio,turno_fine,data))
     values_tabella.append(query)
@@ -444,7 +446,7 @@ unique_Feed = []
 values_feed = []
 feedback_utente = {
                     1: ["Non lo prenderò mai più!","Esperienza orribile","Guidava in stato di ebrezza"],
-                    2: ["Non mi è piaciuto lo stile di guida","La prossima volta preferirei un\' altro autista","Non guidava in modo sicuro"],
+                    2: ["Non mi è piaciuto lo stile di guida","La prossima volta preferirei un altro autista","Non guidava in modo sicuro"],
                     3: ["Nulla di particolare","Tutto nella norma"],
                     4: ["Veicolo molto pulito e comodo.","Esperienza normale"],
                     5: ["Autista veramente cordiale","Ottima esperienza, lo dirò a tutti"],

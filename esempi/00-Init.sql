@@ -1,6 +1,6 @@
 use VroomA;
 
-CREATE TABLE Patente (
+CREATE TABLE Patenti (
 	NumeroPatente varchar(50) not null,
 	DDS date not null,
 	Categoria varchar(50),
@@ -27,7 +27,7 @@ CREATE TABLE Autisti (
 	NumeroPatente varchar(50) not null,
 	Stipendio int not null,
 	PRIMARY KEY (Matricola),
-	FOREIGN KEY (NumeroPatente) REFERENCES Patente(NumeroPatente)
+	FOREIGN KEY (NumeroPatente) REFERENCES Patenti(NumeroPatente)
 );
 
 CREATE TABLE Veicoli (
