@@ -217,6 +217,209 @@ Le chiave primarie sono identificate in **grassetto**, mentre le chiavi secondar
 - Tratte Completate (**_ID_Utente,Partenza,Arrivo,DataRichiesta,OrarioRichiesta_**, Costo,MetodoDiPagamento,DataPagamento,OraPagamento,_Matricola_)
 - Tratte Rifiutate (**_ID_Utente,Partenza,Arrivo,DataRichiesta,OrarioRichiesta_**, Motivazione,_Matricola_)
 - Feedback (**ID_Feedback**, StelleUtente, CommentoUtente,StelleAutista, CommentoAutista,**_ID_Utente,Partenza,Arrivo,DataRichiesta,OrarioRichiesta_**)
+
+#### Carico applicativo
+##### Tabella dei volumi
+| Concetto | Costrutto | Volume |
+| ---- | ---- | ---- |
+| Autisti | E | 10 |
+| Patenti | E | 10 |
+| ContattaPerGuasto | R | 3 |
+| Turni | E | 5 |
+| TabellaOrarioLavorativo | R | 20 |
+| Veicoli | E | 12 |
+| Assicurazioni | E | 15 |
+| Utenti | E | 20 |
+| Carte | E | 25 |
+| RichiestePrenotazione | E | 20 |
+| TratteCompletate | E | 10 |
+| TratteRifiutate | E | 5 |
+| Feedback | E | 5 |
+| Manutentori | E | 5 |
+| Fermate | E | 16 |
+##### Volume dei dati
+
+| Concetto | Dimensione Record | Volume |
+| ---- | ---- | ---- |
+| Autisti | (4+25+25+50+3+25+50+4) bytes | 1860 bytes |
+| Patenti | (50 + 3 + 50) bytes | 1030 bytes |
+| ContattaPerGuasto | (4+4+65+3) bytes | 228 bytes |
+| Turni | (4+4) bytes | 40 bytes |
+| TabellaOrarioLavorativo | (4+4+4+3) bytes | 300 bytes |
+| Veicoli | (50+50+50+4+4) bytes | 1896 bytes |
+| Assicurazioni | (4+3+50+25+50) bytes | 1980 bytes |
+| Utenti | (4+50+50+255+255+3) bytes | 12340 bytes |
+| Carte | (50+3+4+4) bytes | 1525 bytes |
+| RichiestePrenotazione | (4+50+50+3+25+4) bytes | 2720 bytes |
+| TratteCompletate | (4+50+50+3+25+4+50+3+3+4) bytes | 1960 bytes |
+| TratteRifiutate | (4+50+50+3+25+65+4) bytes | 1005 bytes |
+| Feedback | (4+4+65+4+65+4+50+50+3+25) bytes | 1370 bytes |
+| Manutentori | (4 + 25 + 25 + 50 + 3 + 25 + 50) bytes | 1160 bytes |
+| Fermate | (50+25+25) bytes | 1600 bytes |
+##### Tabella delle operazioni
+1. Visualizza tutte le tratte completate, con annesso costo e carta usata per il pagamento, fatte da un determinato utente 
+
+| Concetto | Costrutto | Accessi | Tipo | Frequenza |
+| ---- | ---- | ---- | ---- | ---- |
+| TratteCompletate | E | 1 | L | 5 volte / mese |
+| Utenti | E | 1 | L | xxxxxxxxxxx |
+2. Visualizza tutti i veicoli la cui assicurazione scadrà entro un determinato mese
+
+| Concetto | Costrutto | Accessi | Tipo | Frequenza |
+| ---- | ---- | ---- | ---- | ---- |
+| Assicurazioni | E | 1 | L | 1 volta / giorno |
+| Veicoli | E | 1 | L | xxxxxxxxxxxx |
+| Autisti | E | 1 | L | xxxxxxxxxxxx |
+3. Visualizza gli autisti che hanno lavorato in una data specifica
+
+| Concetto | Costrutto | Accessi | Tipo | Frequenza |
+| ---- | ---- | ---- | ---- | ---- |
+| Autisti | E | 1 | L | 1 volta / giorno |
+| Tabella Orario Lavorativo | R | 1 | L | xxxxxxxxxxxx |
+
+4. Visualizza tutti gli autisti che hanno avuto lo stesso turno in una data specifica
+
+| Concetto | Costrutto | Accessi | Tipo | Frequenza |
+| ---- | ---- | ---- | ---- | ---- |
+| Autisti | E | 1 | L | 1 volta / settimana |
+| Tabella Orario Lavorativo | R | 1 | L | xxxxxxxxxxxxxxx |
+5. Visualizza la somma dei pagamenti effettuati dagli utenti in una data settimana
+
+| Concetto | Costrutto | Accessi | Tipo | Frequenza |
+| ---- | ---- | ---- | ---- | ---- |
+| Tratte Completate | E | 1 | L | 1 volta / settimana |
+
+6. Visualizza la media dei costi delle tratte che sono state completate a giugno 2023
+
+| Concetto | Costrutto | Accessi | Tipo | Freqeunza |
+| ---- | ---- | ---- | ---- | ---- |
+| Tratte Completate | E | 1 | L | 1 volta / anno  |
+7. Visualizza tutte le richieste di manutenzione relative ad uno specifico veicolo
+
+| Concetto | Costrutto | Accessi | Tipo | Frequenza |
+| ---- | ---- | ---- | ---- | ---- |
+| ContattaPerGuasto | R | 1 | L | 1 volta / mese |
+| Autisti | E | 1 | L | xxxxxxxxxxx |
+| Veicoli | E | 1 | L | xxxxxxxxxxx |
+8. Visualizza le 10 tratte più gettonate
+
+| Concetto | Costrutto | Accessi | Tipo | Frequenza |
+| ---- | ---- | ---- | ---- | ---- |
+| RichiestePrenotazione | E | 1 | L | 1 volta / mese |
+
+9. Visualizza gli utenti che hanno effettuato almeno 5 richieste
+
+| Concetto | Costrutto | Accessi | Tipo | Frequenza |
+| ---- | ---- | ---- | ---- | ---- |
+| RichiestePrenotaione | E | 1 | L | 1 volta / settimana |
+| Utenti | E | 1 | L | xxxxxxxxxxxxxxx |
+
+10. Visualizza il motivo di rifiuto delle richieste di prenotazione che occorre più spesso
+
+| Concetto | Costrutto | Accessi | Tipo | Frequenza |
+| ---- | ---- | ---- | ---- | ---- |
+| TratteRifiutate | E | 1 | L | 1 volta / giorno |
+
+11. Visualizza lo storico dei turni che un dato autista ha effettuato nel corso del tempo
+
+| Concetto | Costrutto | Accessi | Tipo | Frequenza |
+| ---- | ---- | ---- | ---- | ---- |
+| TabellaOrarioLavorativo | R | 1 | L | 1 volta / mese |
+| Autisti | E | 1 | L | xxxxxxxxxxx |
+12. Visualizza tutte le tratte completate che non hanno un feedback
+
+| Concetto | Costrutto | Accessi | Tipo | Frequenza |
+| ---- | ---- | ---- | ---- | ---- |
+| Assicurazioni | E | 1 | L | 1 volta / anno |
+| Veicoli | E | 1 | L |  |
+| Autisti | E | 1 | L |  |
+| ??????????????? |  |  |  |  |
+13. Visualizza tutte le richieste di prenotazione effettuate da un determinato utente
+
+| Concetto | Costrutto | Accessi | Tipo | Frequenza |
+| ---- | ---- | ---- | ---- | ---- |
+| RichiestePrenotazione | E | 1 | L | 1 volta / giorno |
+| Utenti | E | 1 | L | xxxxxxxxxxxx |
+
+14. Visualizza la media delle stelle ottenute da un singolo autista
+
+| Concetto | Costrutto | Accessi | Tipo | Frequenza |
+| ---- | ---- | ---- | ---- | ---- |
+| Feedback | E | 1 | L | 10 volte / giorno |
+| TratteCompletate | E | 1 | L |  |
+| Autisti | E | 1 | L |  |
+15. Visualizza il numero totale delle assicurazioni Kasko
+
+| Concetto | Costrutto | Accessi | Tipo | Frequenza |
+| ---- | ---- | ---- | ---- | ---- |
+| Assicurazioni | E | 1 | L | 1 volta / giorno |
+
+16. Visualizza tutti gli autisti che hanno una certa categoria di patente
+
+| Concetto | Costrutto | Accessi | Tipo | Frequenza |
+| ---- | ---- | ---- | ---- | ---- |
+| Autisti | E | 1 | L |  |
+| Patenti | E | 1 | L |  |
+17. Visualizza il numero di feeback con almeno 3 stelle lasciati da ogni utente
+
+| Concetto | Costrutto | Accessi | Tipo | Frequenza |
+| ---- | ---- | ---- | ---- | ---- |
+| Feedback | E | 1 | L |  |
+| TratteCompletate | E | 1 | L |  |
+| Autisti | E | 1 | L |  |
+18. Visualizza l'ultima richiesta di prenotazione di un certo utente, aggiungendo (**solo in output**) un campo che dice se la Richiesta fa parte di una tratta completata o no
+
+| Concetto | Costrutto | Accessi | Tipo | Frequenza |
+| ---- | ---- | ---- | ---- | ---- |
+| Assicurazioni | E | 1 | L |  |
+| Veicoli | E | 1 | L |  |
+| Autisti | E | 1 | L |  |
+| ????????? |  |  |  |  |
+19. Trova tutti gli autisti che non hanno mai effettuato una richiesta di manutenzione
+
+| Concetto | Costrutto | Accessi | Tipo | Frequenza |
+| ---- | ---- | ---- | ---- | ---- |
+| Assicurazioni | E | 1 | L |  |
+| Veicoli | E | 1 | L |  |
+| Autisti | E | 1 | L |  |
+| ???????? |  |  |  |  |
+20. Visualizza il totale dei pagamenti relativi ad un determinato giorno
+
+| Concetto | Costrutto | Accessi | Tipo | Frequenza |
+| ---- | ---- | ---- | ---- | ---- |
+| TratteCompletate | E | 1 | L | 1 volta / giorno |
+
+21. Visualizza l'estratto conto generale dei 5 utenti che speso di più
+
+| Concetto | Costrutto | Accessi | Tipo | Frequenza |
+| ---- | ---- | ---- | ---- | ---- |
+| TratteCompletate | E | 1 | L | 1 volta / mese |
+22. Visualizza gli autisti con lo stipendio più alto
+
+| Concetto | Costrutto | Accessi | Tipo | Frequenza |
+| ---- | ---- | ---- | ---- | ---- |
+| Assicurazioni | E | 1 | L | 1 volta / mese |
+| Veicoli | E | 1 | L | xxxxxxxxxxx |
+| Autisti | E | 1 | L | xxxxxxxxxxx |
+23. Trova gli autisti che hanno completato il minor numero di corse in un determinato giorno
+
+| Concetto | Costrutto | Accessi | Tipo | Frequenza |
+| ---- | ---- | ---- | ---- | ---- |
+| TratteCompletate | E | 1 | L | 1 volta / giorno |
+| Autisti | E | 1 | L | xxxxxxxxxxxx |
+24. Visualizza tutti i dati di un determinato utente, comprese le carte a lui associate
+
+| Concetto | Costrutto | Accessi | Tipo | Frequenza |
+| ---- | ---- | ---- | ---- | ---- |
+| Utenti | E | 1 | L | 1 volta / giorno |
+| Carte | E | 1 | L | xxxxxxxxxxxxx |
+
+25. Visualizza tutti gli utenti che hanno almeno 2 carte associate
+
+| Concetto | Costrutto | Accessi | Tipo | Frequenza |
+| ---- | ---- | ---- | ---- | ---- |
+| Utenti | E | 1 | L |  |
+| Carte | E | 1 | L |  |
 ### Schema Fisico
 
 Lo schema fisico è il seguente
@@ -335,7 +538,7 @@ CREATE TABLE TratteCompletate (
 	Costo int not null,
 	MetodoDiPagamento varchar(50) not null,
 	DataPagamento date not null,
-	OraPagamento varchar(10) not null,
+	OraPagamento time not null,
 	Autista int not null,
 	PRIMARY KEY (ID_Utente,Partenza,Arrivo,DataRichiesta,OrarioRichiesta),
 	FOREIGN KEY (ID_Utente,Partenza,Arrivo,DataRichiesta,OrarioRichiesta) 
@@ -349,7 +552,7 @@ CREATE TABLE TratteRifiutate (
 	Arrivo varchar(50) not null,
 	DataRichiesta date not null,
 	OrarioRichiesta varchar(25) not null,
-	Motivazione varchar(255) not null,
+	Motivazione text not null,
 	Autista int not null,
 	PRIMARY KEY (ID_Utente,Partenza,Arrivo,DataRichiesta,OrarioRichiesta),
 	FOREIGN KEY (ID_Utente,Partenza,Arrivo,DataRichiesta,OrarioRichiesta) 
@@ -360,9 +563,9 @@ CREATE TABLE TratteRifiutate (
 CREATE TABLE Feedback (
 	ID_Feedback int not null ,
 	StelleUtente int not null,
-	CommentoUtente varchar(255) not null,
+	CommentoUtente text not null,
 	StelleAutista int not null,
-	CommentoAutista varchar(255) not null,
+	CommentoAutista text not null,
 	ID_Utente int not null,
 	Partenza varchar(50) not null,
 	Arrivo varchar(50) not null,
@@ -376,7 +579,7 @@ CREATE TABLE Feedback (
 CREATE TABLE ContattaPerGuasto (
 	ID_Manutentore int not null,
 	Matricola int not null,
-	Motivo varchar(255) not null,
+	Motivo text not null,
 	Data date not null,
 	FOREIGN KEY (ID_Manutentore) REFERENCES Manutentori (ID_Manutentore),
 	FOREIGN KEY (Matricola) REFERENCES Autisti (Matricola)
@@ -520,20 +723,6 @@ INSERT INTO Patenti (NumeroPatente,DDS,Categoria) VALUES ('VZMX360RW','2034-02-1
 ('93IWNT2AB','2027-10-22','BE'),
 ('4CXGFGZCI','2025-02-15','B'),
 ('IX1F058FT','2025-08-04','BE'),
-('I8SK7XA1N','2033-02-07','BE'),
-('YU32L58G7','2028-06-29','B'),
-('3TJNL6Z8N','2034-07-13','B'),
-('P61DJNO7Q','2035-02-24','B96'),
-('OYMS9P8OR','2028-02-04','B96'),
-('T5N45646K','2035-12-04','B96'),
-('218PONE95','2027-03-01','B96'),
-('UA1IERFBO','2035-09-28','BE'),
-('0VXXDA51S','2027-11-11','B'),
-('NVE8M4BSH','2031-09-07','B'),
-('A2JASJPA0','2027-03-20','B96'),
-('O2EERFGRH','2035-12-27','BE'),
-('2WU44VDME','2033-12-13','B'),
-('VX5WDTN1D','2026-10-22','B96'),
 ```
 
 **Turni**
@@ -564,23 +753,16 @@ INSERT INTO Assicurazioni (Numero,DDS,Tipo,Stato,Targa) VALUES ('0','2023-01-03'
 ('12','2023-09-17','Incendio','Scaduta','BL113GA'),
 ('13','2023-02-11','Furto','Scaduta','CQ555AG'),
 ('14','2023-03-20','Kasko','Scaduta','EK965AC'),
-('15','2023-03-29','Incendio','Scaduta','CR139AB'),
-('16','2023-06-26','Base','Scaduta','EH378CE'),
-('17','2023-03-19','Polizza cristalli','Scaduta','EQ164EF'),
-('18','2024-10-14','Incendio','Valida','FP821FB'),
-('19','2024-05-14','Furto','Valida','DR927GG'),
-('20','2024-10-14','Furto','Valida','BP716BA'),
-('21','2024-06-08','Furto','Valida','BQ485ED'),
 ```
 
 **Veicoli**
 
 ```SQL
-INSERT INTO Veicoli (Targa,Marca,Modello,NumPosti,Matricola) VALUES ('EK436DE','Alfa Romeo','Giulia','6','308673'),
-('EN727FF','Audi','A1','5','334452'),
-('CK232BE','Alfa Romeo','Giulia','8','792280'),
-('FP955AD','Fiat','Punto','8','765293'),
-('CI117BB','Renault','Clio','9','763099'),
+INSERT INTO Veicoli (Targa,Marca,Modello,NumPosti,Matricola) VALUES ('EK436DE','Alfa Romeo','Giulia','6','803861'),
+('EN727FF','Audi','A1','5','674582'),
+('CK232BE','Alfa Romeo','Giulia','8','054118'),
+('FP955AD','Fiat','Punto','8','564135'),
+('CI117BB','Renault','Clio','9','674048'),
 ('FP987GA','Audi','RS7','12','659075'),
 ('DM916FG','Audi','Q8','7','705297'),
 ('CJ782BG','Range Rover','Sport','4','211588'),
@@ -588,21 +770,6 @@ INSERT INTO Veicoli (Targa,Marca,Modello,NumPosti,Matricola) VALUES ('EK436DE','
 ('AL221FF','Audi','Q3','8','031886'),
 ('BP938CE','Range Rover','Hybrid','12','781871'),
 ('CQ586DD','Fiat','Tipo','6','847719'),
-('BL113GA','Fiat','Tipo','11','895729'),
-('CQ555AG','Renault','Captur','10','680788'),
-('EK965AC','Renault','Captur','5','835963'),
-('CR139AB','Range Rover','Hybrid','12','329315'),
-('EH378CE','Fiat','Panda','10','673447'),
-('EQ164EF','BMW','X8','8','854550'),
-('FP821FB','BMW','Gran Coupè','10','237246'),
-('DR927GG','BMW','Gran Coupè','11','695896'),
-('BP716BA','Alfa Romeo','Giulia','6','485164'),
-('BQ485ED','Fiat','Punto','6','103105'),
-('AQ062GA','BMW','X3','6','206053'),
-('AI301GD','Alfa Romeo','Giulia','3','419980'),
-('DR925ED','Range Rover','Sport','11','928720'),
-('BP272AA','Range Rover','Hybrid','12','933775'),
-('CQ221EF','Renault','Arkana','6','440415'),
 ```
 
 **Autisti**
@@ -618,9 +785,6 @@ INSERT INTO Autisti (Matricola,Nome,Cognome,Email,DDN,NumeroTelefono,NumeroPaten
 ('988530','Gloria','Benigni','Gloria.Benigni@cagnin.it','1986-06-08','3534192949','93IWNT2AB','1200'),
 ('447279','Alderano','Cabrini','Alderano.Cabrini@orengo-nonis.com','1999-11-29','+39 041866389','4CXGFGZCI','800'),
 ('807679','Ermenegildo','Storladi','Ermenegildo.Storladi@lussu-rossetti.com','1996-09-22','+39 35198482539','IX1F058FT','1200'),
-('431374','Isa','Priuli','Isa.Priuli@giulietti-guarana.it','1993-08-17','+39 018341037','I8SK7XA1N','800'),
-('966073','Calcedonio','Speri','Calcedonio.Speri@onio.com','1980-04-13','+39 0372686902','YU32L58G7','900'),
-('179627','Massimiliano','Gucci','Massimiliano.Gucci@pignatti-gatto.it','1993-08-24','+39 3626522141','3TJNL6Z8N','1100'),
 ```
 
 **Manutentori**
@@ -631,19 +795,6 @@ INSERT INTO Manutentori (ID_Manutentore,Nome,Cognome,Email,DDN,NumeroTelefono,Qu
 ('2','Gianluigi','Fogazzaro','Gianluigi.Fogazzaro@mancini.eu','1977-01-26','+39 057340992','Meccanico'),
 ('3','Susanna','Catenazzi','Susanna.Catenazzi@anichini.it','1995-01-19','+39 088144127','Carrozziere'),
 ('4','Tonino','Pizzamano','Tonino.Pizzamano@doria.eu','1990-12-15','+39 3285977712','Carrozziere'),
-('5','Fabio','Andreozzi','Fabio.Andreozzi@angeli-chindamo.org','1990-12-08','+39 037282733','Gommista'),
-('6','Iolanda','Scarpetta','Iolanda.Scarpetta@antonello.com','1978-08-11','39743390554','Carrozziere'),
-('7','Dolores','Ioppi','Dolores.Ioppi@morgagni-mattarella.net','1998-10-17','3883691529','Carrozziere'),
-('8','Pier','Ligorio','Pier.Ligorio@vercelloni.net','1997-03-26','0426305966','Elettrauto'),
-('9','Achille','Andreotti','Achille.Andreotti@vivaldi.eu','1982-08-16','324425451','Carrozziere'),
-('10','Ettore','Galuppi','Ettore.Galuppi@argan.net','2000-12-10','09100100638','Meccanico'),
-('11','Dante','Munari','Dante.Munari@muratori.org','1976-02-21','+39 0566126669','Elettrauto'),
-('12','Flavio','Manolesso','Flavio.Manolesso@bandello.it','1990-08-07','094122948','Meccanico'),
-('13','Sabatino','Montalti','Sabatino.Montalti@miniati.it','1976-06-14','3233577163','Elettrauto'),
-('14','Gastone','Quasimodo','Gastone.Quasimodo@ossani.org','1987-09-28','+39 05875984919','Carrozziere'),
-('15','Michele','Vespucci','Michele.Vespucci@querini.org','1997-06-01','+39 37794530162','Meccanico'),
-('16','Raffaella','Venditti','Raffaella.Venditti@palladio.eu','1999-01-24','0545473820','Elettrauto'),
-('17','Gelsomina','Ricci','Gelsomina.Ricci@gozzi-carocci.it','1984-05-25','+39 0375563691','Meccanico'),
 ```
 
 **ContattaPerGuasto**
@@ -652,16 +803,6 @@ INSERT INTO Manutentori (ID_Manutentore,Nome,Cognome,Email,DDN,NumeroTelefono,Qu
 INSERT INTO ContattaPerGuasto (ID_Manutentore,Matricola,Motivo,Data) VALUES ('77','826280','Errore centralina','2024-03-07'),
 ('29','280503','Guarnizione della testata bruciata','2024-04-20'),
 ('27','784173','Batteria scarica','2024-05-06'),
-('137','085888','Errore centralina','2023-08-27'),
-('79','461402','Spia dell motore accesa','2023-11-27'),
-('16','534498','Cambio pasticche dei freni','2023-07-08'),
-('109','349470','Differenziale rotto','2024-06-30'),
-('68','326310','Errore centralina','2023-07-30'),
-('122','606756','Differenziale rotto','2024-11-27'),
-('68','913781','Radiatore bucato','2023-03-17'),
-('108','826280','Specchietto rotto','2023-10-15'),
-('181','523481','Spia dell motore accesa','2024-11-25'),
-('50','895222','Radiatore bucato','2024-04-10'),
 ```
 
 **Utenti**
@@ -687,8 +828,6 @@ INSERT INTO Utenti (ID_Utente,Nome,Cognome,Email,Password,DDN) VALUES ('0','Emil
 ('17','Paola','Brunelleschi','Paola.Brunelleschi@proietti-tasso.it','Yzex8NyEa','1988-12-27'),
 ('18','Eugenia','Papafava','Eugenia.Papafava@tiepolo-bettin.com','OMRZBS7yF','1982-10-22'),
 ('19','Piero','Piacentini','Piero.Piacentini@granatelli.org','BSKB5tk1x','1998-08-03'),
-('20','Riccardo','Venditti','Riccardo.Venditti@curci.eu','LLdE30YxS','1985-09-23'),
-('21','Giancarlo','Savorgnan','Giancarlo.Savorgnan@jilani-bonaventura.it','2BEfSZT3k','1986-08-10'),
 ```
 
 **Carta**
@@ -714,6 +853,11 @@ INSERT INTO Carta (NumeroCarta,DataScadenza,CVV,ID_Utente) VALUES ('5419 3484 24
 ('5044 5623 9877 9468','2033-08-22','057','4011'),
 ('5282 0605 2972 3151','2027-07-11','436','1557'),
 ('5077 5943 4127 7775','2029-08-23','893','7256'),
+('5492 4233 2942 3887','2030-12-02','913','2454'),
+('5477 6017 0799 6651','2034-11-29','244','4348'),
+('5379 4363 5968 2720','2033-10-13','942','2764'),
+('4450 1658 0372 7289','2030-02-02','806','2759'),
+('4960 4473 7840 6693','2032-02-16','221','8264')
 ```
 
 **Fermate**
@@ -758,6 +902,8 @@ INSERT INTO RichiestePrenotazioni (ID_Utente,Partenza,Arrivo,DataRichiesta,Orari
 ('1074','Salaria','Colosseo','2021-11-04','22','7'),
 ('198','Termini','Pigneto','2020-03-07','20','12'),
 ('4501','Tufello','Porta Furba','2020-03-19','20','4'),
+('4230','Tufello','Lucio Sestio','2023-12-24','20','8'),
+('2416','Verano','Palmiro Togliatti','2022-05-20','10','1'),
 ```
 
 **Tratte Completate**
@@ -783,15 +929,6 @@ INSERT INTO Feedback (ID_Feedback,StelleUtente,CommentoUtente,StelleAutista,Comm
 ('2','5','Autista veramente cordiale','4','Utente gentile','3501','Palmiro Togliatti','Trastevere','2021-08-31','10'),
 ('3','4','Veicolo molto pulito e comodo.','2','Non rispetta l autista','8114','Pigneto','Salaria','2023-09-19','20'),
 ('4','3','Tutto nella norma','4','Utente rispettoso.','4479','Giardinetti','Tor Bella Monaca','2021-07-07','21'),
-('5','4','Esperienza normale','2','Utente ritardatario','3928','Trastevere','Porta Furba','2021-10-20','20'),
-('6','5','Ottima esperienza, lo dirò a tutti','3','Utente ok','2069','Termini','Campo de Fiori','2022-09-02','22'),
-('7','4','Veicolo molto pulito e comodo.','3','Utente ok','9438','Colosseo','Termini','2023-05-02','14'),
-('8','1','Guidava in stato di ebrezza','1','L utente insisteva nel cambiare strada','646','Palmiro Togliatti','Pigneto','2022-09-16','14'),
-('9','3','Nulla di particolare','4','Utente gentile','270','Pigneto','Porta Furba','2023-02-15','11'),
-('10','5','Ottima esperienza, lo dirò a tutti','5','Molto bravo e cortese','5736','Verano','Campo de Fiori','2021-02-01','15'),
-('11','5','Autista veramente cordiale','2','Stava fumando in macchina','5441','Lucio Sestio','Prima Porta','2022-01-13','22'),
-('12','1','Esperienza orribile','1','L utente offende','6535','Porta Furba','Anagnina','2023-10-23','9'),
-('13','5','Autista veramente cordiale','2','Non rispetta l autista','5231','Pigneto','Colosseo','2022-12-20','9'),
 ```
 
 **Tratte Rifiutate**
@@ -802,23 +939,33 @@ INSERT INTO TratteRifiutate (ID_Utente,Partenza,Arrivo,DataRichiesta,OrarioRichi
 ('2965','Termini','Lucio Sestio','2020-11-15','9','Indisponibilità al servizio','617360'),
 ('7040','Termini','Tor Bella Monaca','2022-06-12','20','Utente con recensioni troppo negative','976651'),
 ('5893','Palmiro Togliatti','Prenestina','2023-11-21','11','Indisponibilità al servizio','246885'),
-('1276','Prenestina','Tor Bella Monaca','2022-03-16','10','Utente con recensioni troppo negative','206858'),
-('8823','Termini','Trastevere','2021-07-24','14','Fuori dal mio orario lavorativo','951021'),
-('2202','Giardinetti','Verano','2022-06-10','20','Indisponibilità al servizio','234528'),
-('2979','Tor Bella Monaca','Pigneto','2020-06-12','15','Fuori dal mio orario lavorativo','553982'),
-('8373','Porta Furba','Prima Porta','2021-07-14','21','Fuori dal mio orario lavorativo','992435'),
-('7380','Anagnina','Pigneto','2021-09-11','21','Indisponibilità al servizio','072980'),
-('3738','Campo de Fiori','Termini','2022-09-13','15','Problema generale','426252'),
-('2415','Pigneto','Lucio Sestio','2020-09-29','22','Fuori dal mio orario lavorativo','914178'),
-('8082','Trastevere','Tor Bella Monaca','2022-08-06','15','Troppo lontano','878298'),
-('3923','Tufello','Porta Furba','2020-02-21','20','Utente con recensioni troppo negative','956283'),
-('4097','Lucio Sestio','Pigneto','2020-05-09','22','Problema generale','932216'),
-('4688','Termini','Pigneto','2022-04-18','15','Utente con recensioni troppo negative','341191'),
-('5074','Tor Bella Monaca','Palmiro Togliatti','2021-07-24','11','Fuori dal mio orario lavorativo','133545'),
-('8408','Termini','Anagnina','2022-09-12','21','Problema generale','861217'),
-('5892','Giardinetti','Porta Furba','2023-11-30','22','Problema generale','888331'),
 ```
 
+**Tabella Orario Lavorativo**
+
+```SQL
+INSERT INTO TabellaOrarioLavorativo(Matricola,OraInizio,OraFine,Data) VALUES ('300900','11','20','2021-08-05'),
+('156999','9','17','2022-01-02'),
+('190965','11','20','2023-02-16'),
+('073868','11','22','2022-11-14'),
+('876183','9','17','2021-10-10'),
+('286076','9','22','2022-03-07'),
+('425545','9','17','2022-05-19'),
+('281486','11','22','2023-06-26'),
+('738168','11','20','2021-04-28'),
+('684733','9','17','2021-05-25'),
+('131117','11','22','2020-01-05'),
+('666027','9','22','2020-07-08'),
+('926211','11','20','2023-07-23'),
+('121458','11','22','2022-10-10'),
+('309719','11','22','2023-08-28'),
+('680605','10','21','2021-07-07'),
+('679688','9','17','2022-11-14'),
+('919024','11','22','2020-04-09'),
+('891532','11','22','2022-07-28'),
+('240953','10','21','2020-11-20'),
+('186369','9','17','2021-06-29'),
+```
 ### Script di creazione automatica di query
 
 Per rendere paragonabili i tempi di esecuzione delle query non ottimizzate con quelle ottimizzate, è stato necessario introdurre, nel database, un gran numero di record.
