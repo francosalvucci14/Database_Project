@@ -262,33 +262,31 @@ Le chiave primarie sono identificate in **grassetto**, mentre le chiavi secondar
 | Concetto | Costrutto | Accessi | Tipo | Frequenza |
 | ---- | ---- | ---- | ---- | ---- |
 | TratteCompletate | E | 1 | L | 5 volte / mese |
-| Utenti | E | 1 | L | xxxxxxxxxxx |
+| Utenti | E | 1 | L |  |
 2. Visualizza tutti i veicoli la cui assicurazione scadrà entro un determinato mese
 
 | Concetto | Costrutto | Accessi | Tipo | Frequenza |
 | ---- | ---- | ---- | ---- | ---- |
 | Assicurazioni | E | 1 | L | 1 volta / giorno |
-| Veicoli | E | 1 | L | xxxxxxxxxxxx |
-| Autisti | E | 1 | L | xxxxxxxxxxxx |
+| Veicoli | E | 1 | L |  |
+| Autisti | E | 1 | L |  |
 3. Visualizza gli autisti che hanno lavorato in una data specifica
 
 | Concetto | Costrutto | Accessi | Tipo | Frequenza |
 | ---- | ---- | ---- | ---- | ---- |
 | Autisti | E | 1 | L | 1 volta / giorno |
-| Tabella Orario Lavorativo | R | 1 | L | xxxxxxxxxxxx |
-
+| Tabella Orario Lavorativo | R | 1 | L |  |
 4. Visualizza tutti gli autisti che hanno avuto lo stesso turno in una data specifica
 
 | Concetto | Costrutto | Accessi | Tipo | Frequenza |
 | ---- | ---- | ---- | ---- | ---- |
 | Autisti | E | 1 | L | 1 volta / settimana |
-| Tabella Orario Lavorativo | R | 1 | L | xxxxxxxxxxxxxxx |
+| Tabella Orario Lavorativo | R | 1 | L |  |
 5. Visualizza la somma dei pagamenti effettuati dagli utenti in una data settimana
 
 | Concetto | Costrutto | Accessi | Tipo | Frequenza |
 | ---- | ---- | ---- | ---- | ---- |
 | Tratte Completate | E | 1 | L | 1 volta / settimana |
-
 6. Visualizza la media dei costi delle tratte che sono state completate a giugno 2023
 
 | Concetto | Costrutto | Accessi | Tipo | Freqeunza |
@@ -299,48 +297,42 @@ Le chiave primarie sono identificate in **grassetto**, mentre le chiavi secondar
 | Concetto | Costrutto | Accessi | Tipo | Frequenza |
 | ---- | ---- | ---- | ---- | ---- |
 | ContattaPerGuasto | R | 1 | L | 1 volta / mese |
-| Autisti | E | 1 | L | xxxxxxxxxxx |
-| Veicoli | E | 1 | L | xxxxxxxxxxx |
+| Autisti | E | 1 | L |  |
+| Veicoli | E | 1 | L |  |
 8. Visualizza le 10 tratte più gettonate
 
 | Concetto | Costrutto | Accessi | Tipo | Frequenza |
 | ---- | ---- | ---- | ---- | ---- |
 | RichiestePrenotazione | E | 1 | L | 1 volta / mese |
-
 9. Visualizza gli utenti che hanno effettuato almeno 5 richieste
 
 | Concetto | Costrutto | Accessi | Tipo | Frequenza |
 | ---- | ---- | ---- | ---- | ---- |
 | RichiestePrenotaione | E | 1 | L | 1 volta / settimana |
-| Utenti | E | 1 | L | xxxxxxxxxxxxxxx |
-
+| Utenti | E | 1 | L |  |
 10. Visualizza il motivo di rifiuto delle richieste di prenotazione che occorre più spesso
 
 | Concetto | Costrutto | Accessi | Tipo | Frequenza |
 | ---- | ---- | ---- | ---- | ---- |
 | TratteRifiutate | E | 1 | L | 1 volta / giorno |
-
 11. Visualizza lo storico dei turni che un dato autista ha effettuato nel corso del tempo
 
 | Concetto | Costrutto | Accessi | Tipo | Frequenza |
 | ---- | ---- | ---- | ---- | ---- |
 | TabellaOrarioLavorativo | R | 1 | L | 1 volta / mese |
-| Autisti | E | 1 | L | xxxxxxxxxxx |
+| Autisti | E | 1 | L |  |
 12. Visualizza tutte le tratte completate che non hanno un feedback
 
 | Concetto | Costrutto | Accessi | Tipo | Frequenza |
 | ---- | ---- | ---- | ---- | ---- |
-| Assicurazioni | E | 1 | L | 1 volta / anno |
-| Veicoli | E | 1 | L |  |
-| Autisti | E | 1 | L |  |
-| ??????????????? |  |  |  |  |
+| TratteCompletate | E | 1 | L | 1 volta / settimana |
+| Feedback | E | 1 | L |  |
 13. Visualizza tutte le richieste di prenotazione effettuate da un determinato utente
 
 | Concetto | Costrutto | Accessi | Tipo | Frequenza |
 | ---- | ---- | ---- | ---- | ---- |
 | RichiestePrenotazione | E | 1 | L | 1 volta / giorno |
-| Utenti | E | 1 | L | xxxxxxxxxxxx |
-
+| Utenti | E | 1 | L |  |
 14. Visualizza la media delle stelle ottenute da un singolo autista
 
 | Concetto | Costrutto | Accessi | Tipo | Frequenza |
@@ -353,7 +345,6 @@ Le chiave primarie sono identificate in **grassetto**, mentre le chiavi secondar
 | Concetto | Costrutto | Accessi | Tipo | Frequenza |
 | ---- | ---- | ---- | ---- | ---- |
 | Assicurazioni | E | 1 | L | 1 volta / giorno |
-
 16. Visualizza tutti gli autisti che hanno una certa categoria di patente
 
 | Concetto | Costrutto | Accessi | Tipo | Frequenza |
@@ -364,61 +355,49 @@ Le chiave primarie sono identificate in **grassetto**, mentre le chiavi secondar
 
 | Concetto | Costrutto | Accessi | Tipo | Frequenza |
 | ---- | ---- | ---- | ---- | ---- |
-| Feedback | E | 1 | L |  |
+| Feedback | E | 1 | L | 1 volta / settimana |
 | TratteCompletate | E | 1 | L |  |
 | Autisti | E | 1 | L |  |
-18. Visualizza l'ultima richiesta di prenotazione di un certo utente, aggiungendo (**solo in output**) un campo che dice se la Richiesta fa parte di una tratta completata o no
+18. Trova tutti gli autisti che non hanno mai effettuato una richiesta di manutenzione
 
 | Concetto | Costrutto | Accessi | Tipo | Frequenza |
 | ---- | ---- | ---- | ---- | ---- |
-| Assicurazioni | E | 1 | L |  |
-| Veicoli | E | 1 | L |  |
-| Autisti | E | 1 | L |  |
-| ????????? |  |  |  |  |
-19. Trova tutti gli autisti che non hanno mai effettuato una richiesta di manutenzione
-
-| Concetto | Costrutto | Accessi | Tipo | Frequenza |
-| ---- | ---- | ---- | ---- | ---- |
-| Assicurazioni | E | 1 | L |  |
-| Veicoli | E | 1 | L |  |
-| Autisti | E | 1 | L |  |
-| ???????? |  |  |  |  |
-20. Visualizza il totale dei pagamenti relativi ad un determinato giorno
+| Autista | E | 1 | L | 1 volta / giorno |
+| ContattaPerGuasto | R | 1 | L |  |
+19. Visualizza il totale dei pagamenti relativi ad un determinato giorno
 
 | Concetto | Costrutto | Accessi | Tipo | Frequenza |
 | ---- | ---- | ---- | ---- | ---- |
 | TratteCompletate | E | 1 | L | 1 volta / giorno |
-
-21. Visualizza l'estratto conto generale dei 5 utenti che speso di più
+20. Visualizza l'estratto conto generale dei 5 utenti che speso di più
 
 | Concetto | Costrutto | Accessi | Tipo | Frequenza |
 | ---- | ---- | ---- | ---- | ---- |
 | TratteCompletate | E | 1 | L | 1 volta / mese |
-22. Visualizza gli autisti con lo stipendio più alto
+21. Visualizza gli autisti con lo stipendio più alto
 
 | Concetto | Costrutto | Accessi | Tipo | Frequenza |
 | ---- | ---- | ---- | ---- | ---- |
 | Assicurazioni | E | 1 | L | 1 volta / mese |
-| Veicoli | E | 1 | L | xxxxxxxxxxx |
-| Autisti | E | 1 | L | xxxxxxxxxxx |
-23. Trova gli autisti che hanno completato il minor numero di corse in un determinato giorno
+| Veicoli | E | 1 | L |  |
+| Autisti | E | 1 | L |  |
+22. Trova gli autisti che hanno completato il minor numero di corse in un determinato giorno
 
 | Concetto | Costrutto | Accessi | Tipo | Frequenza |
 | ---- | ---- | ---- | ---- | ---- |
 | TratteCompletate | E | 1 | L | 1 volta / giorno |
-| Autisti | E | 1 | L | xxxxxxxxxxxx |
-24. Visualizza tutti i dati di un determinato utente, comprese le carte a lui associate
+| Autisti | E | 1 | L |  |
+23. Visualizza tutti i dati di un determinato utente, comprese le carte a lui associate
 
 | Concetto | Costrutto | Accessi | Tipo | Frequenza |
 | ---- | ---- | ---- | ---- | ---- |
 | Utenti | E | 1 | L | 1 volta / giorno |
-| Carte | E | 1 | L | xxxxxxxxxxxxx |
-
-25. Visualizza tutti gli utenti che hanno almeno 2 carte associate
+| Carte | E | 1 | L |  |
+24. Visualizza tutti gli utenti che hanno almeno 2 carte associate
 
 | Concetto | Costrutto | Accessi | Tipo | Frequenza |
 | ---- | ---- | ---- | ---- | ---- |
-| Utenti | E | 1 | L |  |
+| Utenti | E | 1 | L | 1 volta / mese |
 | Carte | E | 1 | L |  |
 ### Schema Fisico
 
@@ -448,7 +427,7 @@ CREATE TABLE Manutentori (
 	Qualifica varchar(50) not null,
 	PRIMARY KEY (ID_Manutentore)
 );
-
+ 
 CREATE TABLE Autisti (
 	Matricola int not null ,
 	Nome varchar(25) not null,
