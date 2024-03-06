@@ -1,6 +1,0 @@
-1. Sistemare molteplicità schema ER 
-2. Ricontrollare normalizzazione
-3. Aggiungere tabella entità, tabella relazioni e tabella termini (info vedi progetto di Stromieri)
-4. Fare derivazione logica seguendo i passaggi nel file chiavi_secondarie.md
-5. bestemmiare tutti i santi perchè tanto non andrà mai bene 
-

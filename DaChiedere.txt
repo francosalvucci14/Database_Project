@@ -1,0 +1,10 @@
+- Entità Fermate/Percorsi con relazioni quelle in schema
+- Entità Carta ci va? perchè noi vogliamo salvare le carte, codificando i campi sensibili
+- Entità patente deve essere esterna perchè ilo campo NumeroCarta non centra niente con l'entità Autisti, quando si parla di Normalizzazione
+- Metodo Pagamento dentro tratte compl.?
+- Primaru key fermate è il nome o lat & long
+- Lasciamo assicurazione anche se è 1:1?
+
+
+
+
